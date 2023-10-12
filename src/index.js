@@ -4,6 +4,7 @@ import './reset.css';
 
 import TopBar from './topBar';
 import Nav from './Nav';
+import Map from './Map';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
