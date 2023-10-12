@@ -76,7 +76,7 @@ function KakaoMap(){
             marginTop:"50px",
             padding:"20px 0",
             width:"88%", 
-            color:"#282828",}}>내 주변 브랜치 경기장</h2>
+            color:"#282828",}}>내 주변 경기장</h2>
         <div id="map" 
             style={{
             borderRadius:"3%",
