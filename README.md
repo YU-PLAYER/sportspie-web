@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Package / Library (Module)
+- FontAwesome
+- MUI
+
+## installation code
+- npm install @mui/icons-material
+- npm install @mui/material @emotion/react @emotion/styled
+
+
 ## Available Scripts
 
 In the project directory, you can run:
