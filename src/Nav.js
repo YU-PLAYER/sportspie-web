@@ -15,7 +15,7 @@ function Navbtn({src, icon}){
 
 function Nav(){
     return(
-        <nav style={{
+        <nav style={{          
             position:"fixed", bottom:"0", width:"100%",
             backgroundColor:"rgba(243, 243, 243, 0.836)", 
             padding:"16px 20px", boxSizing:'border-box',
