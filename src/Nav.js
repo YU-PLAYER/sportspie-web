@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapLocation } from '@fortawesome/free-solid-svg-icons';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { faTable } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faHouse} from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import SvgIcon from "@mui/material/SvgIcon";
+
+// import { Link } from "react-router-dom";
 
 function Navbtn({src, icon}){
     return(
@@ -28,7 +30,7 @@ function Nav(){
                 <Navbtn src="index.html" icon={faMapLocation}/>
                 <Navbtn src="index.html" icon={faPen}/>
                 <Navbtn src="index.html" icon={faHouse}/>
-                <Navbtn src="index.html" icon={faTable}/>
+                <SvgIcon component={EventAvailableIcon} inheritViewBox />
                 <Navbtn src="index.html" icon={faUser}/>
             </ul>
         </nav>

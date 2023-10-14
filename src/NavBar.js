@@ -24,11 +24,11 @@ const NavBar = () => {
 
   return (
     <nav className="wrapper">
-      <NavMenu to="/1" icon={faMapLocation} index={1} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/2" icon={faPen} index={2} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/3" icon={faHouse} index={3} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/4" icon={faTable} index={4} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/5" icon={faUser} index={5} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/Map" icon={faMapLocation} index={1} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/Write" icon={faPen} index={2} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/Home" icon={faHouse} index={3} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/Myplay" icon={faTable} index={4} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/Mypage" icon={faUser} index={5} activeNav={activeNav} setActiveNav={setActiveNav} />
     </nav>
   );
 };
