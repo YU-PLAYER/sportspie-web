@@ -12,7 +12,7 @@
 
 ![설명](https://github.com/yu-se23/sportspie-web/assets/96680128/451b68fe-cc0a-404f-9c1c-7d751c748bbd)
 
-## 결과 에시
+## 결과 예시
 
 ![설명1](https://github.com/yu-se23/sportspie-web/assets/96680128/d03b6a46-e4e7-437d-b98f-2a844c410bc5)
 ![설명2](https://github.com/yu-se23/sportspie-web/assets/96680128/60f9fe5c-b7ce-420f-9784-d50ab11e26f6)
