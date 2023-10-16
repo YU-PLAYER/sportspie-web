@@ -1,79 +1,18 @@
-# Getting Started with Create React App
+# 앱 배경 공통 화면 레이어 구성
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 필요한 설치 사항(프로젝트를 새로 다운받아 별도 폴더로 구성해서 실행 시 해당 페이지에서 재설치 필요)
+- npm install @mui/material
 
-## Package / Library (Module)
-- FontAwesome
-- MUI
+## 파일 통째로 다운로드 받는 법
 
-## installation code
-- npm install @mui/icons-material
-- npm install @mui/material @emotion/react @emotion/styled
+![깃 프로젝트 다운로드 설명](https://github.com/yu-se23/sportspie-web/assets/96680128/a6cb3358-32b8-4e95-8249-d361d149f7a0)
+- Zip으로 받아서 바탕화면 또는 원하는 곳에 압축풀로 VsCode -> 파일-> 폴더 열기
 
+## 화면 구성
 
-## Available Scripts
+![설명](https://github.com/yu-se23/sportspie-web/assets/96680128/451b68fe-cc0a-404f-9c1c-7d751c748bbd)
 
-In the project directory, you can run:
+## 결과 에시
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![설명1](https://github.com/yu-se23/sportspie-web/assets/96680128/d03b6a46-e4e7-437d-b98f-2a844c410bc5)
+![설명2](https://github.com/yu-se23/sportspie-web/assets/96680128/60f9fe5c-b7ce-420f-9784-d50ab11e26f6)
