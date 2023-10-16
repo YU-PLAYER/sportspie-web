@@ -14,5 +14,5 @@
 
 ## 결과 예시
 
-![설명1](https://github.com/yu-se23/sportspie-web/assets/96680128/d03b6a46-e4e7-437d-b98f-2a844c410bc5)
-![설명2](https://github.com/yu-se23/sportspie-web/assets/96680128/60f9fe5c-b7ce-420f-9784-d50ab11e26f6)
+![설명1](https://github.com/yu-se23/sportspie-web/assets/96680128/ffef5383-413d-4559-abdc-cdab500869f8)
+![설명2](https://github.com/yu-se23/sportspie-web/assets/96680128/46fec698-cbbe-4be2-ba3e-28f688ba060e)
