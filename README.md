@@ -5,7 +5,8 @@
 
 ## 파일 통째로 다운로드 받는 법
 
-![깃 프로젝트 다운로드 설명](https://github.com/yu-se23/sportspie-web/assets/96680128/a6cb3358-32b8-4e95-8249-d361d149f7a0)
+![깃 프로젝트 다운로드 설명](https://github.com/yu-se23/sportspie-web/assets/96680128/6acbd525-1f20-4671-b022-3da85dabb532)
+
 - Zip으로 받아서 바탕화면 또는 원하는 곳에 압축 풀고 VsCode -> 파일-> 폴더 열기
 
 ## 화면 구성
