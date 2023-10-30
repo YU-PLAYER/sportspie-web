@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faFutbolBall } from "@fortawesome/free-regular-svg-icons";
+import { faFutbolBall } from "@fortawesome/free-regular-svg-icons";
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Badge from '@mui/material/Badge';
 import './top-bar.css';

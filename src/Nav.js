@@ -1,10 +1,11 @@
+import {BrowserRouter as Router, Link} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapLocation } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-
+ 
 function Navbtn({src, icon}){
     return(
         <li>
@@ -31,6 +32,7 @@ function Nav(){
                 <Navbtn src="index.html" icon={faTable}/>
                 <Navbtn src="index.html" icon={faUser}/>
             </ul>
+            
         </nav>
     );
 }
