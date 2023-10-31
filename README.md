@@ -1,6 +1,6 @@
 <추가적으로 설치가 필요한 라이브러리> 
 
-npm install styled-components // CSS-in-JS 라이브러리
+npm install styled-components // CSS-in-JS 라이브러리 \n
 npm install sweetalert2 // alert 디자인 라이브러리
 
 
