@@ -1,18 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFutbolBall } from "@fortawesome/free-regular-svg-icons";
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Badge from '@mui/material/Badge';
 import './top-bar.css';
+import LogoImg from '../images/Logo.jpg';
 
 function TopBar(){
     return(
         <div className="status-bar">
-            <div className="status-bar__column">
-                <FontAwesomeIcon icon={faFutbolBall} size="lg"/>
-                <span style={{
-                    marginLeft:"3px",
-                }}>SportiPie</span>
-            </div>
+            <img className="logo" src={LogoImg}></img>
             <div className="status-bar__column"></div>
             <div className="status-bar__column">
             <Badge badgeContent={2} color="error">

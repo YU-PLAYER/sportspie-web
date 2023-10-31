@@ -1,0 +1,25 @@
+.navmenu {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  }
+  
+  nav {
+    overflow: hidden;
+  }
+  
+  .nav-link {
+    float: left;
+    width: 20%;
+    text-align: center;
+    height: 6.5vh;
+    line-height: 6.5vh;
+  }
+  
+  .nav-item {
+    color: grey;
+  }
+  
+  .active {
+    color: black;
+  }

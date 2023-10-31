@@ -1,0 +1,19 @@
+
+.status-bar {
+    width:100%;
+    display:flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding: 1.5vh 3vw;
+    border-radius: 10px;
+    background-color: white;
+    align-items: center;
+  }
+
+  .logo {
+    width: 17%;
+    height: 3.3vh;
+  }
+  
+
+    
