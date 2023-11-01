@@ -73,7 +73,7 @@ function KakaoMap(){
             fontSize:"20px",
             fontWeight:"bold",
             boxSizing:"border-box",
-            marginTop:"50px",
+            marginTop:"20px",
             padding:"20px 0",
             width:"88%", 
             color:"#282828",}}>내 주변 경기장</h2>

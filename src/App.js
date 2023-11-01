@@ -1,9 +1,10 @@
 
-import { BrowserRouter as Router, Routes, Route,} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
+//import Display from './routers/Display.js';
+import Teamselect from "./routers/TeamSelect.js";
+import MapDisplay from './routers/MapDisplay.js';
+//import Map from "./components/Map.js";
 
-import TopBar from './topBar';
-import Nav from './Nav';
-import Map from "./Map";
 /*import Write from "./pages/Write";
 import Home from "./pages/Home";
 import Myplay from "./pages/Myplay";
@@ -13,19 +14,15 @@ import Alarm from "./pages/Alarm"; */
         <Route path="/Home" component={Home} />
         <Route path="/Myplay" component={Myplay} />
         <Route path="/Mypage" component={Mypage} />
-        <Route path="/Alarm" component={Alarm} />*/
+        <Route path="/Alarm" component={Alarm} />
+         <Route path="/" element={<Display />} />*/
 function App() {
   return (
     <div>
-      <TopBar />
-
-      <Router>
        <Routes>
-         <Route path="/Map" element={<Map />} />
-       </Routes>   
-      </Router>
-      
-      <Nav />
+         <Route path="/TeamSelect" element={<Teamselect />} />
+         <Route path="/Map" element={<MapDisplay />} /> 
+       </Routes> 
     </div>
    
   );

@@ -1,16 +1,18 @@
-import {BrowserRouter as Router, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapLocation } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
- 
-function Navbtn({src, icon}){
+function Navbtn({link, src, icon}){
     return(
         <li>
-            <FontAwesomeIcon icon={icon} size="lg"/>
+            <Link to={link}>
+            <FontAwesomeIcon icon={icon} size="lg"/>            
+            </Link>
         </li>
+        
     );
 }
 
@@ -26,7 +28,7 @@ function Nav(){
                 listStyle:"none", paddingLeft:"0px",
                 display:"flex", justifyContent:"space-between",
             }}>
-                <Navbtn src="index.html" icon={faMapLocation}/>
+                <Navbtn link="/Map" src="index.html" icon={faMapLocation}/>
                 <Navbtn src="index.html" icon={faPen}/>
                 <Navbtn src="index.html" icon={faHouse}/>
                 <Navbtn src="index.html" icon={faTable}/>
