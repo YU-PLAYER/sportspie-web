@@ -29,7 +29,7 @@ function Nav(){
                 display:"flex", justifyContent:"space-between",
             }}>
                 <Navbtn link="/Map" src="index.html" icon={faMapLocation}/>
-                <Navbtn src="index.html" icon={faPen}/>
+                <Navbtn link="/TeamSelect" src="index.html" icon={faPen}/>
                 <Navbtn src="index.html" icon={faHouse}/>
                 <Navbtn src="index.html" icon={faTable}/>
                 <Navbtn src="index.html" icon={faUser}/>
