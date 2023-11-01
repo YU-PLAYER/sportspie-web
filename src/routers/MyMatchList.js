@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import SimpleContainer from '../components/Container.js';
 import TopBar from '../components/topBar.js';
 import Nav from "../components/Nav.js";
+import MatchList from '../components/MatchList.js';
 
-export default function Display() {
+export default function MyMatchList() {
     return (
         <div style={{ width: '100%', height: '100vh'}}>
             <Box
@@ -14,8 +14,7 @@ export default function Display() {
                 }}
             >
                 <Box sx={{ height: '50px' }}><TopBar /></Box>
-                <SimpleContainer>
-                </SimpleContainer>                  
+                <MatchList />
                 <Box sx={{ height: '50px' }}><Nav /></Box>
                 
             </Box>

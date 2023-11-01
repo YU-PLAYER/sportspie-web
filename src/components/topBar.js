@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFutbolBall } from "@fortawesome/free-regular-svg-icons";
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Badge from '@mui/material/Badge';
-import './css/top-bar.css';
+import '../css/top-bar.css';
 
 function TopBar(){
     return(

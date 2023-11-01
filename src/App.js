@@ -3,6 +3,7 @@ import {Routes, Route} from "react-router-dom";
 import Display from './routers/Display.js';
 import Teamselect from "./routers/TeamSelect.js";
 import MapDisplay from './routers/MapDisplay.js';
+import MyMatchList from "./routers/MyMatchList.js";
 
 /*import Write from "./pages/Write";
 import Home from "./pages/Home";
@@ -22,6 +23,7 @@ function App() {
          <Route path="/" element={<Display />} />
          <Route path="/TeamSelect" element={<Teamselect />} />
          <Route path="/Map" element={<MapDisplay />} /> 
+         <Route path="/MatchList" element={<MyMatchList />} /> 
        </Routes> 
     </div>
    

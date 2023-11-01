@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import TopBar from '../topBar.js';
-import Nav from "../Nav.js";
+import TopBar from '../components/topBar.js';
+import Nav from "../components/Nav.js";
 import Map from '../components/Map.js';
 
 export default function MapDisplay() {

@@ -30,8 +30,8 @@ function Nav(){
             }}>
                 <Navbtn link="/Map" src="index.html" icon={faMapLocation}/>
                 <Navbtn link="/TeamSelect" src="index.html" icon={faPen}/>
-                <Navbtn src="index.html" icon={faHouse}/>
-                <Navbtn src="index.html" icon={faTable}/>
+                <Navbtn link="/" src="index.html" icon={faHouse}/>
+                <Navbtn link="/MatchList" src="index.html" icon={faTable}/>
                 <Navbtn src="index.html" icon={faUser}/>
             </ul>
             
