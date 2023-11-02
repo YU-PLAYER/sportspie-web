@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TeamSelectList from '../components/TeamSelectList.js';
 import TopBar from '../components/topBar.js';
-import Nav from "../components/Nav.js";
+import NavBar from '../components/NavBar.js';
 
 export default function Teamselect() {
     return (
@@ -10,13 +10,18 @@ export default function Teamselect() {
             <Box
                 sx={{
                     display: 'grid',
-                    fontSize: '0.875rem',
+                    fontSize: '0.875rem', placeItems:"center"
                 }}
             >
-                <Box sx={{ height: '50px'}}><TopBar /></Box>
-                <TeamSelectList>
-                </TeamSelectList>                  
-                <Box sx={{ height: '50px' }}><Nav /></Box>
+                <Box sx={{ height: '50px', position: 'fixed', width:"100%", top:"0",
+                '@media all and (min-width:769px)':{width:"80%"}}}>
+                    <TopBar />
+                    </Box>
+                <Box sx={{ height: '50px' }}></Box>
+                <TeamSelectList />    
+                <Box sx={{ height: '50px' }}></Box>             
+                <Box sx={{ height: '50px', position: 'fixed', width:"100%", bottom:"0",
+                '@media all and (min-width:769px)':{width:"80%"}}}><NavBar /></Box>
                 
             </Box>
         </div>
