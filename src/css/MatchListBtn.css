@@ -1,0 +1,12 @@
+.hover{
+    color: #282828;
+}
+.normal{
+    color: rgba(0,0,0,0.2);
+}
+#click{
+    color: #282828;
+    border-top-style : solid;
+    border-top-width : 1px;
+    border-top-color : rgba(0,0,0,0.4);
+}

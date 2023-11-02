@@ -19,7 +19,7 @@ function Navbtn({link, src, icon}){
 function Nav(){
     return(
         <nav style={{
-            position:"fixed", bottom:"0", width:"100%",
+            position:"fixed", bottom:"0", width:"60%",marginLeft:"300px",
             backgroundColor:"rgba(243, 243, 243, 0.836)", 
             padding:"16px 20px", boxSizing:'border-box',
             borderTop:"1px solid rgba(121, 121, 121, 0.3)",

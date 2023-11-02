@@ -13,9 +13,9 @@ export default function MapDisplay() {
                     fontSize: '0.875rem',
                 }}
             >
-                <Box sx={{ height: '50px' }}><TopBar /></Box>
+                <Box sx={{height: '50px', width:"100%"}}><TopBar /></Box>
                 <Map />              
-                <Box sx={{ height: '50px' }}><Nav /></Box>
+                <Box sx={{ height: '50px', width:"100%" }}><Nav /></Box>
                 
             </Box>
         </div>

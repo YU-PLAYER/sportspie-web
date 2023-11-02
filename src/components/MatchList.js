@@ -1,8 +1,33 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import All from './MatchList_All';
+import Planned from './MatchList_Planned';
+import End from './MatchList_End';
+import '../css/MatchListBtn.css';
 
-export default function MatchList() {
+function MatchList() {
+  const selectContent = {All : <All />, Planned : <Planned />, End : <End />,};
+  const [content, setContent] = useState("All");
+  const [isHover1, setIsHover1] = useState(false);
+  const [isHover2, setIsHover2] = useState(false);
+  const [isHover3, setIsHover3] = useState(false);
+  const onClick = (event) => {
+    setContent(event.target.name);
+  };
+  function Btn({classname, name, width="90px", title}){
+    return(
+      <button 
+      onClick={onClick}
+      id={(content===name)? "click" : ""}
+      className={classname}
+      name={name}
+      style=
+            {{height:"100%", width, backgroundColor:"white", 
+            border:"none", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>{title}</button>
+    );
+  }
   return (
     <React.Fragment>
       <Container maxWidth="sm"> 
@@ -20,72 +45,17 @@ export default function MatchList() {
             margin:"0 15px",}}>
           <div style={{display:"flex", alignItems:"center", width:"100%", height:"35px", 
           border:"none",borderTopStyle:"solid",borderTopWidth:"0.5px", borderTopColor:"rgba(0,0,0,0.12)", marginBottom:"20px"}}>
-            <button style=
-            {{height:"100%", width:"60px", backgroundColor:"white", 
-            border:"none",borderTopStyle:"solid", borderTopColor:"rgba(0,0,0,0.4)", fontSize:"14px", fontWeight:"bold", color:"#282828"}}>전체</button>
-            <button style=
-            {{height:"100%", width:"90px", backgroundColor:"white", 
-            border:"none",borderTopStyle:"solid", borderTopColor:"rgba(0,0,0,0.0)", fontSize:"14px", fontWeight:"bold", color:"rgba(0,0,0,0.2)"}}>예정된 경기</button>
-            <button style=
-            {{height:"100%", width:"90px", backgroundColor:"white", 
-            border:"none",borderTopStyle:"solid", borderTopColor:"rgba(0,0,0,0.0)", fontSize:"14px", fontWeight:"bold", color:"rgba(0,0,0,0.2)"}}>종료된 경기</button>
+            <div onMouseEnter={()=>setIsHover1(true)} onMouseLeave={()=>setIsHover1(false)}>
+              <Btn classname={isHover1 ? "hover": "normal"} name="All" width="60px" title="전체"></Btn></div>
+            <div onMouseEnter={()=>setIsHover2(true)} onMouseLeave={()=>setIsHover2(false)}>
+              <Btn classname={isHover2 ? "hover": "normal"} name="Planned" title="예정된 경기"></Btn>
+            </div>
+            <div onMouseEnter={()=>setIsHover3(true)} onMouseLeave={()=>setIsHover3(false)}>
+              <Btn classname={isHover3 ? "hover": "normal"} name="End" title="종료된 경기"></Btn>
+            </div>
           </div>
-          <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
-          marginTop:"10px", backgroundColor:"rgba(0, 0, 0, 0.7)", color:"white",  fontSize:"12px"}}>
-            <div style={{width:"15%",display:"flex", alignItems:"flex-start", height:"100%", boxSizing:"border-box", padding:"10px 3px 10px 10px"}}>
-              <p>확정</p>
-            </div>
-            <div style={{width:"60%", margin:"0 10px"}}>
-              <p style={{marginBottom:"10px", fontSize:"15px"}}>방 제목</p>
-              <p>11/10 9:00</p>
-            </div>
-            <div style={{width:"30%", display:"flex", flexDirection:"column", alignItems:"flex-end", marginRight:"10px"}}>
-              <p style={{marginBottom:"18px"}}>8명</p>
-              <p></p>
-            </div>
-          </Box>
-          <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
-          marginTop:"10px", backgroundColor:"rgba(0, 0, 0, 0.4)", color:"white",  fontSize:"12px"}}>
-            <div style={{width:"15%",display:"flex", alignItems:"flex-start", height:"100%", boxSizing:"border-box", padding:"10px 3px 10px 10px"}}>
-              <p>예정</p>
-            </div>
-            <div style={{width:"60%", margin:"0 10px"}}>
-              <p style={{marginBottom:"10px", fontSize:"15px"}}>방 제목</p>
-              <p>11/13 14:00</p>
-            </div>
-            <div style={{width:"30%", display:"flex", flexDirection:"column", alignItems:"flex-end", marginRight:"10px"}}>
-              <p style={{marginBottom:"18px"}}>현재 인원</p>
-              <p>8/10</p>
-            </div>
-          </Box>
-          <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
-          marginTop:"10px", backgroundColor:"rgba(10, 71, 255, 0.6)", color:"white",  fontSize:"12px"}}>
-            <div style={{width:"15%",display:"flex", alignItems:"flex-start", height:"100%", boxSizing:"border-box", padding:"10px 3px 10px 10px"}}>
-              <p>종료</p>
-            </div>
-            <div style={{width:"60%", margin:"0 10px"}}>
-              <p style={{marginBottom:"10px", fontSize:"15px"}}>방 제목</p>
-              <p>11/01 13:00</p>
-            </div>
-            <div style={{width:"30%", display:"flex", flexDirection:"column", alignItems:"flex-end", marginRight:"10px"}}>
-              <p style={{marginBottom:"18px"}}>8명</p>
-              <p>3:2 [WIN]</p>
-            </div>
-          </Box>
-          <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
-          marginTop:"10px", backgroundColor:"rgba(255, 10, 10, 0.6)", color:"white",  fontSize:"12px"}}>
-            <div style={{width:"15%",display:"flex", alignItems:"flex-start", height:"100%", boxSizing:"border-box", padding:"10px 3px 10px 10px"}}>
-              <p>종료</p>
-            </div>
-            <div style={{width:"60%", margin:"0 10px"}}>
-              <p style={{marginBottom:"10px", fontSize:"15px"}}>방 제목</p>
-              <p>11/01 18:00</p>
-            </div>
-            <div style={{width:"30%", display:"flex", flexDirection:"column", alignItems:"flex-end", marginRight:"10px"}}>
-              <p style={{marginBottom:"18px"}}>10명</p>
-              <p>2:5 [LOSE]</p>
-            </div>
-          </Box>
+          {content && <div>{selectContent[content]}</div>}
+          
         </section>
       </Box>
       <Box sx={{ height: '20px' }} />
@@ -94,3 +64,5 @@ export default function MatchList() {
     </React.Fragment>
   );
 }
+
+export default MatchList;
