@@ -6,7 +6,7 @@
 }
 #click{
     color: #282828;
-    border-top-style : solid;
-    border-top-width : 1px;
-    border-top-color : rgba(0,0,0,0.4);
+    border-top-width: 1;
+    border-top-style: solid;
+    border-top-color: rgba(0,0,0,0.4);
 }

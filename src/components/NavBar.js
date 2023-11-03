@@ -25,10 +25,10 @@ const NavBar = () => {
   return (
     <nav className="wrapper">
       <NavMenu to="/Map" icon={faMapLocation} index={1} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/Write" icon={faPen} index={2} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/Home" icon={faHouse} index={3} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/Myplay" icon={faTable} index={4} activeNav={activeNav} setActiveNav={setActiveNav} />
-      <NavMenu to="/Mypage" icon={faUser} index={5} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/TeamSelect" icon={faPen} index={2} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/" icon={faHouse} index={3} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/MatchList" icon={faTable} index={4} activeNav={activeNav} setActiveNav={setActiveNav} />
+      <NavMenu to="/" icon={faUser} index={5} activeNav={activeNav} setActiveNav={setActiveNav} />
     </nav>
   );
 };

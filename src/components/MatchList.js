@@ -23,9 +23,10 @@ function MatchList() {
       id={(content===name)? "click" : ""}
       className={classname}
       name={name}
-      style=
-            {{height:"100%", width, backgroundColor:"white", 
-            border:"none", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>{title}</button>
+      style={{height:"100%", width, backgroundColor:"white", 
+            border:"none", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>
+              {title}
+      </button>
     );
   }
   return (
@@ -44,17 +45,17 @@ function MatchList() {
         <section style={{boxSizing:"border-box",
             margin:"0 15px",}}>
           <div style={{display:"flex", alignItems:"center", width:"100%", height:"35px", 
-          border:"none",borderTopStyle:"solid",borderTopWidth:"0.5px", borderTopColor:"rgba(0,0,0,0.12)", marginBottom:"20px"}}>
-            <div onMouseEnter={()=>setIsHover1(true)} onMouseLeave={()=>setIsHover1(false)}>
+          border:"none",borderTopStyle:"solid",borderTopWidth:"0.5px", borderTopColor:"rgba(0,0,0,0.12)"}}>
+            <div onMouseEnter={()=>setIsHover1(true)} onMouseLeave={()=>setIsHover1(false)} style={{height:"100%"}}>
               <Btn classname={isHover1 ? "hover": "normal"} name="All" width="60px" title="전체"></Btn></div>
-            <div onMouseEnter={()=>setIsHover2(true)} onMouseLeave={()=>setIsHover2(false)}>
+            <div onMouseEnter={()=>setIsHover2(true)} onMouseLeave={()=>setIsHover2(false)} style={{height:"100%"}}>
               <Btn classname={isHover2 ? "hover": "normal"} name="Planned" title="예정된 경기"></Btn>
             </div>
-            <div onMouseEnter={()=>setIsHover3(true)} onMouseLeave={()=>setIsHover3(false)}>
+            <div onMouseEnter={()=>setIsHover3(true)} onMouseLeave={()=>setIsHover3(false)} style={{height:"100%"}}>
               <Btn classname={isHover3 ? "hover": "normal"} name="End" title="종료된 경기"></Btn>
             </div>
           </div>
-          {content && <div>{selectContent[content]}</div>}
+          {content && <div style={{marginTop:"30px"}}>{selectContent[content]}</div>}
           
         </section>
       </Box>

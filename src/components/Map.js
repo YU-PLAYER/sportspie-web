@@ -1,3 +1,6 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import { useEffect } from "react";
 var {kakao} = window;
 
@@ -62,6 +65,10 @@ function KakaoMap(){
         }
     },[])    
  return (
+    <React.Fragment>
+    <Container maxWidth="sm">   
+    <Box sx={{ height: '20px' }} />
+    <Box sx={{ height: '100vh'}}>
     <div 
     style={{
         display:"flex",
@@ -73,7 +80,7 @@ function KakaoMap(){
             fontSize:"20px",
             fontWeight:"bold",
             boxSizing:"border-box",
-            marginTop:"20px",
+            margin:"0px 0  20px 12px",
             padding:"20px 0",
             width:"88%", 
             color:"#282828",}}>내 주변 경기장</h2>
@@ -83,8 +90,30 @@ function KakaoMap(){
             width:"88%", height:"320px",
         }}>
         </div>
+        <div style={{borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width:"90%", height:"75px", boxSizing:"border-box",
+            margin:"20px 0",  padding:"10px 40px", fontSize:"12px",
+            display:"flex", flexDirection:"column", justifyContent:"space-around"}}>
+            <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+                <p style={{fontSize:"17px", marginRight:"14px", color:"rgba(0,0,0,0.8)", fontWeight:"bold"}}>수성구민운동장</p>
+                <p style={{color:"rgba(0,0,0,0.6)"}}> 공설, 시민운동장</p>
+            </div>
+            <div style={{color:"rgba(0,0,0,0.8)"}}>대구 수성구 범어동</div>
+        </div>
+        <div style={{borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width:"90%", height:"75px", boxSizing:"border-box",
+            margin:"-5px 0",  padding:"10px 40px", fontSize:"12px",
+            display:"flex", flexDirection:"column", justifyContent:"space-around"}}>
+            <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+                <p style={{fontSize:"17px", marginRight:"14px", color:"rgba(0,0,0,0.8)", fontWeight:"bold"}}>S 축구클럽</p>
+                <p style={{color:"rgba(0,0,0,0.6)"}}>스포츠 시설</p>
+            </div>
+            <div style={{color:"rgba(0,0,0,0.8)"}}>대구 수성구 지산동</div>
+        </div>
     </div>
+    </Box>
 
+    <Box sx={{ height: '20px' }} />
+    </Container>
+  </React.Fragment>
  );
 }
 
