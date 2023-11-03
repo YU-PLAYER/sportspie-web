@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import SimpleContainer from '../components/Container.js';
+//import SimpleContainer from '../components/Container.js';
 import TopBar from '../components/topBar.js';
 import NavBar from '../components/NavBar.js';
+import Home from '../components/Home.js';
 
 export default function Display() {
     return (
@@ -14,15 +15,14 @@ export default function Display() {
                 }}
             >
                 <Box sx={{ height: '50px', position: 'fixed', width:"100%", top:"0",
-                '@media all and (min-width:769px)':{width:"80%"}}}>
+                '@media all and (min-width:769px)':{width:"60%"}}}>
                     <TopBar />
                     </Box>
                 <Box sx={{ height: '50px' }}></Box>
-                <SimpleContainer>
-                </SimpleContainer>                  
+                <Home />                  
                 <Box sx={{ height: '50px' }}></Box>             
                 <Box sx={{ height: '50px', position: 'fixed', width:"100%", bottom:"0",
-                '@media all and (min-width:769px)':{width:"80%"}}}><NavBar /></Box>
+                '@media all and (min-width:769px)':{width:"60%"}}}><NavBar /></Box>
                 
             </Box>
         </div>

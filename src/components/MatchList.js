@@ -23,8 +23,8 @@ function MatchList() {
       id={(content===name)? "click" : ""}
       className={classname}
       name={name}
-      style={{height:"100%", width, backgroundColor:"white", 
-            border:"none", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>
+      style={{height:"100%", width, backgroundColor:"white",
+            border:"none", borderTopColor:"rgba(0,0,0,0.2)", borderTopStyle:"solid", borderTopWidth:"1px", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>
               {title}
       </button>
     );

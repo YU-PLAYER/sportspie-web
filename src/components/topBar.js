@@ -6,7 +6,8 @@ function TopBar(){
     return(
         <div className="status-bar">
             <div className="status-bar__column">
-                <img src='./images/logo.png' alt=""/>
+                <img src="../images/logo.png" alt=""
+                style={{width:"50px", height:"30px"}}/>
             </div>
             <div className="status-bar__column"></div>
             <div className="status-bar__column">
