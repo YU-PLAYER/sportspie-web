@@ -1,0 +1,32 @@
+
+.status-bar {
+    position: fixed;
+    width:100%;
+    display:flex;
+    box-sizing: border-box;
+    justify-content: center;
+    padding-right:3px;
+    color: #282828;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+    border-bottom-color: rgba(0,0,0,0.035);
+    font-size: 13px;
+    background-color: rgba(255, 255, 255, 0.333);
+    z-index: 2;
+  }
+  
+  .status-bar__column {
+    width:33%; 
+  }
+  
+  .status-bar__column:last-child {
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  img{
+    width: 80px;
+    height: 40px;
+    object-fit: cover;
+ }
