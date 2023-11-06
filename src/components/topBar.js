@@ -1,13 +1,14 @@
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Badge from '@mui/material/Badge';
 import '../css/top-bar.css';
+import LogoImg from '../images/logo.png';
 
 function TopBar(){
     return(
         <div className="status-bar">
             <div className="status-bar__column">
-                <img src="../images/logo.png" alt=""
-                style={{width:"50px", height:"30px"}}/>
+                <img src={LogoImg}
+                style={{width:"70px", height:"30px"}}/>
             </div>
             <div className="status-bar__column"></div>
             <div className="status-bar__column">

@@ -1,3 +1,11 @@
+.sticky{
+    position: fixed;
+    top : 55px;
+    left:0;
+    width:100%;
+    z-index:100;
+}
+
 .hover{
     color: #282828;
 }
@@ -6,7 +14,4 @@
 }
 #click{
     color: #282828;
-    border-top-width: 1;
-    border-top-style: solid;
-    border-top-color: rgba(0,0,0,0.4);
 }

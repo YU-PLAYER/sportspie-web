@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import Ad from '../images/Ad.png';
 
 export default function Home() {
    function DayList({boxShadow="0px 0px 5px 0px rgba(0, 0, 0, 0)",color="black", date, day}){
@@ -43,8 +44,10 @@ export default function Home() {
         <Box sx={{display:"flex", flexDirection:"column", alignItems:"center", marginTop:"20px"
            }}>
             <div style={{
-                width:"100%", height:"240px", borderRadius:"15px", backgroundColor:"#e4f2ff"
+                display:"flex", alignItems:"center", justifyContent:"center", 
+                width:"100%", height:"240px", borderRadius:"15px", backgroundColor:"#e4f2ff", overflow:"hidden"
             }}>
+              <img src={Ad}m style={{width:"100%", height:"110%"}}/>
             </div>
             <div class="ad-dot">
                 <div class="ad-dot_dot"></div>

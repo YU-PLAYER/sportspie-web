@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import All from './MatchList_All';
@@ -13,20 +13,38 @@ function MatchList() {
   const [isHover1, setIsHover1] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
   const [isHover3, setIsHover3] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+  
+  useEffect(()=>{
+    const handleScroll = ()=>{
+      const currentScrollPosition = window.pageYOffset;
+      console.log(currentScrollPosition);
+      if(currentScrollPosition >= 85 ){
+        setIsSticky(true);
+      }else setIsSticky(false);
+    }
+    window.addEventListener('scroll', handleScroll);
+    return ()=>{
+        window.removeEventListener('scroll', handleScroll);
+      };
+  }, []);
   const onClick = (event) => {
     setContent(event.target.name);
   };
   function Btn({classname, name, width="90px", title}){
     return(
-      <button 
-      onClick={onClick}
-      id={(content===name)? "click" : ""}
-      className={classname}
-      name={name}
-      style={{height:"100%", width, backgroundColor:"white",
-            border:"none", borderTopColor:"rgba(0,0,0,0.2)", borderTopStyle:"solid", borderTopWidth:"1px", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>
-              {title}
-      </button>
+      <div style={{height:"100%", width:"100%"}}>
+        {(content===name) && <div style={{width:"100%", height:"2px", backgroundColor:"rgba(0,0,0,0.4"}}></div>}
+        <button 
+        onClick={onClick}
+        id={(content===name)? "click" : ""}
+        className={classname}
+        name={name}
+        style={{height:"100%", width, backgroundColor:"white",
+              border:"none", fontSize:"14px", fontWeight:"bold",cursor:"pointer"}}>
+                {title}
+        </button>
+      </div>
     );
   }
   return (
@@ -44,14 +62,16 @@ function MatchList() {
             color:"#282828",}}>내 경기 목록</h2>
         <section style={{boxSizing:"border-box",
             margin:"0 15px",}}>
-          <div style={{display:"flex", alignItems:"center", width:"100%", height:"35px", 
-          border:"none",borderTopStyle:"solid",borderTopWidth:"0.5px", borderTopColor:"rgba(0,0,0,0.12)"}}>
-            <div onMouseEnter={()=>setIsHover1(true)} onMouseLeave={()=>setIsHover1(false)} style={{height:"100%"}}>
+          <div 
+          className={isSticky ? 'sticky' : ''} 
+          style={{position:"relative", display:"flex", alignItems:"flex-start", width:"100%", height:"45px", 
+          border:"none",borderTopStyle:"solid",borderTopWidth:"0.5px", borderTopColor:"rgba(0,0,0,0.12)", backgroundColor:"white"}}>
+            <div onMouseEnter={()=>setIsHover1(true)} onMouseLeave={()=>setIsHover1(false)} style={{height:"75%"}}>
               <Btn classname={isHover1 ? "hover": "normal"} name="All" width="60px" title="전체"></Btn></div>
-            <div onMouseEnter={()=>setIsHover2(true)} onMouseLeave={()=>setIsHover2(false)} style={{height:"100%"}}>
+            <div onMouseEnter={()=>setIsHover2(true)} onMouseLeave={()=>setIsHover2(false)} style={{height:"75%"}}>
               <Btn classname={isHover2 ? "hover": "normal"} name="Planned" title="예정된 경기"></Btn>
             </div>
-            <div onMouseEnter={()=>setIsHover3(true)} onMouseLeave={()=>setIsHover3(false)} style={{height:"100%"}}>
+            <div onMouseEnter={()=>setIsHover3(true)} onMouseLeave={()=>setIsHover3(false)} style={{height:"75%"}}>
               <Btn classname={isHover3 ? "hover": "normal"} name="End" title="종료된 경기"></Btn>
             </div>
           </div>
