@@ -1,17 +1,18 @@
-
 .status-bar {
-    position: fixed;
-    width:100%;
-    display:flex;
+    position: relative;
+    Top : 0;
+    width: 100%;
+    display: flex;
     box-sizing: border-box;
     justify-content: center;
-    padding: 18px 13px;
+    padding: 16px 13px;
     color: #282828;
     border-bottom-style: solid;
     border-bottom-width: 3px;
     border-bottom-color: rgba(0,0,0,0.035);
     font-size: 13px;
-    background-color: rgba(255, 255, 255, 0.333);
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 1;
   }
   
   .status-bar__column {

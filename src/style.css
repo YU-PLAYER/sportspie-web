@@ -4,6 +4,7 @@ body{
     color: #2e363e;
     display:flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
   

@@ -1,0 +1,10 @@
+@media All and (min-width:769px) {
+    .screen{
+        width:"80%"
+    }
+}
+@media All and (max-width:769px) {
+    .screen{
+        width:"100%"
+    }
+}
