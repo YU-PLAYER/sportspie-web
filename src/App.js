@@ -25,7 +25,7 @@ function App() {
          <Route path="/Map" element={<MapDisplay />} /> 
          <Route path="/MatchList" element={<MyMatchList />} /> 
          <Route path="/Write" element={<WriteDisplay />} /> 
-       </Routes> 
+       </Routes>
     </div>
    
   );
