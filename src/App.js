@@ -1,4 +1,3 @@
-
 import {Routes, Route} from "react-router-dom";
 import Display from './routers/Display.js';
 import Teamselect from "./routers/TeamSelect.js";

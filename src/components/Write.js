@@ -12,7 +12,7 @@ export default function Write() {
 
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
-        <Box sx={{ height: '150px', borderRadius: 5, boxShadow: 3}}>
+        <Box sx={{ height: '150px', borderRadius: 5, boxShadow: 3, textAlign:"center"}}>
           <Box sx={{ height: '15px' }} />
           경기글 작성
           <Box sx={{ height: '15px' }} />
@@ -26,7 +26,7 @@ export default function Write() {
 
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
-        <Box sx={{ height: '500px', borderRadius: 5, boxShadow: 3 }}>
+        <Box sx={{ height: '500px', borderRadius: 5, boxShadow: 3 , textAlign:"center"}}>
           <Box sx={{ height: '20px' }} />
           날짜 및 시간
           <Box sx={{ height: '20px' }} />
@@ -41,7 +41,7 @@ export default function Write() {
 
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
-        <Box sx={{ height: '250px', borderRadius: 5, boxShadow: 3 }}>
+        <Box sx={{ height: '250px', borderRadius: 5, boxShadow: 3 , textAlign:"center"}}>
         <Box sx={{ height: '20px' }} />
         장소 선택
         <Box sx={{ height: '20px' }} />
@@ -52,7 +52,7 @@ export default function Write() {
 
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
-        <Box sx={{ height: '580px', borderRadius: 5, boxShadow: 3 }}>
+        <Box sx={{ height: '580px', borderRadius: 5, boxShadow: 3 , textAlign:"center"}}>
           <Box sx={{ height: '20px' }} />
           글 상세내용
           <Box sx={{ height: '20px' }} />

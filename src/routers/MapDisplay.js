@@ -14,14 +14,14 @@ export default function MapDisplay() {
                 }}
             >
                 <Box sx={{ height: '50px', position: 'fixed', width:"100%", top:"0",
-                '@media all and (min-width:769px)':{width:"60%"}}}>
+                '@media all and (min-width:910px)':{width:"60%"}}}>
                     <TopBar />
                     </Box>
                 <Box sx={{ height: '50px' }}></Box>
                 <Map />              
                 <Box sx={{ height: '50px' }}></Box>             
                 <Box sx={{ height: '50px', position: 'fixed', width:"100%", bottom:"0",
-                '@media all and (min-width:769px)':{width:"60%"}}}><NavBar /></Box>
+                '@media all and (min-width:910px)':{width:"60%"}}}><NavBar /></Box>
                 
             </Box>
         </div>
