@@ -5,11 +5,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Package / Library (Module)
 - FontAwesome
 - MUI
+- Day.js
 
 ## installation code
 - npm install @mui/icons-material
 - npm install @mui/material @emotion/react @emotion/styled
-
+- npm install dayjs
 
 ## Available Scripts
 
