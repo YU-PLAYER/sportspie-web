@@ -8,18 +8,12 @@ export default function Display() {
             <Box
                 sx={{
                     display: 'grid',
-                    bgcolor: 'grey.100',
+                    bgcolor: '#f5f5f5',
                     fontSize: '0.875rem',
                     fontWeight: '700',
-                }}
-            >
-                <Box sx={{ height: '50px' }} />
-
+                }}            >
                 <SimpleContainer>
-                </SimpleContainer>                  
-
-                <Box sx={{ height: '50px' }} />
-                
+                </SimpleContainer>                                 
             </Box>
         </div>
     );

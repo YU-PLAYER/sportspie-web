@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import {useNavigate } from 'react-router-dom';
+import profileimg from "../images/profileimg.jpg"
 
 const ExamineProfile = () => {
   const navigate = useNavigate();
@@ -74,10 +75,10 @@ const ExamineProfile = () => {
   return (
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={toEnlarge}/>
+        <UserImage src={profileimg} onClick={toEnlarge}/>
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={profileImage}/>
+            <ImageView src={profileimg}/>
           </ProfileView>
       )}
         <UserInfoBox>
@@ -307,6 +308,7 @@ const BackToPageButton = styled.button`
   height: 5vh;
   margin-left: 35%;
   margin-top: 5%;
+  margin-bottom: 5%;
 `;
 
 export default ExamineProfile; 

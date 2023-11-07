@@ -5,7 +5,7 @@
     box-sizing: border-box;
     justify-content: space-between;
     padding: 1.5vh 3vw;
-    border-radius: 10px;
+    border-bottom: solid 3px #AEAEAE;
     background-color: white;
     align-items: center;
   }

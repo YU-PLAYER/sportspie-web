@@ -3,11 +3,16 @@ import axios from 'axios';
 import styled from 'styled-components';
 import profileimg from "../images/profileimg.jpg"
 import {useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const MyProfile = () => {
-  const navigate = useNavigate();
-  const [profileImage, setProfileImage] = useState("");
-  const [userInfo, setUserInfo] = useState({
+  const navigate = useNavigate(); // 페이지 이동 훅
+
+  const [LoginState, setLoginState] = useState(true); // 로그인 상태 State
+
+  const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
+
+  const [userInfo, setUserInfo] = useState({ // 사용자 정보 State
     name: "손흥민",
     gender: "남자",
     age: "31세",
@@ -16,83 +21,199 @@ const MyProfile = () => {
     weight: "78kg",
     email: "abcdef.gmail.com"
   });
-  const [statusMessage, setStatusMessage] = useState("안녕하세요:D");
-  const [Forward, setForward] = useState(true);
-  const [Midfielder, setMidfielder] = useState(true);
-  const [Defender, setDefender] = useState(true);
-  const [Goalkeeper, setGoalkeeper] = useState(true);
-  const [record, setRecord] = useState({
+
+  const [statusMessage, setStatusMessage] = useState("안녕하세요:D"); // 상태 메세지 State
+
+  const [Forward, setForward] = useState(true);  // 선호 포지션(공격수) State
+  const [Midfielder, setMidfielder] = useState(true); // 선호 포지션(미드필더) State
+  const [Defender, setDefender] = useState(true); // 선호 포지션(수비수) State
+  const [Goalkeeper, setGoalkeeper] = useState(true); // 선호 포지션(골키퍼) State
+
+  const [record, setRecord] = useState({ // 전적 및 승률 State
     total: 10,
     win: 8,
     draw: 0,
     loes: 2
   });
-  const [GameResult1, setGameResult1] = useState('Win');
-  const [GameResult2, setGameResult2] = useState('Lose');
-  const [GameResult3, setGameResult3] = useState('Win');
-  const [GameResult4, setGameResult4] = useState('Win');
-  const [GameResult5, setGameResult5] = useState('Win');
-  const [GameResult6, setGameResult6] = useState('Win');
-  const [GameResult7, setGameResult7] = useState('Win');
-  const [GameResult8, setGameResult8] = useState('Win');
-  const [GameResult9, setGameResult9] = useState('Lose');
-  const [GameResult10, setGameResult10] = useState('Win');
-  const [Enlarge, setEnlarge] = useState(false);
 
-  const toEnlarge = () => {
+  const [GameResult1, setGameResult1] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult2, setGameResult2] = useState('Lose'); // 최근 경기 승패 결과 State
+  const [GameResult3, setGameResult3] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult4, setGameResult4] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult5, setGameResult5] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult6, setGameResult6] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult7, setGameResult7] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult8, setGameResult8] = useState('Win'); // 최근 경기 승패 결과 State
+  const [GameResult9, setGameResult9] = useState('Lose'); // 최근 경기 승패 결과 State
+  const [GameResult10, setGameResult10] = useState('Win'); // 최근 경기 승패 결과 State
+
+  const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
+
+  useEffect(() => { // 페이지가 로드되었을때 로그인 상태여부를 확인하고 뷰를 처리해주는 부분
+    const LoginCheck = async () => {
+      try {
+        const response = await axios.get('http://115.85.182.229:8080/api'); // 서버에 로그인 상태값을 요청하고 그 값을 받아와 상태를 업데이트
+        setLoginState(response.data.LoginState);
+  
+        if(response.data.LoginState) { 
+          fetchUserData(); // 로그인이 이미 되어 있을 시 fetchUserData 메소드를 호출하여 화면에 뷰를 출력
+        } else {
+          Swal.fire({ // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
+            icon: 'error',
+            title: '로그인이 필요한 기능입니다.',
+          });
+          navigate('/Login');
+        }
+      } catch (error) { // 서버와 통신 에러 발생시 경고 메세지 출력후 메인페이지로 이동
+        Swal.fire({
+          icon: 'error',
+          title: '통신 오류',
+          text: '다시 시도하여 주십시오.'
+        });
+  //      navigate('/Home');
+      }
+    };
+    LoginCheck();
+  }, []);
+
+  const toEnlarge = () => { // 이미지 확대 메소드
     setEnlarge(true);
   };
 
-  const toShrink = () => {
+  const toShrink = () => { // 이미지 축소 메소드
     setEnlarge(false);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => { // 로그아웃 메소드
+    Swal.fire({ // 한번 더 되묻는 경고창 출력
+      icon: 'warning',
+      title: '정말로 로그아웃 하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#488BDB',
+      cancelButtonColor: '#EA344B',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const access_token = localStorage.getItem('access_token');
+          const response = await axios.post('http://115.85.182.229:8080/api/', {
+            headers: {
+              Authorization: `Bearer ${access_token}`
+            }
+          });
     
+          if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 로그아웃 처리가 완료되면 로그인 페이지로 이동
+            Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
+              icon: 'success',
+              title: '로그아웃 되었습니다!',
+            });
+            setLoginState(false);
+            localStorage.removeItem('access_token');
+            navigate('/Login');
+          }
+        } catch (error) {
+          Swal.fire({ // 서버 통신 에러 발생시 경고창 출력
+            icon: 'error',
+            title: '로그아웃 실패',
+            text: '다시 시도하여 주십시오'
+          });
+          console.error("로그아웃 중 에러 발생", error);
+        }
+      }
+    });
   };
-
-  const handleWithdrawal = () => {
+  
+  const handleWithdrawal = async () => { // 회원탈퇴 메소드 
+    Swal.fire({ // 한번 더 되묻는 경고창 출력
+      icon: 'warning',
+      title: '정말로 회원탈퇴 하시겠습니까?',
+      text: '회원탈퇴시 서버에 저장된 모든정보가 사라집니다',
+      showCancelButton: true,
+      confirmButtonColor: '#488BDB',
+      cancelButtonColor: '#EA344B',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const access_token = localStorage.getItem('access_token');
+          const response = await axios.delete('http://115.85.182.229:8080/api/', {
+            headers: {
+              Authorization: `Bearer ${access_token}`
+            }
+          });
     
+          if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 회원탈퇴 처리가 완료되면 로그인 페이지로 이동
+            Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
+              icon: 'success', 
+              title: '회원탈퇴가 완료되었습니다.',
+            });
+            setLoginState(false);
+            localStorage.removeItem('access_token');
+            navigate('/Login');
+          }
+        } catch (error) { 
+          Swal.fire({ // 서버 통신 에러 발생시 경고창 출력
+            icon: 'error',
+            title: '회원탈퇴 실패.',
+            text: '다시 시도 하여주십시오'
+          });
+          console.error("탈퇴 중 오류가 발생했습니다.", error);
+        }
+      }
+    });
   };
+  
 
-  const PageChange1 = () => {
+  const PageChange1 = () => { // 공지사항 페이지 이동 메소드
     navigate('/page1');
   };
 
-  const PageChange2 = () => {
+  const PageChange2 = () => { // 안전정보 페이지 이동 메소드
     navigate('/page2');
   };
 
-  const PageChange3 = () => {
+  const PageChange3 = () => { // 신고하기 페이지 이동 메소드
     navigate('/page3');
   };
 
-  const PageChange_ModifyProfile = () => {
+  const PageChange_ModifyProfile = () => { // 프로필 수정 페이지 이동 메소드
     navigate('/ModifyProfile');
   };
 
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get('http://115.85.182.229:8080/');
-      const { profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper, record } = response.data;
-      setProfileImage(profileImage);
-      setUserInfo(userInfo);
-      setStatusMessage(statusMessage);
-      setForward(Forward);
-      setMidfielder(Midfielder);
-      setDefender(Defender);
-      setGoalkeeper(Goalkeeper);
-      setRecord(record);
-    } catch (error) {
-      console.error("업데이트에 실패하였습니다. : ", error);
-    }
+  const fetchUserData = async () => { // 사용자 정보 업데이트 메소드
+
+      const access_token = localStorage.getItem('access_token');
+
+      try {
+        const userInfoResponse = await axios.get(`http://115.85.182.229:8080/api/`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          },
+        });
+        
+        const { profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper, record } = userInfoResponse.data;
+        
+        setProfileImage(profileImage);
+        setUserInfo(userInfo);
+        setStatusMessage(statusMessage);
+        setForward(Forward);
+        setMidfielder(Midfielder);
+        setDefender(Defender);
+        setGoalkeeper(Goalkeeper);
+        setRecord(record);
+      } catch (error) { // 서버 통신 오류 발생시 경고창 출력
+        console.error("업데이트에 실패하였습니다. : ", error);
+        Swal.fire({
+          icon: 'error',
+          title: '통신 오류',
+          text: '업데이트에 실패하였습니다. 다시 시도해 주십시오'
+        });
+      }
   };
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  return (
+  
+  return LoginState ? ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
         <UserImage src={profileimg} onClick={toEnlarge}/>
@@ -154,7 +275,7 @@ const MyProfile = () => {
         <WithdrawalButton onClick={handleWithdrawal}>회원탈퇴</WithdrawalButton>
       </BottomBox>
     </Container>
-  );
+  ) : null;
 };
 
 
