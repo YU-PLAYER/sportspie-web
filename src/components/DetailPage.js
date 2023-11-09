@@ -6,6 +6,7 @@ import img1 from "../images/FootballField.jpg"
 import img2 from "../images/FootballFieldimg.jpg"
 import img3 from "../images/FootballFieldimage.jpg"
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
@@ -24,6 +25,7 @@ const DetailPage = () => {
       <Container>
         <ImageContainer>
           <Swiper
+            modules={[Autoplay, Pagination]}
             spaceBetween={0}
             slidesPerView={'auto'}
             autoplay={true}
