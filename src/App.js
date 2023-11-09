@@ -20,7 +20,7 @@ function App() {
             fontSize: '0.875rem', placeItems:"center"
         }}
     >
-        <Box sx={{ height: '50px', position: 'fixed', width:"100%", top:"0",
+        <Box sx={{ height: '50px', zIndex: 3,  position: 'fixed', width:"100%", top:"0",
         '@media all and (min-width:910px)':{width:"60%"}}}>
             <TopBar />
             </Box>

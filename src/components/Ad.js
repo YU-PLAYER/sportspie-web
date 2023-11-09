@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Autoplay, Pagination} from 'swiper/modules';
+import {Autoplay, Pagination} from 'swiper/modules';
 import '../css/ad.css'
 import img2 from '../images/Ad2.png';
 import img3 from '../images/Ad3.png';
