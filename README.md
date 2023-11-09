@@ -13,7 +13,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - npm install @mui/material @emotion/react @emotion/styled
 - npm install dayjs
 - npm install swiper
-
+- npm install @mui/x-date-pickers
+  
 ## Available Scripts
 
 In the project directory, you can run:
