@@ -1,0 +1,27 @@
+.Login{
+    z-index: 3;
+}
+
+.logo_loginpage{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.logo_socialLogin{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.blank{
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+
+img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+ }

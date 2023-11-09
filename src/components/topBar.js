@@ -1,7 +1,6 @@
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import Badge from '@mui/material/Badge';
 import '../css/top-bar.css';
 import LogoImg from '../images/logo.png';
+import AlarmModal from './Alarm_modal';
 
 function TopBar(){
     return(
@@ -12,16 +11,9 @@ function TopBar(){
             </div>
             <div className="status-bar__column"></div>
             <div className="status-bar__column">
-            <Badge badgeContent={2} color="error">
-                    <NotificationsActiveIcon
-                        size="large"
-                        aria-label="show notifications"
-                        color="inherit"
-                        align-items="center"
-                    >
 
-                    </NotificationsActiveIcon>
-                </Badge>
+            <AlarmModal />
+
             </div>
         </div>
     );

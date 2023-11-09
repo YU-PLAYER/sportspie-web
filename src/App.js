@@ -8,6 +8,7 @@ import Teamselect from "./routers/TeamSelect.js";
 import MapDisplay from './routers/MapDisplay.js';
 import MyMatchList from "./routers/MyMatchList.js";
 import WriteDisplay from "./routers/WriteDisplay.js";
+import Login from './components/Login.js';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/Map" element={<MapDisplay />} /> 
                 <Route path="/MatchList" element={<MyMatchList />} /> 
                 <Route path="/Write" element={<WriteDisplay />} /> 
+                <Route path='/Login' element={<Login />}/>
             </Routes>
         <Box sx={{ height: '50px' }}></Box>             
         <Box sx={{ height: '50px', position: 'fixed', width:"100%", bottom:"0",
