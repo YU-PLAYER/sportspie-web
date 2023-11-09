@@ -17,11 +17,11 @@ const NavMenu = ({ to, icon, index, activeNav, setActiveNav }) => (
       />
     </div>
   </Link>
-);
+)
 
 const NavBar = () => {
   const [activeNav, setActiveNav] = useState(3);
-
+  
   return (
     <nav className="wrapper">
       <NavMenu to="/Map" icon={faMapLocation} index={1} activeNav={activeNav} setActiveNav={setActiveNav} />

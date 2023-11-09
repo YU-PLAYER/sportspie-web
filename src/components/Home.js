@@ -4,20 +4,10 @@ import Container from '@mui/material/Container';
 import '../css/ad.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Ad from '../images/Ad.png';
+import Ad from './Ad';
+import Daylist from './Daylist';
 
 export default function Home() {
-   function DayList({boxShadow="0px 0px 5px 0px rgba(0, 0, 0, 0)",color="black", date, day}){
-    return (
-    <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-                width:"40px", height:"40px", borderRadius:"10px", boxShadow, color}}>
-                    <span style={{fontSize:"13px", paddingBottom:"2px"}}>{date}</span>
-                    <span style={{fontSize:"10px"}}>{day}</span>
-                </div>
-    );
-   }
    function PlayList({time, place, title, member}){
     return(
         <div class="play-list">
@@ -41,34 +31,11 @@ export default function Home() {
       <Container maxWidth="sm">   
       <Box sx={{ height: '20px' }} />
       <Box sx={{ height: '100vh'}}>
-        <Box sx={{display:"flex", flexDirection:"column", alignItems:"center", marginTop:"20px"
-           }}>
-            <div style={{
-                display:"flex", alignItems:"center", justifyContent:"center", 
-                width:"100%", height:"240px", borderRadius:"15px", backgroundColor:"#e4f2ff", overflow:"hidden"
-            }}>
-              <img src={Ad}m style={{width:"100%", height:"110%"}}/>
-            </div>
-            <div class="ad-dot">
-                <div class="ad-dot_dot"></div>
-                <div class="ad-dot_dot"></div>
-                <div class="ad-dot_dot"></div>
-                <div class="ad-dot_dot"></div>
-                <div class="ad-dot_dot"></div>
-            </div>
-        </Box>
-        <Box sx={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"25px"}}>
-            <div style={{display:"flex", justifyContent:"space-around", width:"100%", fontSize:"12px"}}>
-               <button className="btn" style={{marginRight:"-5px"}}><FontAwesomeIcon icon={faChevronLeft} style={{color: "#000000",}} /></button>
-                <DayList boxShadow="0px 0px 5px 0px rgba(0, 0, 0, 0.15)" color="rgb(255, 69, 69)" date="3" day="일"/>
-                <DayList date="4" day="월"/>
-                <DayList date="5" day="화"/>
-                <DayList date="6" day="수"/>
-                <DayList date="7" day="목"/>
-                <DayList date="8" day="금"/>
-                <DayList color="rgb(69, 75, 255)" date="9" day="토"/>
-                <button className="btn" style={{marginLeft:"-5px"}}><FontAwesomeIcon icon={faChevronRight} style={{color: "#000000",}} /></button>
-            </div>
+        <div style={{  width:'100%', height:'auto'}}>
+         <Ad />
+        </div>
+        <Box sx={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"25px",}}>
+          <Daylist />
             <div class="play-search">
                 <div class="play-search_new">
                     <button>
