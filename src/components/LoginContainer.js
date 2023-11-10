@@ -11,7 +11,7 @@ export default function LoginContainer() {
     const clientId = '1Lo9Dc4AHo54vgDPegQ2';
     const clientSecret = 'LAu_vuy6ej';
     const redirectURI = encodeURIComponent('http://localhost:3000');
-    const state = 'RANDOM_STATE';
+    const state = 'RANDOM';
 
     const NaverLogin = () => {
         const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${state}`;
@@ -19,6 +19,7 @@ export default function LoginContainer() {
     }
 
     const getAccessNaverToken = async (authCode) => {
+      try {
         const apiUrl = 'https://nid.naver.com/oauth2.0/token';
         const params = {
             grant_type: 'authorization_code',
@@ -28,21 +29,23 @@ export default function LoginContainer() {
             code: authCode,
             state: state,
         };
-
+        
         const token_response = await axios.get(apiUrl, { params: params });
-        const token = token_response.data.access_token;
-        console.log(token)
+        const Navertoken = token_response.data;
+        console.log(Navertoken);
 
-        const response = await axios.post('http://115.85.182.229:8080/api/auth/sign-in/naver', {
-            token: token
-        });
+        const response = await axios.post('http://115.85.182.229:8080/api/auth/sign-in/naver', {token: Navertoken});
 
-        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('access_token', response.data);
+      } catch (error) {
+          console.error(error); 
+        }
     };
 
     React.useEffect(() => {
         const url = new URL(window.location.href);
         const authCode = url.searchParams.get('code');
+        console.log('Auth code:', authCode);
 
         if (authCode) {
             getAccessNaverToken(authCode);
