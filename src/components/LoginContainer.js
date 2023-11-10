@@ -5,7 +5,50 @@ import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
+import axios from 'axios';
 export default function LoginContainer() {
+
+    const clientId = '1Lo9Dc4AHo54vgDPegQ2';
+    const clientSecret = 'LAu_vuy6ej';
+    const redirectURI = encodeURIComponent('http://localhost:3000');
+    const state = 'RANDOM_STATE';
+
+    const NaverLogin = () => {
+        const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${state}`;
+        window.location.href = apiUrl;
+    }
+
+    const getAccessNaverToken = async (authCode) => {
+        const apiUrl = 'https://nid.naver.com/oauth2.0/token';
+        const params = {
+            grant_type: 'authorization_code',
+            client_id: clientId,
+            client_secret: clientSecret,
+            redirect_uri: redirectURI,
+            code: authCode,
+            state: state,
+        };
+
+        const token_response = await axios.get(apiUrl, { params: params });
+        const token = token_response.data.access_token;
+        console.log(token)
+
+        const response = await axios.post('http://115.85.182.229:8080/api/auth/sign-in/naver', {
+            token: token
+        });
+
+        localStorage.setItem('access_token', response.data.access_token);
+    };
+
+    React.useEffect(() => {
+        const url = new URL(window.location.href);
+        const authCode = url.searchParams.get('code');
+
+        if (authCode) {
+            getAccessNaverToken(authCode);
+        }
+    }, []);
+
   return (
     <React.Fragment>
       <Container maxWidth="sm">
@@ -26,7 +69,7 @@ export default function LoginContainer() {
               alignItems: 'center', display: 'flex', justifyContent: 'center'
             }}>
             
-            <img className="logo_socialLogin" src={require("../images/naver_logo_img.png")} onClick={null}/>
+            <img className="logo_socialLogin" src={require("../images/naver_logo_img.png")} onClick={NaverLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
             <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={null}/>
             <img className="blank" src={require("../images/invisible.png")}/>
