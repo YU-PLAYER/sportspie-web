@@ -317,15 +317,17 @@ const PrivateRecordBox = styled.div`
 const Record = styled.div`
   font-size: 1em;
   font-weight: bold;
+  margin-left: 5%;
 `;
 
 const RecordBoard = styled.div`
   display: grid;
   grid-template-row: repeat(2, 1fr);
   grid-template-columns: repeat(5, 1fr);
-  width: 95%;
+  width: 90%;
   height: 10vh;
   margin-top: 2vh;
+  margin-left: 5%;
   border: 1px solid;
   border-color: white;
   border-radius: 5px;

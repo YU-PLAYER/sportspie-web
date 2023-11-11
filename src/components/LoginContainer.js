@@ -2,55 +2,19 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
-import axios from 'axios';
+
 export default function LoginContainer() {
 
     const clientId = '1Lo9Dc4AHo54vgDPegQ2';
-    const clientSecret = 'LAu_vuy6ej';
-    const redirectURI = encodeURIComponent('http://localhost:3000');
+    const redirectURI = encodeURIComponent('http://localhost:3000/Home');
     const state = 'RANDOM';
 
     const NaverLogin = () => {
         const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${state}`;
         window.location.href = apiUrl;
     }
-
-    const getAccessNaverToken = async (authCode) => {
-      try {
-        const apiUrl = 'https://nid.naver.com/oauth2.0/token';
-        const params = {
-            grant_type: 'authorization_code',
-            client_id: clientId,
-            client_secret: clientSecret,
-            redirect_uri: redirectURI,
-            code: authCode,
-            state: state,
-        };
-        
-        const token_response = await axios.get(apiUrl, { params: params });
-        const Navertoken = token_response.data;
-        console.log(Navertoken);
-
-        const response = await axios.post('http://115.85.182.229:8080/api/auth/sign-in/naver', {token: Navertoken});
-
-        localStorage.setItem('access_token', response.data);
-      } catch (error) {
-          console.error(error); 
-        }
-    };
-
-    React.useEffect(() => {
-        const url = new URL(window.location.href);
-        const authCode = url.searchParams.get('code');
-        console.log('Auth code:', authCode);
-
-        if (authCode) {
-            getAccessNaverToken(authCode);
-        }
-    }, []);
 
   return (
     <React.Fragment>
