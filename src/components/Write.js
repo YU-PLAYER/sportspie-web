@@ -5,20 +5,26 @@ import Textarea from '@mui/joy/Textarea';
 import DateCalendarReferenceDate from './dateCalendar.js';
 import SelectOtherProps from './selectGround.js';
 import IconLabelButtons from './button.js';
+import NumberForm from './NumberForm.js';
 
 export default function Write() {
   return (
     <React.Fragment>
 
+      <Box sx={{ height: '20px' }} />
+      
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
-        <Box sx={{ height: '150px', borderRadius: 5, boxShadow: 3, textAlign:"center"}}>
-          <Box sx={{ height: '15px' }} />
+        <Box sx={{ height: '220px', borderRadius: 5, boxShadow: 3, textAlign:"center"}}>
+          <Box sx={{ height: '20px' }} />
           경기글 작성
-          <Box sx={{ height: '15px' }} />
+          <Box sx={{ height: '20px' }} />
           <Container maxWidth="sm">
-            <Textarea name="Outlined" placeholder="방 제목" variant="outlined" />
-            <Textarea name="Outlined" placeholder="최대 인원" variant="outlined" />
+            <Textarea name="Outlined" maxRows={1} placeholder="방 제목" variant="outlined" />
+            <Box sx={{ height: '30px' }} />
+            최대 참여 인원
+            <Box sx={{ height: '15px' }} />
+            <NumberForm />
           </Container>
         </Box>
         <Box sx={{ height: '20px' }} />
@@ -63,7 +69,7 @@ export default function Write() {
             }}
           >
             <Textarea fullWidth label="fullWidth" id="fullWidth"
-              minRows={20} placeholder="경기글 상세내역" />
+              minRows={20} maxRows={20} placeholder="경기글 상세내역" />
           </Box>
           </Container>
         </Box>
