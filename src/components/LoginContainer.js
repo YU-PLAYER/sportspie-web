@@ -5,11 +5,11 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
 
-export default function LoginContainer() {
+export const clientId = process.env.NAVER_CLIENT_ID;
+export const redirectURI = encodeURIComponent(process.env.NAVER_REDIRECT_URI);
+export const state = 'RANDOM';
 
-    const clientId = '1Lo9Dc4AHo54vgDPegQ2';
-    const redirectURI = encodeURIComponent('http://localhost:3000/Home');
-    const state = 'RANDOM';
+export default function LoginContainer() {
 
     const NaverLogin = () => {
         const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${state}`;
