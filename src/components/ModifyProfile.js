@@ -56,7 +56,7 @@ const ModifyProfile = () => {
   const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
 
   const [userInfo, setUserInfo] = useState({ // 사용자 정보 State
-    name: "손흥민",
+    nickname: "손흥민",
     gender: "남자",
     age: "31세",
     location: "춘천시 후평동",
@@ -170,8 +170,8 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
         <UserImage src={profileImage} onClick={ProfileImageChange}/>
         <UserInfoBox>
           <InputLabel>
-            이름 : 
-            <Input type="text" name="name" value={userInfo.name} onChange={UserInfoChange} />
+            닉네임 : 
+            <Input type="text" name="name" value={userInfo.nickname} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             성별 : 

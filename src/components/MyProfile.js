@@ -12,7 +12,7 @@ const MyProfile = () => {
   const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
 
   const [userInfo, setUserInfo] = useState({ // 사용자 정보 State
-    name: "손흥민",
+    nickname: "손흥민",
     gender: "남자",
     age: "31세",
     location: "춘천시 후평동",
@@ -233,7 +233,7 @@ const MyProfile = () => {
           </ProfileView>
       )}
         <UserInfoBox>
-          이름 : {userInfo.name} <br/>
+          닉네임 : {userInfo.nickname} <br/>
           성별 : {userInfo.gender} <br/>
           나이 : {userInfo.age} <br/>
           지역 : {userInfo.location} <br/>
