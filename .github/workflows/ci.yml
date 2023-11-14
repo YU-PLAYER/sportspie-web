@@ -35,5 +35,7 @@ jobs:
           node-version: "16.18.0"
       - name: try build frontend
         run: |
+          touch .env
+          echo "${{ secrets.ENVIRONMENT }}" > .env
           npm install
           npm run build
