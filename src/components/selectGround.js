@@ -51,7 +51,7 @@ export default function SelectOtherProps() {
             >
               <MenuItem value={10}>서울특별시</MenuItem>
               <MenuItem value={20}>대구광역시</MenuItem>
-              <MenuItem value={30}>그 외 </MenuItem>
+              <MenuItem value={30}>경산시 </MenuItem>
             </Select>
             {/* <FormHelperText>Required</FormHelperText> */}
           </FormControl>
