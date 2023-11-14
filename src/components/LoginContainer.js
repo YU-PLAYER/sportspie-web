@@ -16,6 +16,11 @@ export default function LoginContainer() {
         window.location.href = apiUrl;
     }
 
+    const KakaoLogin = () =>{
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+      window.location.href = kakaoURL
+    }
+
   return (
     <React.Fragment>
       <Container maxWidth="sm">
@@ -38,7 +43,7 @@ export default function LoginContainer() {
             
             <img className="logo_socialLogin" src={require("../images/naver_logo_img.png")} onClick={NaverLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
-            <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={null}/>
+            <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={KakaoLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
             <img className="logo_socialLogin" src={require("../images/google_logo_img.png")} onClick={null}/>
             </Grid>   
