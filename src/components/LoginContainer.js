@@ -9,6 +9,8 @@ export const clientId = process.env.NAVER_CLIENT_ID;
 export const redirectURI = encodeURIComponent(process.env.NAVER_REDIRECT_URI);
 export const state = 'RANDOM';
 
+export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
+
 export default function LoginContainer() {
 
     const NaverLogin = () => {
