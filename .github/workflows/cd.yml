@@ -38,15 +38,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.push.base_ref }}
-
-      - name: Set up application.yml
-        run: |
-          touch .env
-          echo "${{ secrets.ENVIRONMENT }}" > .env
   
       # 2. Docker 이미지 build 및 push
       - name: docker build and push
         run: |
+          touch .env
+          echo "${{ secrets.ENVIRONMENT }}" > .env
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           pwd
           ls -al
