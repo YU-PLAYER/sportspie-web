@@ -4,8 +4,6 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
-import dotenv from "dotenv";
-dotenv.config();
 
 export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);

@@ -1,6 +1,4 @@
 import axios from 'axios';
-import dotenv from "dotenv";
-dotenv.config();
 
 export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const clientSecret = process.env.REACT_APP_NAVER_CLIENT_SECRET;
