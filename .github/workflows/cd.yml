@@ -42,11 +42,9 @@ jobs:
       # 2. Docker 이미지 build 및 push
       - name: docker build and push
         run: |
-          touch .env
           echo "${{ secrets.ENVIRONMENT }}" > .env
+          cat .env
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          pwd
-          ls -al
           docker build -t jinlee1703/sportspie-web:latest .
           docker push jinlee1703/sportspie-web:latest
   
