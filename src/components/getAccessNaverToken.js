@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const clientId = process.env.NAVER_CLIENT_ID;
 export const clientSecret = process.env.NAVER_CLIENT_SECRET;
-export const redirectURI = encodeURIComponent(process.env.NAVER_REDIRECT_URI);
+export const redirectURI = `http://115.85.182.229:3000/Home`;
 export const state = 'RANDOM';
 
 export async function getAccessNaverToken(authCode) {

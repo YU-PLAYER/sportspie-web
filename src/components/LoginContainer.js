@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import '../css/Login.css';
 
 export const clientId = process.env.NAVER_CLIENT_ID;
-export const redirectURI = encodeURIComponent(process.env.NAVER_REDIRECT_URI);
+export const redirectURI = `http://115.85.182.229:3000/Home`;
 export const state = 'RANDOM';
 
 export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
