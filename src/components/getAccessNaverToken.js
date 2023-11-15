@@ -1,8 +1,10 @@
 import axios from 'axios';
+import dotenv from "dotenv";
+dotenv.config();
 
-export const clientId = process.env.NAVER_CLIENT_ID;
-export const clientSecret = process.env.NAVER_CLIENT_SECRET;
-export const redirectURI = `http://115.85.182.229:3000/Home`;
+export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
+export const clientSecret = process.env.REACT_APP_NAVER_CLIENT_SECRET;
+export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
 export const state = 'RANDOM';
 
 export async function getAccessNaverToken(authCode) {

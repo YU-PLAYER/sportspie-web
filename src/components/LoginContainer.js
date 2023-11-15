@@ -4,9 +4,11 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
+import dotenv from "dotenv";
+dotenv.config();
 
-export const clientId = process.env.NAVER_CLIENT_ID;
-export const redirectURI = `http://115.85.182.229:3000/Home`;
+export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
+export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
 export const state = 'RANDOM';
 
 export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
