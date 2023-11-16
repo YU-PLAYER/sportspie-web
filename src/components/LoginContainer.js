@@ -2,16 +2,27 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
-import { Login_google } from './Login_google';
 
-export default function LoginContainer() {  
-  {/*const redirectUri = 'http://localhost:3000/';
-  const handleLogin = () => {
-      window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email`;
-  };*/}
+export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
+export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
+export const Naverstate = 'NAVER';
+
+export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
+
+export default function LoginContainer() {
+
+    const NaverLogin = () => {
+        const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${Naverstate}`;
+        window.location.href = apiUrl;
+    }
+
+    const KakaoLogin = () =>{
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirectURI}&response_type=code`
+      window.location.href = kakaoURL
+    }
+
   return (
     <React.Fragment>
       <Container maxWidth="sm">
@@ -32,9 +43,9 @@ export default function LoginContainer() {
               alignItems: 'center', display: 'flex', justifyContent: 'center'
             }}>
             
-            <img className="logo_socialLogin" src={require("../images/naver_logo_img.png")} onClick={null}/>
+            <img className="logo_socialLogin" src={require("../images/naver_logo_img.png")} onClick={NaverLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
-            <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={null}/>
+            <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={KakaoLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
             {/*<img className="logo_socialLogin" src={require("../images/google_logo_img.png")} alt="google" 
                 onClick={handleLogin} style={{cursor:"pointer"}}/>*/}

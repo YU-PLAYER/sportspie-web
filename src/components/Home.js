@@ -6,7 +6,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Ad from './Ad';
 import Daylist from './Daylist';
+import { getAccessNaverToken } from './getAccessNaverToken';
+
 export default function Home() {
+  React.useEffect(() => {
+    const url = new URL(window.location.href);
+    const authCode = url.searchParams.get('code');
+    const State = url.searchParams.get('state');
+    console.log('Auth code:', authCode);
+    if (!authCode) {
+      return;
+    }
+    switch (State) {
+      case 'NAVER':
+        getAccessNaverToken(authCode);
+        break;
+      default:
+        console.error('Unknown State :', State);
+    }
+  }, []);
    function PlayList({time, place, title, member}){
     return(
         <div className="play-list">

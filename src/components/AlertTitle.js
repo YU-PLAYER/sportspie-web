@@ -11,8 +11,16 @@ export default function DescriptionAlerts() {
                 개설하신 <strong>2023-11-01 19:00 영남대학교 축구장</strong>의 인원이 모두 모집되었습니다.
             </Alert> */}
             <Alert severity="success" onClose={() => {}}>
-                <AlertTitle>경기 확정 (참가자 전원)</AlertTitle>
-                참여 신청하신 <strong>2023-11-01 19:00 영남대학교 축구장</strong>의 경기가 확정되었습니다.
+                <AlertTitle>경기 확정</AlertTitle>
+                참여 신청하신 <strong>2023-11-01 17:00 영남대학교 축구장</strong> 경기가 확정되었습니다.
+            </Alert>
+            <Alert severity="success" onClose={() => {}}>
+                <AlertTitle>경기 확정</AlertTitle>
+                참여 신청하신 <strong>2023-11-01 19:00 영남대학교 축구장</strong> 경기가 확정되었습니다.
+            </Alert>
+            <Alert severity="success" onClose={() => {}}>
+                <AlertTitle>경기 확정</AlertTitle>
+                참여 신청하신 <strong>2023-11-01 21:00 영남대학교 축구장</strong> 경기가 확정되었습니다.
             </Alert>
             <Alert severity="info" onClose={() => {}}>
                 <AlertTitle>경기 하루 전 알림</AlertTitle>
