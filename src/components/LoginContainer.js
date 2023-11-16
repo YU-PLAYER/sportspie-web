@@ -5,7 +5,13 @@ import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
-export default function LoginContainer() {
+import { Login_google } from './Login_google';
+
+export default function LoginContainer() {  
+  {/*const redirectUri = 'http://localhost:3000/';
+  const handleLogin = () => {
+      window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email`;
+  };*/}
   return (
     <React.Fragment>
       <Container maxWidth="sm">
@@ -30,7 +36,9 @@ export default function LoginContainer() {
             <img className="blank" src={require("../images/invisible.png")}/>
             <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={null}/>
             <img className="blank" src={require("../images/invisible.png")}/>
-            <img className="logo_socialLogin" src={require("../images/google_logo_img.png")} onClick={null}/>
+            {/*<img className="logo_socialLogin" src={require("../images/google_logo_img.png")} alt="google" 
+                onClick={handleLogin} style={{cursor:"pointer"}}/>*/}
+                <Login_google />
             </Grid>   
             </Box>
             </Container>
