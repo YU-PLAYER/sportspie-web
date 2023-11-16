@@ -21,12 +21,6 @@ export default function Home() {
       case 'NAVER':
         getAccessNaverToken(authCode);
         break;
-      case 'KAKAO':
-        getAccessKakaoToken(authCode);
-        break;
-      case 'GOOGLE':
-        getAccessGoogleToken(authCode);
-        break;
       default:
         console.error('Unknown State :', State);
     }

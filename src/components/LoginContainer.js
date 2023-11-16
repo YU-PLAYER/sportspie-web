@@ -7,14 +7,14 @@ import '../css/Login.css';
 
 export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
-export const state = 'RANDOM';
+export const Naverstate = 'NAVER';
 
 export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
 
 export default function LoginContainer() {
 
     const NaverLogin = () => {
-        const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${state}`;
+        const apiUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}&state=${Naverstate}`;
         window.location.href = apiUrl;
     }
 
