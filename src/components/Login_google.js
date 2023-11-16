@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 export function Login_google(){    
     const navigate = useNavigate();
     const google=useGoogleLogin({
-        redirectUri : 'http://localhost:3000/',
+        redirectUri : 'http://www.sportspie.xyz/Home',
         onSuccess: async (tokenResponse) => {
             console.log(tokenResponse);
              try{
