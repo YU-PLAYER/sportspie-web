@@ -4,7 +4,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import '../css/Login.css';
-
+import { Login_google } from './Login_google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
 export const Naverstate = 'NAVER';
@@ -47,10 +48,10 @@ export default function LoginContainer() {
             <img className="blank" src={require("../images/invisible.png")}/>
             <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={KakaoLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
-            <img className="logo_socialLogin" src={require("../images/google_logo_img.png")} alt="google" 
-                style={{cursor:"pointer"}}/>
-            
-            
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_Google_CLIENT_ID}>
+            <Login_google />
+            </GoogleOAuthProvider>
+           
             </Grid>   
             </Box>
             </Container>

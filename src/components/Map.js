@@ -30,10 +30,9 @@ function KakaoMap(){
                 var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 
                 axios({
-                    method: 'post',
+                    method: 'get',
                     url:'http://115.85.182.229:8080/api/stadium/nearby',
                     data:{
-                        name: "now",
                         latitude: lat,
                         longitude: lon,
                     },
@@ -72,8 +71,8 @@ function KakaoMap(){
             var ps = new kakao.maps.services.Places(); // 장소 검색 객체를 생성합니다
             // 경기장 키워드 중심위치(현재위치)로부터 1km내 장소를 거리순으로 검색합니다
             //ps.keywordSearch('축구 경기장', placesSearchCB,{location : locPosition, radius: 1000, sort:kakao.maps.services.SortBy.DISTANCE});
-            ps.keywordSearch('경기장', placesSearchCB,{location : locPosition, radius: 1000, sort:kakao.maps.services.SortBy.DISTANCE});
-            ps.keywordSearch('축구장', placesSearchCB,{location : locPosition, radius: 1000, sort:kakao.maps.services.SortBy.DISTANCE}); 
+            ps.keywordSearch('경기장', placesSearchCB,{location : locPosition, radius: 2000, sort:kakao.maps.services.SortBy.DISTANCE});
+            ps.keywordSearch('축구장', placesSearchCB,{location : locPosition, radius: 2000, sort:kakao.maps.services.SortBy.DISTANCE}); 
             //ps.keywordSearch('풋살장', placesSearchCB,{location : locPosition, radius: 1000, sort:kakao.maps.services.SortBy.DISTANCE});  
         }
 
