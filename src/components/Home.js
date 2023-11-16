@@ -7,6 +7,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Ad from './Ad';
 import Daylist from './Daylist';
 import { getAccessNaverToken } from './getAccessNaverToken';
+import { getAccessKakaoToken } from './getAccessKakaoToken';
 
 export default function Home() {
   React.useEffect(() => {
@@ -20,6 +21,9 @@ export default function Home() {
     switch (State) {
       case 'NAVER':
         getAccessNaverToken(authCode);
+        break;
+      case 'KAKAO' :
+        getAccessKakaoToken(authCode);
         break;
       default:
         console.error('Unknown State :', State);
