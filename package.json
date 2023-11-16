@@ -14,6 +14,7 @@
     "@mui/joy": "^5.0.0-beta.13",
     "@mui/material": "^5.14.15",
     "@mui/x-date-pickers": "^6.18.0",
+    "@react-oauth/google": "^0.11.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -28,7 +29,7 @@
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.1",
     "styled-reset": "^4.5.1",
-    "sweetalert2": "^11.9.0",
+    "sweetalert2": "^11.10.0",
     "swiper": "^11.0.3",
     "web-vitals": "^2.1.4"
   },

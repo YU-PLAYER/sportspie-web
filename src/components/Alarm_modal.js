@@ -44,8 +44,8 @@ export default function AlarmModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <IconButton>
-          <ArrowBackIcon onClick={handleClose}/>
+          <IconButton onClick={handleClose}>
+          <ArrowBackIcon/>
           </IconButton>
           <Dayalarm />
         </Box>
