@@ -20,7 +20,7 @@ export default function LoginContainer() {
     }
 
     const KakaoLogin = () =>{
-      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirectURI}&response_type=code`
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirectURI}&response_type=code&state=KAKAO`
       window.location.href = kakaoURL
     }
 
