@@ -12,9 +12,23 @@ export default function Home() {
   React.useEffect(() => {
     const url = new URL(window.location.href);
     const authCode = url.searchParams.get('code');
+    const State = url.searchParams.get('state');
     console.log('Auth code:', authCode);
-    if (authCode) {
+    if (!authCode) {
+      return;
+    }
+    switch (State) {
+      case 'NAVER':
         getAccessNaverToken(authCode);
+        break;
+      case 'KAKAO':
+        getAccessKakaoToken(authCode);
+        break;
+      case 'GOOGLE':
+        getAccessGoogleToken(authCode);
+        break;
+      default:
+        console.error('Unknown State :', State);
     }
   }, []);
    function PlayList({time, place, title, member}){

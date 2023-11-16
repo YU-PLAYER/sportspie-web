@@ -3,7 +3,7 @@ import axios from 'axios';
 export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const clientSecret = process.env.REACT_APP_NAVER_CLIENT_SECRET;
 export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
-export const state = 'RANDOM';
+export const state = 'NAVER';
 
 export async function getAccessNaverToken(authCode) {
     console.log('getAccessNaverToken called with authCode:', authCode);
