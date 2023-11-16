@@ -47,9 +47,10 @@ export default function LoginContainer() {
             <img className="blank" src={require("../images/invisible.png")}/>
             <img className="logo_socialLogin" src={require("../images/kakao_logo_img.png")} onClick={KakaoLogin}/>
             <img className="blank" src={require("../images/invisible.png")}/>
-            {/*<img className="logo_socialLogin" src={require("../images/google_logo_img.png")} alt="google" 
-                onClick={handleLogin} style={{cursor:"pointer"}}/>*/}
-                <Login_google />
+            <img className="logo_socialLogin" src={require("../images/google_logo_img.png")} alt="google" 
+                style={{cursor:"pointer"}}/>
+            
+            
             </Grid>   
             </Box>
             </Container>
