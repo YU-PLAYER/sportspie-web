@@ -6,20 +6,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Ad from './Ad';
 import Daylist from './Daylist';
-
 export default function Home() {
    function PlayList({time, place, title, member}){
     return(
-        <div class="play-list">
-        <div class="play-list_room">
-          <div class="play-list-room_time">
+        <div className="play-list">
+        <div className="play-list_room">
+          <div className="play-list-room_time">
             <span>{time}</span>
             <span>{place}</span>
           </div>
-          <div class="play-list-room_name">
+          <div className="play-list-room_name">
             <span>{title}</span>
           </div>
-          <div class="play-list-room_person">
+          <div className="play-list-room_person">
             <span>{member}</span>
           </div>
         </div>
@@ -36,20 +35,20 @@ export default function Home() {
         </div>
         <Box sx={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"25px",}}>
           <Daylist />
-            <div class="play-search">
-                <div class="play-search_new">
+            <div className="play-search">
+                <div className="play-search_new">
                     <button>
-                        <div class="play-search_dot"></div>
+                        <div className="play-search_dot"></div>
                         <span>최신순</span>
                     </button>
                 </div>
-                <div class="play-search_distance">
+                <div className="play-search_distance">
                     <button>
-                        <div class="play-search_dot"></div>
+                        <div className="play-search_dot"></div>
                         <span>거리순</span>
                     </button>
                 </div>
-                <div class="play-search_search">
+                <div className="play-search_search">
                 <form method="get" id="play-search-form">
                     <input required name="username" type="text" placeholder="검색" />
                     <button><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
