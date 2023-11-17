@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-const REST_API_KEY= process.env.REACT_APP_CLIENT_ID;
+const REST_API_KEY= process.env.REACT_APP_CLIENT_KAKAO_ID;
 const REACT_APP_CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 const REDIRECT_URL = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
 
