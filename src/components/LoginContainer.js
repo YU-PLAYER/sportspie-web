@@ -10,7 +10,7 @@ export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
 export const Naverstate = 'NAVER';
 
-export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
+export const Rest_api_key = process.env.REACT_APP_CLIENT_KAKAO_ID;
 
 export default function LoginContainer() {
 
