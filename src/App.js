@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Box from '@mui/material/Box';
 import TopBar from './components/topBar.js';
 import NavBar from './components/NavBar.js';
@@ -32,7 +32,8 @@ function App() {
         <Box sx={{ height: '80px' }}></Box>
 
         <Box sx={{ width:"100%", '@media all and (min-width:910px)':{width:"60%"}}}>
-            <Routes>         
+            <Routes>
+                <Route path="*" element={<Navigate to="/Home" />} /> 
                 <Route path="/Home" element={<Home />} />
                 <Route path="/TeamSelect" element={<Teamselect />} />
                 <Route path="/Map" element={<MapDisplay />} /> 
