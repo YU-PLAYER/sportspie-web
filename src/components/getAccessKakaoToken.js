@@ -8,7 +8,7 @@ const REDIRECT_URL = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI
 export async function getAccessKakaoToken(authCode) {
     console.log('getAccessKakaoToken called with authCode:', authCode);
     try {
-      const apiUrl = 'https://kauth.kakao.com/oauth2.0/token';
+      const apiUrl = 'https://kauth.kakao.com/oauth/token';
       const params = qs.stringify({
           grant_type: 'authorization_code',
           client_id: REST_API_KEY,
