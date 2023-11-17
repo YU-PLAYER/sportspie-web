@@ -8,11 +8,18 @@ import axios from 'axios';
 var {kakao} = window;
 
 function KakaoMap(){
+    /*const [mark, setMark] = useState("");
+    const [marks, setMarks]=useState([]);
+    const markarray=()=>{
+        if(mark==="") return;
+        setMarks((currentArray)=>[mark, ...currentArray]);
+        setMark("");
+    }*/
     useEffect(()=>{
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
         mapOption = { 
             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 10 // 지도의 확대 레벨 
+            level: 7 // 지도의 확대 레벨 
         }; 
 
         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -28,22 +35,6 @@ function KakaoMap(){
                 console.log(position);
                 console.log("현재 위치는 : "+lat+", "+lon);
                 var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                
-                axios({
-                    method: 'get',
-                    url:'http://115.85.182.229:8080/api/stadium/nearby',
-                    data:{
-                        latitude: lat,
-                        longitude: lon,
-                    },
-                })
-                .then((result)=>{console.log('요청 성공')
-                console.log(result)
-                localStorage(result.data)
-                })
-                .catch((error)=>{console.log('요청 실패')
-                console.log(error)
-                })
 
                 // 마커를 표시합니다
                 displayMarker(locPosition);
@@ -67,31 +58,33 @@ function KakaoMap(){
             marker.setMap(map);
             
             map.setCenter(locPosition);  // 지도 중심좌표를 접속위치로 변경합니다
-        
-            var ps = new kakao.maps.services.Places(); // 장소 검색 객체를 생성합니다
-            // 경기장 키워드 중심위치(현재위치)로부터 1km내 장소를 거리순으로 검색합니다
-            //ps.keywordSearch('축구 경기장', placesSearchCB,{location : locPosition, radius: 1000, sort:kakao.maps.services.SortBy.DISTANCE});
-            ps.keywordSearch('경기장', placesSearchCB,{location : locPosition, radius: 2000, sort:kakao.maps.services.SortBy.DISTANCE});
-            ps.keywordSearch('축구장', placesSearchCB,{location : locPosition, radius: 2000, sort:kakao.maps.services.SortBy.DISTANCE}); 
-            //ps.keywordSearch('풋살장', placesSearchCB,{location : locPosition, radius: 1000, sort:kakao.maps.services.SortBy.DISTANCE});  
-        }
-
-        // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-        function placesSearchCB (data, status, pagination) {
-            var center = map.getCenter();
-            var bounds = new kakao.maps.LatLngBounds();
-            bounds.extend(new kakao.maps.LatLng(center.getLat(), center.getLng()));
-            if (status === kakao.maps.services.Status.OK) {
-            // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-            // LatLngBounds 객체에 좌표를 추가합니다           
-            for (var i=0; i<data.length; i++) {
-                displaySoccerMarker(data[i]);    
-                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-                console.log(data[i]);
-            }       
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-            map.setBounds(bounds);
-            } 
+            
+            axios({
+                method: 'get',
+                url:'http://115.85.182.229:8080/api/stadium/nearby',
+                data:{
+                    latitude: locPosition.y,
+                    longitude: locPosition.x,
+                },
+            })
+            .then((result)=>{
+                console.log('요청 성공')
+                var center = map.getCenter();
+                var bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(new kakao.maps.LatLng(center.getLat(), center.getLng()));
+                for(let i=0;i<result.data.length;i++){
+                    localStorage.setItem(i,JSON.stringify(result.data[i]));
+                    displaySoccerMarker(result.data[i]);  
+                    bounds.extend(new kakao.maps.LatLng(result.data[i].latitude, result.data[i].longitude));
+                    console.log(result.data[i]);
+                }
+                console.log(localStorage.length);
+                map.setBounds(bounds);
+            })
+            .catch((error)=>{console.log('요청 실패')
+            console.log(error)
+            })
+           
         }
 
         var soccerImageSize = new kakao.maps.Size(30, 45),
@@ -101,14 +94,10 @@ function KakaoMap(){
         function displaySoccerMarker(place) {
             // 마커를 생성하고 지도에 표시합니다
             var soccermarker = new kakao.maps.Marker({
-                position: new kakao.maps.LatLng(place.y, place.x) ,
+                position: new kakao.maps.LatLng(place.latitude, place.longitude) ,
                 image: soccermarkerImage
             });
             soccermarker.setMap(map);
-
-            kakao.maps.event.addListener(soccermarker, 'click', function(){
-                window.open(place.place_url, '_blank')
-            })
         }    
         
     },[])    
