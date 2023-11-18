@@ -9,7 +9,7 @@ export async function getAccessKakaoToken(authCode) {
     console.log('getAccessKakaoToken called with authCode:', authCode);
     try {
       const apiUrl = 'https://kauth.kakao.com/oauth/token';
-      const params = qs.stringify({
+      var params_temp = qs.stringify({
           grant_type: 'authorization_code',
           client_id: REST_API_KEY,
           client_secret: REACT_APP_CLIENT_SECRET,
@@ -17,6 +17,18 @@ export async function getAccessKakaoToken(authCode) {
           code: authCode
       });
 
+      console.log("초기값" + params_temp)
+
+      var params_replace = params_temp.replace(/%3A/g,':');
+
+      console.log("%3A 처리" + params_replace);
+
+      params_temp = params_replace.replace(/%2F/g,'/');
+
+      console.log("%2F 처리" + params_temp);
+
+      const params = params_temp;
+        
       const token_response = await axios.post(apiUrl, params);
       window.Kakao.init(REST_API_KEY);
       console.log('Token response:', token_response);
