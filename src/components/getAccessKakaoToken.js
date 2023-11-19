@@ -19,13 +19,13 @@ export async function getAccessKakaoToken(authCode) {
 
       console.log("초기값" + params_temp)
 
-      var params_replace = params_temp.replace(/%3A/g,':');
+      var params_replace = params_temp.replace(/%253A/g,':');
 
-      console.log("%3A 처리" + params_replace);
+      console.log("%253A 처리" + params_replace);
 
-      params_temp = params_replace.replace(/%2F/g,'/');
+      params_temp = params_replace.replace(/%252F/g,'/');
 
-      console.log("%2F 처리" + params_temp);
+      console.log("%252F 처리" + params_temp);
 
       const body = params_temp;
 
