@@ -18,7 +18,6 @@ function MatchList() {
   useEffect(()=>{
     const handleScroll = ()=>{
       const currentScrollPosition = window.pageYOffset;
-      console.log(currentScrollPosition);
       if(currentScrollPosition >= 85 ){
         setIsSticky(true);
       }else setIsSticky(false);
@@ -31,7 +30,7 @@ function MatchList() {
   const onClick = (event) => {
     setContent(event.target.name);
   };
-  function Btn({classname, name, width="90px", title}){
+  function Btn({classname, name, width="100px", title}){
     return(
       <div style={{height:"100%", width:"100%"}}>
         {(content===name) && <div style={{width:"100%", height:"2px", backgroundColor:"rgba(0,0,0,0.4"}}></div>}
@@ -57,7 +56,7 @@ function MatchList() {
             fontWeight:"bold",
             boxSizing:"border-box",
             margin:"0px 0  20px 12px",
-            padding:"20px 0",
+            padding:"10px 0",
             width:"88%", 
             color:"#282828",}}>내 경기 목록</h2>
         <section style={{boxSizing:"border-box",

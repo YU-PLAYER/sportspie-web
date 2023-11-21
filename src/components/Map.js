@@ -5,16 +5,16 @@ import { useState, useEffect } from "react";
 import soccerBlue from '../images/markerBlue.png';
 import soccerRed from '../images/markerRed.png'
 import axios from 'axios';
+import { CollectionsBookmarkOutlined } from '@mui/icons-material';
 var {kakao} = window;
 
 function KakaoMap(){
-    /*const [mark, setMark] = useState("");
-    const [marks, setMarks]=useState([]);
-    const markarray=()=>{
-        if(mark==="") return;
-        setMarks((currentArray)=>[mark, ...currentArray]);
-        setMark("");
-    }*/
+    //const marksArray = [];
+    //const [localStorageValues, setLocalStorageValues] = useState([]);
+    var num = 0;
+    const [localStorageValues, setLocalStorageValues] = useState(
+        [{name:"축구장", distance:1.3325, latitude:2.344, longitude:5.234}, 
+        {name:"풋살", distance:4.3325, latitude:3.344, longitude:3.5211}]);
     useEffect(()=>{
         window.kakao.maps.load(()=>{
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -38,7 +38,6 @@ function KakaoMap(){
 
                 // 마커를 표시합니다
                 displayMarker(locPosition);
-
             });
             
         } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -74,17 +73,16 @@ function KakaoMap(){
                 bounds.extend(new kakao.maps.LatLng(center.getLat(), center.getLng()));
                 for(let i=0;i<result.data.length;i++){
                     localStorage.setItem(i,JSON.stringify(result.data[i]));
-                    displaySoccerMarker(result.data[i]);  
+                    displaySoccerMarker(result.data[i]); 
                     bounds.extend(new kakao.maps.LatLng(result.data[i].latitude, result.data[i].longitude));
                     console.log(result.data[i]);
                 }
                 console.log(localStorage.length);
-                map.setBounds(bounds);
+                map.setBounds(bounds); 
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
             })
-           
         }
 
         var soccerImageSize = new kakao.maps.Size(30, 45),
@@ -101,7 +99,55 @@ function KakaoMap(){
         } 
 
     })
-    },[])    
+    },[]) 
+
+    {/*useEffect(() => {
+        // localStorage에서 값을 불러오는 함수
+        const getLocalStorageValues = () => {
+          const storedValues = JSON.parse(localStorage.getItem({num})) || [];
+          setLocalStorageValues(storedValues);
+          num++;
+        };
+    
+        // 컴포넌트가 마운트될 때와 localStorage에 변화가 있을 때마다 실행
+        getLocalStorageValues();
+    
+        // localStorage 변화 감지를 위한 이벤트 리스너 등록
+        window.addEventListener('storage', getLocalStorageValues);
+    
+        // 컴포넌트 언마운트 시 이벤트 리스너 제거
+        return () => {
+          window.removeEventListener('storage', getLocalStorageValues);
+        };
+      }, []);*/}
+
+    {/*function setList(){
+        for(var i = 0; i<localStorage.length; i++){
+            var storedvalue = localStorage.getItem(i);
+            var storedObject = JSON.parse(storedvalue);
+            console.log(storedObject);
+            marksArray.push(storedObject);
+        }  
+        console.log(marksArray);
+        return marksArray.map((item)=>(
+            <MapList item={item} />
+        ));
+    }*/}
+
+    function MapList({item}){
+        return(
+            <div style={{borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width:"100%", height:"70px", boxSizing:"border-box",
+            margin:"10px 0",  padding:"10px 40px", fontSize:"12px",
+            display:"flex", flexDirection:"column", justifyContent:"space-around"}}>
+            <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+                <p style={{fontSize:"15px", marginRight:"14px", color:"rgba(0,0,0,0.8)", fontWeight:"bold"}}>{item.name}</p>
+                <p style={{color:"rgba(0,0,0,0.6)"}}>{item.distance.toFixed(1)}km</p>
+            </div>
+            <div style={{color:"rgba(0,0,0,0.8)"}}>({item.latitude}, {item.longitude})</div>
+            </div>
+        );
+    }
+
  return (
     <React.Fragment>
     <Container maxWidth="sm">   
@@ -119,36 +165,21 @@ function KakaoMap(){
             fontWeight:"bold",
             boxSizing:"border-box",
             margin:"0px 0  20px 12px",
-            padding:"20px 0",
+            padding:"10px 0",
             width:"88%", 
             color:"#282828",}}>내 주변 경기장</h2>
         <div id="map" 
             style={{
             borderRadius:"3%",
-            width:"88%", height:"320px",
+            width:"88%", height:"320px", marginBottom:"15px"
         }}>
         </div>
-        <div style={{borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width:"90%", height:"70px", boxSizing:"border-box",
-            margin:"20px 0",  padding:"10px 40px", fontSize:"12px",
-            display:"flex", flexDirection:"column", justifyContent:"space-around"}}>
-            <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
-                <p style={{fontSize:"15px", marginRight:"14px", color:"rgba(0,0,0,0.8)", fontWeight:"bold"}}>수성구민운동장</p>
-                <p style={{color:"rgba(0,0,0,0.6)"}}> 공설, 시민운동장</p>
-            </div>
-            <div style={{color:"rgba(0,0,0,0.8)"}}>대구 수성구 범어동</div>
-        </div>
-        <div style={{borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width:"90%", height:"70px", boxSizing:"border-box",
-            margin:"-5px 0",  padding:"10px 40px", fontSize:"12px",
-            display:"flex", flexDirection:"column", justifyContent:"space-around"}}>
-            <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
-                <p style={{fontSize:"15px", marginRight:"14px", color:"rgba(0,0,0,0.8)", fontWeight:"bold"}}>S 축구클럽</p>
-                <p style={{color:"rgba(0,0,0,0.6)"}}>스포츠 시설</p>
-            </div>
-            <div style={{color:"rgba(0,0,0,0.8)"}}>대구 수성구 지산동</div>
-        </div>
+        <section id="maplist" style={{width:"90%", display:"flex", flexDirection:"column"}}>
+        {localStorageValues.map((item) =>
+          <MapList item={item} />)}
+        </section>
     </div>
     </Box>
-
     <Box sx={{ height: '20px' }} />
     </Container>
   </React.Fragment>

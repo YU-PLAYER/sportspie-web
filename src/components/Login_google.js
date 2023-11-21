@@ -14,7 +14,7 @@ export function Login_google(){
                 method: 'post',
                 url:'http://115.85.182.229:8080/api/auth/sign-in/google',
                 data:{
-                  token : tokenResponse.access_token,
+                  access_token : tokenResponse.access_token,
                 },
               })
               .then((result)=>{
