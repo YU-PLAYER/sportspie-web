@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Textarea from '@mui/joy/Textarea';
+import TextField from '@mui/material/TextField';
 import SelectOtherProps from './selectGround.js';
 import NumberForm from './NumberForm.js';
 import Button from '@mui/material/Button';
@@ -14,7 +15,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import Swal from 'sweetalert2';
 import 'dayjs/locale/ko';
+import qs from 'qs';
 
 /* "authorId": 0,
 "title": "string",
@@ -25,19 +28,49 @@ import 'dayjs/locale/ko';
 
 export default function Write() {
 
+  var DefaultTitle = ["풋살 즐겜하실 멤버 구합니다!", "가볍게 풋살하실 멤버 모집합니다~", "심심한데 축구 한 판 어때요?"];
+  var random_index = Math.floor(Math.random() * DefaultTitle.length);
+  var random_Title = DefaultTitle[random_index];
+
   const [authorId, setAuthorId] = useState("");
-  const [title, setTitle] = useState("");
-  const [maxCapacity, setMaxCapacity] = useState(""); 
+  const [title, setTitle] = useState(random_Title);
+  const [maxCapacity, setMaxCapacity] = useState("");
   const [stadiumId, setStadiumId] = useState("");
   const [content, setContent] = useState("");
 
+  // authorId = localStorage.getItem('test');
+
+  const MaxPeople = (props) => {
+    // const [data, setData] = useState("");
+
+    return(
+      <NumberForm value={maxCapacity} onChange = {handleMaxCapacity} />
+    );
+
+    //<NumberForm value={maxCapacity} onChange={handleMaxCapacity} />
+  }
+
+  var isTitleOK = true;
+
+  const game = qs.stringify({
+    "authorId": authorId,
+    "title": title,
+    "maxCapacity": maxCapacity,
+    "startedAt": startedAt,
+    "stadiumId": stadiumId,
+    "content": content
+  });
+
   var startedAt = "";
-  var startedDate = dayjs().format('YYYY-MM-DD');
-  var startedTime = dayjs().format('HH:MM:00'); 
+  var startedDate = String(dayjs().format('YYYY-MM-DD'));
+  var statedTime = String(dayjs().format('HH:mm:ss'));
 
   const handleTitle = e => {
+    if(e.key == "Enter") e.preventDefault();
     console.log(`Typed => ${e.target.value}`)
-    setTitle(e.target.value);
+    console.log(e.target.value.length);
+    if (e.target.value.length > 20) alert("방제목은 20글자까지만 가능합니다.");
+    else setTitle(e.target.value);
   };
 
   const handleMaxCapacity = (e) => {
@@ -46,13 +79,36 @@ export default function Write() {
   }
 
   const handleContent = e => {
-    console.log(`Typed => ${e.target.value}`)
+    console.log(`Typed => ${e.target.value}`);
     setContent(e.target.value);
   };
 
-  const button_test = () =>{
-    console.log(startedDate + "T" + startedTime);
-    startedAt = startedDate + "T" + startedTime;
+  const button_test = () => {
+    console.log("startedDate = " + startedDate);
+    console.log("startedTime = " + statedTime);
+    startedAt = startedDate + "T" + statedTime;
+    console.log(startedAt);
+    if (title.length < 2) {
+      Swal.fire({
+        icon: 'warning',
+        text: '방제목을 2글자 이상 입력해 주세요.'
+      });
+      isTitleOK = false;
+    }
+    else if (content.length < 50) {
+      Swal.fire({
+        icon: 'warning',
+        text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
+      });
+    }
+    else {
+    console.log("AuthorID: " + authorId);
+    console.log("title: " + title);
+    console.log("maxCapacity: " + maxCapacity);
+    console.log("startedAt: " + startedAt);
+    console.log("stadiumId: " + stadiumId);
+    console.log("content: " + content);
+    }
   }
 
   return (
@@ -62,18 +118,37 @@ export default function Write() {
 
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
-        <Box sx={{ height: '220px', borderRadius: 5, boxShadow: 3, textAlign: "center" }}>
+        <Box sx={{ height: '250px', borderRadius: 5, boxShadow: 3, textAlign: "center" }}>
           <Box sx={{ height: '20px' }} />
           경기글 작성
           <Box sx={{ height: '20px' }} />
           <Container maxWidth="sm">
-            <Textarea className="title" name="Outlined" maxRows={1} placeholder="방 제목" variant="outlined"
-            inputProps={{maxLength : 20}} type="text"
-            value = {title} onChange={handleTitle}/>
+
+            {isTitleOK == true ?
+              <TextField label="제목"
+                sx={{
+                  width: 500,
+                  maxWidth: '100%',
+                }}
+                className="title" name="Outlined" maxRows={1} placeholder="방 제목" variant="outlined"
+                inputProps={{ maxLength: 20 }} type="text"
+                value={title} onChange={handleTitle} />
+              :
+              <TextField label="제목"
+                sx={{
+                  width: 500,
+                  maxWidth: '100%',
+                }}
+                className="title" name="Outlined" maxRows={1} placeholder="방 제목" variant="outlined"
+                inputProps={{ maxLength: 20 }} type="text"
+                value={title} onChange={handleTitle}
+                helperText="제목을 2글자 이상 입력해 주세요." />
+            }
+
             <Box sx={{ height: '30px' }} />
             최대 참여 인원
             <Box sx={{ height: '15px' }} />
-            <NumberForm propFunction={handleMaxCapacity}/>
+            <MaxPeople/>
           </Container>
         </Box>
         <Box sx={{ height: '20px' }} />
@@ -101,10 +176,11 @@ export default function Write() {
             <DemoContainer components={['TimePicker']}
               sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
               <TimePicker label="시간 선택" sx={{ bgcolor: 'white' }}
-              onChange={(newValue) => {
-                console.log(newValue.format('HH:MM:00'));
-                startedTime = newValue.format('HH:MM:00');
-              }}/>
+                onChange={(newValue) => {
+                  console.log(dayjs(newValue).format("HH:mm:ss"));
+                  statedTime = dayjs(newValue).format("HH:mm:ss");
+                  console.log("Started Time : " + statedTime);
+                }} />
             </DemoContainer>
           </LocalizationProvider>
           <Box sx={{ height: '20px' }} />
@@ -139,7 +215,7 @@ export default function Write() {
             >
               <Textarea fullWidth label="fullWidth" id="fullWidth"
                 minRows={20} maxRows={20} placeholder="경기글 상세내역"
-                value = {content} onChange={handleContent} />
+                value={content} onChange={handleContent} />
             </Box>
           </Container>
         </Box>
