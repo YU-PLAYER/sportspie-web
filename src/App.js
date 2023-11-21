@@ -13,6 +13,7 @@ import ModifyProfile from './components/ModifyProfile.js';
 import ExamineProfile from './components/ExamineProfile.js';
 import LoginContainer from './components/LoginContainer.js';
 import Notice from './components/Notice.js';
+import Report from './components/Report.js';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/ModifyProfile" element={<ModifyProfile />} />
                 <Route path="/ExamineProfile" element={<ExamineProfile />} />
                 <Route path="/Notice" element={<Notice />} />
+                <Route path="/Report" element={<Report />} />
             </Routes>
         </Box>
 

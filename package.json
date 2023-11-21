@@ -1,5 +1,6 @@
 {
   "name": "sportspie-web",
+    
   "version": "0.1.0",
   "private": true,
   "dependencies": {
