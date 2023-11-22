@@ -55,13 +55,6 @@ export default function LoginContainer() {
             </Grid>   
             </Box>
             </Container>
-            <Container maxWidth="sm" sx={{textAlign:"center"}}>
-              <Box sx={{ height: '20px' }} />
-              <Button sx={{ height: '45px', width: '300px', borderRadius: 1, boxShadow: 1 }} onClick={null}>
-                <Box sx={{ height: '13px' }} />
-                <a style={{color:"#585858", fontSize: 13, fontWeight: 600}}>다른 방법으로 로그인</a>
-              </Button>
-            </Container>
         </Box>
         <Box sx={{ height: '20px' }}/>
       </Container>
