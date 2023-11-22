@@ -38,19 +38,17 @@ export default function Write() {
   const [stadiumId, setStadiumId] = useState("");
   const [content, setContent] = useState("");
 
+  const [isTitleOK,setIsTitleOK] = useState(true);
+  const [isContentOK,setisContentOK] = useState(true);
+  const [isStartedTimeOK,setisStartedTimeOK] = useState(true);
+
   // authorId = localStorage.getItem('test');
 
   const MaxPeople = (props) => {
-    // const [data, setData] = useState("");
-
     return(
       <NumberForm value={maxCapacity} onChange = {handleMaxCapacity} />
     );
-
-    //<NumberForm value={maxCapacity} onChange={handleMaxCapacity} />
   }
-
-  var isTitleOK = true;
 
   const game = qs.stringify({
     "authorId": authorId,
@@ -84,6 +82,8 @@ export default function Write() {
   };
 
   const button_test = () => {
+    setIsTitleOK(true);
+    setisContentOK(true);
     console.log("startedDate = " + startedDate);
     console.log("startedTime = " + statedTime);
     startedAt = startedDate + "T" + statedTime;
@@ -93,15 +93,14 @@ export default function Write() {
         icon: 'warning',
         text: '방제목을 2글자 이상 입력해 주세요.'
       });
-      isTitleOK = false;
-    }
-    else if (content.length < 50) {
+      setIsTitleOK(false);
+    } else if (content.length < 50) {
       Swal.fire({
         icon: 'warning',
         text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
       });
-    }
-    else {
+      setisContentOK(false);
+    } else {
     console.log("AuthorID: " + authorId);
     console.log("title: " + title);
     console.log("maxCapacity: " + maxCapacity);
@@ -134,7 +133,7 @@ export default function Write() {
                 inputProps={{ maxLength: 20 }} type="text"
                 value={title} onChange={handleTitle} />
               :
-              <TextField label="제목"
+              <TextField error label="제목"
                 sx={{
                   width: 500,
                   maxWidth: '100%',
@@ -213,9 +212,18 @@ export default function Write() {
                 maxWidth: '100%',
               }}
             >
+
+              {isContentOK ? 
               <Textarea fullWidth label="fullWidth" id="fullWidth"
-                minRows={20} maxRows={20} placeholder="경기글 상세내역"
-                value={content} onChange={handleContent} />
+              minRows={20} maxRows={20} placeholder="경기글 상세내역"
+              value={content} onChange={handleContent} />
+              :
+              <Textarea error fullWidth label="fullWidth" id="fullWidth"
+              minRows={20} maxRows={20} placeholder="경기글 상세내역"
+              value={content} onChange={handleContent}
+              helperText="경기글 상세내역을 50글자 이상 입력해 주세요." />
+              }
+              
             </Box>
           </Container>
         </Box>
