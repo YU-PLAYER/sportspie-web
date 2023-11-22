@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,40 +14,42 @@ const ModifyProfile = () => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://115.85.182.229:8080/api/', {
+        const response = await axios.get('http://223.130.147.184:8080/api/', {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
-        }); 
-        const {profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
-          isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible} = response.data;     
-          
-          setProfileImage(profileImage);
-          setUserInfo(userInfo);
-          setStatusMessage(statusMessage);
-          setForward(Forward);
-          setMidfielder(Midfielder);
-          setDefender(Defender);
-          setGoalkeeper(Goalkeeper);
-          setIsProfileImageVisible(isProfileImageVisible);
-          setIsUserInfoVisible(isUserInfoVisible);
-          setIsStatusMessageVisible(isStatusMessageVisible);
-          setIsRecordVisible(isRecordVisible);
+        });
+        const { profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
+          isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible } = response.data;
 
-        const data = {profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
-          isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
+        setProfileImage(profileImage);
+        setUserInfo(userInfo);
+        setStatusMessage(statusMessage);
+        setForward(Forward);
+        setMidfielder(Midfielder);
+        setDefender(Defender);
+        setGoalkeeper(Goalkeeper);
+        setIsProfileImageVisible(isProfileImageVisible);
+        setIsUserInfoVisible(isUserInfoVisible);
+        setIsStatusMessageVisible(isStatusMessageVisible);
+        setIsRecordVisible(isRecordVisible);
 
-          setOriginalValues(data);
-          setCurrentValues(data);
+        const data = {
+          profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
+          isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible
+        };
+
+        setOriginalValues(data);
+        setCurrentValues(data);
 
       } catch (error) { // 서버 통신 오류 발생시 경고창 출력
-          console.error("서버에서 값을 가져오지 못했습니다.", error);
-          Swal.fire({
-            icon: 'error',
-            title: '통신 오류',
-            text: '서버에서 데이터를 가져오는데 실패하였습니다. 다시 시도해 주십시오'
-          });
-  //        navigate('./MyProfile');
+        console.error("서버에서 값을 가져오지 못했습니다.", error);
+        Swal.fire({
+          icon: 'error',
+          title: '통신 오류',
+          text: '서버에서 데이터를 가져오는데 실패하였습니다. 다시 시도해 주십시오'
+        });
+        //        navigate('./MyProfile');
       }
     };
     fetchUserData();
@@ -79,32 +81,34 @@ const ModifyProfile = () => {
 
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
-      const data = {profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
-        isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
+      const data = {
+        profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
+        isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible
+      };
       const access_token = localStorage.getItem('access_token');
-      const response = await axios.put('http://115.85.182.229:8080/api/', data, {
+      const response = await axios.put('http://223.130.147.184:8080/api/', data, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }
       });
-      console.log(response.data); 
+      console.log(response.data);
       Swal.fire({
         icon: 'success',
         title: '저장 성공!',
         text: '프로필이 정상적으로 업데이트 되었습니다.'
-      }); 
+      });
       navigate("./MyProfile");
     } catch (error) { // 서버 통신 에러 발생시 경고창 출력
       Swal.fire({
         icon: 'error',
         title: '저장 실패',
         text: "업데이트에 실패하였습니다. 다시 시도하여 주십시오"
-      }); 
+      });
     }
   };
 
   const CancelButtonSave = () => { // 취소버튼 메소드
-    if(JSON.stringify(originalValues) !== JSON.stringify(currentValues)) { // 원래의 값과 현재의 값이 다른지 비교
+    if (JSON.stringify(originalValues) !== JSON.stringify(currentValues)) { // 원래의 값과 현재의 값이 다른지 비교
       Swal.fire({
         icon: 'warning',
         title: '변동된 값이 있습니다',
@@ -116,11 +120,11 @@ const ModifyProfile = () => {
         if (result.isConfirmed) {
           ProfileUpdate();
         } else if (result.isDenied) {
-          navigate('/MyProfile'); 
+          navigate('/MyProfile');
         }
       })
     } else {
-      navigate('/MyProfile'); 
+      navigate('/MyProfile');
     }
   };
 
@@ -134,67 +138,67 @@ const ModifyProfile = () => {
       reader.onloadend = () => {
         const newProfileImage = reader.result;
         setProfileImage(newProfileImage);
-        setCurrentValues(prev => ({...prev, profileImage: newProfileImage}));
+        setCurrentValues(prev => ({ ...prev, profileImage: newProfileImage }));
       };
       reader.readAsDataURL(file);
     });
     fileInput.click();
-};
+  };
 
-const UserInfoChange = (e) => { // 사용자 정보 변경 메소드
+  const UserInfoChange = (e) => { // 사용자 정보 변경 메소드
     const { name, value } = e.target;
     setUserInfo((prevState) => {
-      const newUserInfo = {...prevState, [name]: value};
-      setCurrentValues(prev => ({...prev, userInfo: newUserInfo}));
+      const newUserInfo = { ...prevState, [name]: value };
+      setCurrentValues(prev => ({ ...prev, userInfo: newUserInfo }));
       return newUserInfo;
     });
-};
+  };
 
-const MessageChange = (e) => { // 상태 메세지 변경 메소드
+  const MessageChange = (e) => { // 상태 메세지 변경 메소드
     const newStatusMessage = e.target.value;
     setStatusMessage(newStatusMessage);
-    setCurrentValues(prev => ({...prev, statusMessage: newStatusMessage}));
-};
+    setCurrentValues(prev => ({ ...prev, statusMessage: newStatusMessage }));
+  };
 
-const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 메소드
+  const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 메소드
     setPosition(prev => {
       const newPosition = !prev;
-      setCurrentValues(prevState => ({...prevState, [position]: newPosition}));
+      setCurrentValues(prevState => ({ ...prevState, [position]: newPosition }));
       return newPosition;
     });
-};
+  };
 
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={ProfileImageChange}/>
+        <UserImage src={profileImage} onClick={ProfileImageChange} />
         <UserInfoBox>
           <InputLabel>
-            닉네임 : 
+            닉네임 :
             <Input type="text" name="name" value={userInfo.nickname} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
-            성별 : 
+            성별 :
             <Input type="text" name="gender" value={userInfo.gender} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
-            나이 : 
+            나이 :
             <Input type="text" name="age" value={userInfo.age} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
-            지역 : 
+            지역 :
             <Input type="text" name="location" value={userInfo.location} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
-            신장 : 
+            신장 :
             <Input type="text" name="height" value={userInfo.height} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
-            체중 : 
+            체중 :
             <Input type="text" name="weight" value={userInfo.weight} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
-            이메일 : 
+            이메일 :
             <Input type="text" name="email" value={userInfo.email} onChange={UserInfoChange} />
           </InputLabel>
         </UserInfoBox>
@@ -211,7 +215,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             <PositionButton
               name="position"
               checked={Forward}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             공격수
           </PositionLabel>
@@ -219,7 +223,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             <PositionButton
               name="position"
               checked={Midfielder}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             미드필더
           </PositionLabel>
@@ -227,7 +231,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             <PositionButton
               name="position"
               checked={Defender}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             수비수
           </PositionLabel>
@@ -235,7 +239,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             <PositionButton
               name="position"
               checked={Goalkeeper}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             골키퍼
           </PositionLabel>

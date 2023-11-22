@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const MyProfile = () => {
@@ -51,10 +51,10 @@ const MyProfile = () => {
   useEffect(() => { // 페이지가 로드되었을때 로그인 상태여부를 확인하고 뷰를 처리해주는 부분
     const LoginCheck = async () => {
       try {
-        const response = await axios.get('http://115.85.182.229:8080/api'); // 서버에 로그인 상태값을 요청하고 그 값을 받아와 상태를 업데이트
+        const response = await axios.get('http://223.130.147.184:8080/api'); // 서버에 로그인 상태값을 요청하고 그 값을 받아와 상태를 업데이트
         setLoginState(response.data.LoginState);
-  
-        if(response.data.LoginState) { 
+
+        if (response.data.LoginState) {
           fetchUserData(); // 로그인이 이미 되어 있을 시 fetchUserData 메소드를 호출하여 화면에 뷰를 출력
         } else {
           Swal.fire({ // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
@@ -69,7 +69,7 @@ const MyProfile = () => {
           title: '통신 오류',
           text: '다시 시도하여 주십시오.'
         });
-  //      navigate('/Home');
+        //      navigate('/Home');
       }
     };
     LoginCheck();
@@ -96,12 +96,12 @@ const MyProfile = () => {
       if (result.isConfirmed) {
         try {
           const access_token = localStorage.getItem('access_token');
-          const response = await axios.post('http://115.85.182.229:8080/api/', {
+          const response = await axios.post('http://223.130.147.184:8080/api/', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }
           });
-    
+
           if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 로그아웃 처리가 완료되면 로그인 페이지로 이동
             Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
               icon: 'success',
@@ -122,7 +122,7 @@ const MyProfile = () => {
       }
     });
   };
-  
+
   const handleWithdrawal = async () => { // 회원탈퇴 메소드 
     Swal.fire({ // 한번 더 되묻는 경고창 출력
       icon: 'warning',
@@ -137,22 +137,22 @@ const MyProfile = () => {
       if (result.isConfirmed) {
         try {
           const access_token = localStorage.getItem('access_token');
-          const response = await axios.delete('http://115.85.182.229:8080/api/', {
+          const response = await axios.delete('http://223.130.147.184:8080/api/', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }
           });
-    
+
           if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 회원탈퇴 처리가 완료되면 로그인 페이지로 이동
             Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
-              icon: 'success', 
+              icon: 'success',
               title: '회원탈퇴가 완료되었습니다.',
             });
             setLoginState(false);
             localStorage.removeItem('access_token');
             navigate('/Login');
           }
-        } catch (error) { 
+        } catch (error) {
           Swal.fire({ // 서버 통신 에러 발생시 경고창 출력
             icon: 'error',
             title: '회원탈퇴 실패.',
@@ -163,7 +163,7 @@ const MyProfile = () => {
       }
     });
   };
-  
+
 
   const PageChange1 = () => { // 공지사항 페이지 이동 메소드
     navigate('/page1');
@@ -183,62 +183,62 @@ const MyProfile = () => {
 
   const fetchUserData = async () => { // 사용자 정보 업데이트 메소드
 
-      try {
-        const access_token = localStorage.getItem('access_token');
-        const userInfoResponse = await axios.get(`http://115.85.182.229:8080/api/`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`
-          },
-        });
-        
-        const { profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper, record,
-          GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
-          GameResult6, GameResult7, GameResult8, GameResult9, GameResult10 } = userInfoResponse.data;
-        
-        setProfileImage(profileImage);
-        setUserInfo(userInfo);
-        setStatusMessage(statusMessage);
-        setForward(Forward);
-        setMidfielder(Midfielder);
-        setDefender(Defender);
-        setGoalkeeper(Goalkeeper);
-        setRecord(record);
-        setGameResult1(GameResult1);
-        setGameResult2(GameResult2);
-        setGameResult3(GameResult3);
-        setGameResult4(GameResult4);
-        setGameResult5(GameResult5);
-        setGameResult6(GameResult6);
-        setGameResult7(GameResult7);
-        setGameResult8(GameResult8);
-        setGameResult9(GameResult9);
-        setGameResult10(GameResult10);
-      } catch (error) { // 서버 통신 오류 발생시 경고창 출력
-        console.error("업데이트에 실패하였습니다. : ", error);
-        Swal.fire({
-          icon: 'error',
-          title: '통신 오류',
-          text: '업데이트에 실패하였습니다. 다시 시도해 주십시오'
-        });
-      }
+    try {
+      const access_token = localStorage.getItem('access_token');
+      const userInfoResponse = await axios.get(`http://223.130.147.184:8080/api/`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        },
+      });
+
+      const { profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper, record,
+        GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
+        GameResult6, GameResult7, GameResult8, GameResult9, GameResult10 } = userInfoResponse.data;
+
+      setProfileImage(profileImage);
+      setUserInfo(userInfo);
+      setStatusMessage(statusMessage);
+      setForward(Forward);
+      setMidfielder(Midfielder);
+      setDefender(Defender);
+      setGoalkeeper(Goalkeeper);
+      setRecord(record);
+      setGameResult1(GameResult1);
+      setGameResult2(GameResult2);
+      setGameResult3(GameResult3);
+      setGameResult4(GameResult4);
+      setGameResult5(GameResult5);
+      setGameResult6(GameResult6);
+      setGameResult7(GameResult7);
+      setGameResult8(GameResult8);
+      setGameResult9(GameResult9);
+      setGameResult10(GameResult10);
+    } catch (error) { // 서버 통신 오류 발생시 경고창 출력
+      console.error("업데이트에 실패하였습니다. : ", error);
+      Swal.fire({
+        icon: 'error',
+        title: '통신 오류',
+        text: '업데이트에 실패하였습니다. 다시 시도해 주십시오'
+      });
+    }
   };
-  
+
   return LoginState ? ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={toEnlarge}/>
+        <UserImage src={profileImage} onClick={toEnlarge} />
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={profileImage}/>
+            <ImageView src={profileImage} />
           </ProfileView>
-      )}
+        )}
         <UserInfoBox>
-          닉네임 : {userInfo.nickname} <br/>
-          성별 : {userInfo.gender} <br/>
-          나이 : {userInfo.age} <br/>
-          지역 : {userInfo.location} <br/>
-          신장 : {userInfo.height} <br/>
-          체중 : {userInfo.weight} <br/>
+          닉네임 : {userInfo.nickname} <br />
+          성별 : {userInfo.gender} <br />
+          나이 : {userInfo.age} <br />
+          지역 : {userInfo.location} <br />
+          신장 : {userInfo.height} <br />
+          체중 : {userInfo.weight} <br />
           이메일 : {userInfo.email}
         </UserInfoBox>
       </ProfileBox>
@@ -258,7 +258,7 @@ const MyProfile = () => {
       </PreferBox>
       <RecordBox>
         <Record>
-          전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 / 
+          전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 /
           승률 : {((record.win / record.total) * 100).toFixed(1)}%
         </Record>
         <RecordBoard>
@@ -275,9 +275,9 @@ const MyProfile = () => {
         </RecordBoard>
       </RecordBox>
       <MenuBox>
-        <MenuButton onClick={PageChange1}>공지사항</MenuButton>     
+        <MenuButton onClick={PageChange1}>공지사항</MenuButton>
         <MenuButton onClick={PageChange2}>안전정보</MenuButton>
-        <MenuButton onClick={PageChange3}>신고하기</MenuButton> 
+        <MenuButton onClick={PageChange3}>신고하기</MenuButton>
         <MenuButton onClick={PageChange_ModifyProfile}>프로필 수정</MenuButton>
       </MenuBox>
       <BottomBox>
@@ -440,10 +440,10 @@ const Game = styled.div`
   line-height: 2em;
   color: white;
   border-radius: 5px;
-  background-color: ${({ result }) => 
-    (result === 'Win' ? '#488BDB' : 
-    (result === 'Lose' ? '#EA344B' : 
-    (result === 'Draw' ? '#0FBB8E' : '#f5f5f5')))};
+  background-color: ${({ result }) =>
+  (result === 'Win' ? '#488BDB' :
+    (result === 'Lose' ? '#EA344B' :
+      (result === 'Draw' ? '#0FBB8E' : '#f5f5f5')))};
 `;
 
 const MenuBox = styled.div`
