@@ -48,7 +48,7 @@ const MyProfile = () => {
     const fetchUserData = async () => { // 로그인 상태 확인 후 사용자 정보 업데이트
       try {
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://223.130.147.184:8080/api/user/me', {
+        const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
           },
@@ -129,7 +129,7 @@ const MyProfile = () => {
       if (result.isConfirmed) {
         try {
           const access_token = localStorage.getItem('access_token');
-          const response = await axios.post('http://223.130.147.184:8080/api/', {
+          const response = await axios.post('http://110.165.17.35:8080/api/', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }
@@ -169,7 +169,7 @@ const MyProfile = () => {
       if (result.isConfirmed) {
         try {
           const access_token = localStorage.getItem('access_token');
-          const response = await axios.delete('http://223.130.147.184:8080/api/', {
+          const response = await axios.delete('http://110.165.17.35:8080/api/', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }

@@ -8,12 +8,12 @@ export const state = 'NAVER';
 export async function getAccessNaverToken(authCode) {
   console.log('getAccessNaverToken called with authCode:', authCode);
   try {
-    const token_response = await axios.get(`http://223.130.147.184:8080/api/auth/sign-in/naver/token?code=${authCode}`);
+    const token_response = await axios.get(`http://110.165.17.35:8080/api/auth/sign-in/naver/token?code=${authCode}`);
     console.log('Token response:', token_response);
     const Navertoken = token_response.data['token'];
     console.log('Navertoken:', Navertoken);
 
-    const response = await axios.post('http://223.130.147.184:8080/api/auth/sign-in/naver', { token: Navertoken });
+    const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/naver', { token: Navertoken });
 
     localStorage.setItem('access_token', response.data['access_token']);
   } catch (error) {
