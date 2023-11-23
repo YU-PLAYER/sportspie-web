@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import DescriptionAlerts from './AlertTitle';
 import AddIcon from '@mui/icons-material/Add';
+import ReactLoading from "react-loading";
 import Fab from '@mui/material/Fab';
 
 export default function Dayalarm() {
@@ -33,8 +34,7 @@ export default function Dayalarm() {
                     }}>
                         <Fab variant="extended" size="medium" color="white"
                         >
-                            <AddIcon sx={{ mr: 1 }} />
-                            더 보기
+                            <ReactLoading type="spin" color="#A593E0" />
                         </Fab>
                         <Box sx={{ height: '70px' }} />
                     </Container>

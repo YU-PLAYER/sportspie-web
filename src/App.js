@@ -9,7 +9,6 @@ import MapDisplay from './routers/MapDisplay.js';
 import MyMatchList from "./routers/MyMatchList.js";
 import WriteDisplay from "./routers/WriteDisplay.js";
 import MyProfile from './components/MyProfile.js';
-import DetailPage from './components/DetailPage.js';
 import ModifyProfile from './components/ModifyProfile.js';
 import ExamineProfile from './components/ExamineProfile.js';
 import LoginContainer from './components/LoginContainer.js';
@@ -33,8 +32,9 @@ function App() {
 
         <Box sx={{ height: '80px' }}></Box>
 
-        <Box sx={{ width:"100%", '@media all and (min-width:910px)':{width:"60%"}}}>
-            <Routes>         
+        <Box sx={{ width:"80%", '@media all and (min-width:910px)':{width:"60%"}}}>
+            <Routes>
+                <Route path="*" element={<Navigate to="/Home" />} />         
                 <Route path="/Home" element={<Home />} />
                 <Route path="/TeamSelect" element={<Teamselect />} />
                 <Route path="/Map" element={<MapDisplay />} /> 
@@ -44,7 +44,7 @@ function App() {
                 <Route path="/MyProfile" element={<MyProfile />} />
                 <Route path="/ModifyProfile" element={<ModifyProfile />} />
                 <Route path="/ExamineProfile" element={<ExamineProfile />} />
-                <Route path="/DetailPage" element={<DetailPage />} />
+                <Route path="/DetailPage/:id" element={<DetailPage />} />
                 <Route path="/Notice" element={<Notice />} />
                 <Route path="/Report" element={<Report />} />
             </Routes>

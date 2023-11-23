@@ -37,7 +37,7 @@ export async function getAccessKakaoToken(authCode) {
     const Kakaotoken = token_response.data['access_token'];
     console.log('Kakaotoken:', Kakaotoken);
 
-    const response = await axios.post('http://223.130.147.184:8080/api/auth/sign-in/kakao', { token: Kakaotoken });
+    const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/kakao', { token: Kakaotoken });
 
     localStorage.setItem('access_token', response.data['access_token']);
   } catch (error) {
