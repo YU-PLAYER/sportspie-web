@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import '../css/ad.css';
@@ -10,6 +11,23 @@ import { getAccessNaverToken } from './getAccessNaverToken';
 import { getAccessKakaoToken } from './getAccessKakaoToken';
 
 export default function Home() {
+  const [inputValue, setInputValue] = useState('');
+  const [storedValue, setStoredValue] = useState('');
+  const [fastest, setFastest] = useState(false);
+  const [distance, setDistance] = useState(false);
+
+  //제목으로 검색
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleButtonClick = (event) => {
+    event.preventDefault();
+    setStoredValue(inputValue);
+    setInputValue('');
+    console.log(fastest, distance);
+  }
+
   React.useEffect(() => {
     const url = new URL(window.location.href);
     const authCode = url.searchParams.get('code');
@@ -59,21 +77,21 @@ export default function Home() {
           <Daylist />
             <div className="play-search">
                 <div className="play-search_new">
-                    <button>
+                    <button onClick={()=>{setFastest(true); setDistance(false);}} style={{cursor:"pointer"}}>
                         <div className="play-search_dot"></div>
                         <span>최신순</span>
                     </button>
                 </div>
                 <div className="play-search_distance">
-                    <button>
+                    <button onClick={()=>{setFastest(false); setDistance(true);}} style={{cursor:"pointer"}}>
                         <div className="play-search_dot"></div>
                         <span>거리순</span>
                     </button>
                 </div>
                 <div className="play-search_search">
                 <form method="get" id="play-search-form">
-                    <input required name="username" type="text" placeholder="검색" />
-                    <button><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
+                    <input value={inputValue} onChange={handleInputChange} name="username" type="text" placeholder="검색" />
+                    <button onClick={handleButtonClick} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
                 </form>
                 </div>
             </div>

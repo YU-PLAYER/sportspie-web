@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Box from '@mui/material/Box';
 import TopBar from './components/topBar.js';
 import NavBar from './components/NavBar.js';
@@ -13,6 +13,7 @@ import ModifyProfile from './components/ModifyProfile.js';
 import ExamineProfile from './components/ExamineProfile.js';
 import LoginContainer from './components/LoginContainer.js';
 import Notice from './components/Notice.js';
+import Report from './components/Report.js';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/ExamineProfile" element={<ExamineProfile />} />
                 <Route path="/DetailPage/:id" element={<DetailPage />} />
                 <Route path="/Notice" element={<Notice />} />
+                <Route path="/Report" element={<Report />} />
             </Routes>
         </Box>
 

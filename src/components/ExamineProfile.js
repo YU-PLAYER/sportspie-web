@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const ExamineProfile = (props) => {
@@ -61,7 +61,7 @@ const ExamineProfile = (props) => {
 
   const fetchUserData = async () => { // 사용자 정보 조회 메소드
     try {
-      const response = await axios.get(`http://115.85.182.229:8080/api/user/me${props.userId}`);
+      const response = await axios.get(`http://223.130.147.184:8080/api/user/me${props.userId}`);
       const {imageUrl, nickname, age, gender, region, height, weight, email,
         introduce, attacker, midfielder, defender, goalkeeper, record,
         GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
@@ -109,10 +109,10 @@ const ExamineProfile = (props) => {
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={toEnlarge}/>
+        <UserImage src={profileImage} onClick={toEnlarge} />
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={profileImage}/>
+            <ImageView src={profileImage} />
           </ProfileView>
       )}
         {NickName ? (
@@ -143,7 +143,7 @@ const ExamineProfile = (props) => {
       {record ? (
         <RecordBox>
           <Record>
-            전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 / 
+            전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 /
             승률 : {((record.win / record.total) * 100).toFixed(1)}%
           </Record>
           <RecordBoard>
@@ -158,7 +158,7 @@ const ExamineProfile = (props) => {
             <Game result={GameResult9}>{GameResult9}</Game>
             <Game result={GameResult10}>{GameResult10}</Game>
           </RecordBoard>
-        </RecordBox> ) : (<PrivateRecordBox>전적 비공개</PrivateRecordBox>)}
+        </RecordBox>) : (<PrivateRecordBox>전적 비공개</PrivateRecordBox>)}
       <BackToPageButton onClick={backToPage}>돌아가기</BackToPageButton>
     </Container>
   );
@@ -346,10 +346,10 @@ const Game = styled.div`
   line-height: 2em;
   color: white;
   border-radius: 5px;
-  background-color: ${({ result }) => 
-    (result === 'Win' ? '#488BDB' : 
-    (result === 'Lose' ? '#EA344B' : 
-    (result === 'Draw' ? '#0FBB8E' : '#f5f5f5')))};
+  background-color: ${({ result }) =>
+  (result === 'Win' ? '#488BDB' :
+    (result === 'Lose' ? '#EA344B' :
+      (result === 'Draw' ? '#0FBB8E' : '#f5f5f5')))};
 `;
 
 const ProfileView = styled.div`

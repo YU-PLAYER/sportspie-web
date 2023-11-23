@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,7 +14,7 @@ const ModifyProfile = () => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://115.85.182.229:8080/api/user/me', {
+        const response = await axios.get('http://223.130.147.184:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
@@ -45,8 +45,8 @@ const ModifyProfile = () => {
           introduce, attacker, midfielder, defender, goalkeeper,
           publicProfile, publicInformation, publicIntroduce, publicRecord};
 
-          setOriginalValues(data);
-          setCurrentValues(data);
+        setOriginalValues(data);
+        setCurrentValues(data);
 
       } catch (error) { // 서버 통신 오류 발생시 경고창 출력
           console.error("서버에서 값을 가져오지 못했습니다.", error);
@@ -89,29 +89,29 @@ const ModifyProfile = () => {
         statusMessage, Forward, Midfielder, Defender, Goalkeeper,
         isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
       const access_token = localStorage.getItem('access_token');
-      const response = await axios.put('http://115.85.182.229:8080/api/', data, {
+      const response = await axios.put('http://223.130.147.184:8080/api/', data, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }
       });
-      console.log(response.data); 
+      console.log(response.data);
       Swal.fire({
         icon: 'success',
         title: '저장 성공!',
         text: '프로필이 정상적으로 업데이트 되었습니다.'
-      }); 
+      });
       navigate("./MyProfile");
     } catch (error) { // 서버 통신 에러 발생시 경고창 출력
       Swal.fire({
         icon: 'error',
         title: '저장 실패',
         text: "업데이트에 실패하였습니다. 다시 시도하여 주십시오"
-      }); 
+      });
     }
   };
 
   const CancelButtonSave = () => { // 취소버튼 메소드
-    if(JSON.stringify(originalValues) !== JSON.stringify(currentValues)) { // 원래의 값과 현재의 값이 다른지 비교
+    if (JSON.stringify(originalValues) !== JSON.stringify(currentValues)) { // 원래의 값과 현재의 값이 다른지 비교
       Swal.fire({
         icon: 'warning',
         title: '변동된 값이 있습니다',
@@ -123,11 +123,11 @@ const ModifyProfile = () => {
         if (result.isConfirmed) {
           ProfileUpdate();
         } else if (result.isDenied) {
-          navigate('/MyProfile'); 
+          navigate('/MyProfile');
         }
       })
     } else {
-      navigate('/MyProfile'); 
+      navigate('/MyProfile');
     }
   };
 
@@ -146,7 +146,7 @@ const ModifyProfile = () => {
       reader.readAsDataURL(file);
     });
     fileInput.click();
-};
+  };
 
 const UserInfoChange = (e) => {
   const { name, value } = e.target;
@@ -185,7 +185,7 @@ const UserInfoChange = (e) => {
 };
 
 
-const MessageChange = (e) => { // 상태 메세지 변경 메소드
+  const MessageChange = (e) => { // 상태 메세지 변경 메소드
     const newStatusMessage = e.target.value;
     setStatusMessage(newStatusMessage);
     setCurrentValues(prev => ({...prev, introduce: newStatusMessage}));
@@ -215,7 +215,7 @@ const PositionCheck = (position, setPosition) => {
 };  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={ProfileImageChange}/>
+        <UserImage src={profileImage} onClick={ProfileImageChange} />
         <UserInfoBox>
           <InputLabel>
             닉네임 : 
@@ -259,7 +259,7 @@ const PositionCheck = (position, setPosition) => {
             <PositionButton
               name="position"
               checked={Forward}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             공격수
           </PositionLabel>
@@ -267,7 +267,7 @@ const PositionCheck = (position, setPosition) => {
             <PositionButton
               name="position"
               checked={Midfielder}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             미드필더
           </PositionLabel>
@@ -275,7 +275,7 @@ const PositionCheck = (position, setPosition) => {
             <PositionButton
               name="position"
               checked={Defender}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             수비수
           </PositionLabel>
@@ -283,7 +283,7 @@ const PositionCheck = (position, setPosition) => {
             <PositionButton
               name="position"
               checked={Goalkeeper}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             골키퍼
           </PositionLabel>

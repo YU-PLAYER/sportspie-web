@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const MyProfile = () => {
@@ -48,7 +48,7 @@ const MyProfile = () => {
     const fetchUserData = async () => { // 로그인 상태 확인 후 사용자 정보 업데이트
       try {
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://115.85.182.229:8080/api/user/me', {
+        const response = await axios.get('http://223.130.147.184:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
           },
@@ -129,12 +129,12 @@ const MyProfile = () => {
       if (result.isConfirmed) {
         try {
           const access_token = localStorage.getItem('access_token');
-          const response = await axios.post('http://115.85.182.229:8080/api/', {
+          const response = await axios.post('http://223.130.147.184:8080/api/', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }
           });
-    
+
           if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 로그아웃 처리가 완료되면 로그인 페이지로 이동
             Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
               icon: 'success',
@@ -154,7 +154,7 @@ const MyProfile = () => {
       }
     });
   };
-  
+
   const handleWithdrawal = async () => { // 회원탈퇴 메소드 
     Swal.fire({ // 한번 더 되묻는 경고창 출력
       icon: 'warning',
@@ -169,21 +169,21 @@ const MyProfile = () => {
       if (result.isConfirmed) {
         try {
           const access_token = localStorage.getItem('access_token');
-          const response = await axios.delete('http://115.85.182.229:8080/api/', {
+          const response = await axios.delete('http://223.130.147.184:8080/api/', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }
           });
-    
+
           if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 회원탈퇴 처리가 완료되면 로그인 페이지로 이동
             Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
-              icon: 'success', 
+              icon: 'success',
               title: '회원탈퇴가 완료되었습니다.',
             });
             localStorage.removeItem('access_token');
             navigate('/Login');
           }
-        } catch (error) { 
+        } catch (error) {
           Swal.fire({ // 서버 통신 에러 발생시 경고창 출력
             icon: 'error',
             title: '회원탈퇴 실패.',
@@ -214,12 +214,12 @@ const MyProfile = () => {
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={toEnlarge}/>
+        <UserImage src={profileImage} onClick={toEnlarge} />
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={profileImage}/>
+            <ImageView src={profileImage} />
           </ProfileView>
-      )}
+        )}
         <UserInfoBox>
           닉네임 : {NickName} <br/>
           성별 : {Gender} <br/>
@@ -246,7 +246,7 @@ const MyProfile = () => {
       </PreferBox>
       <RecordBox>
         <Record>
-          전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 / 
+          전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 /
           승률 : {((record.win / record.total) * 100).toFixed(1)}%
         </Record>
         <RecordBoard>
@@ -265,7 +265,7 @@ const MyProfile = () => {
       <MenuBox>
         <MenuButton onClick={PageChange_Notice}>공지사항</MenuButton>     
         <MenuButton onClick={PageChange2}>안전정보</MenuButton>
-        <MenuButton onClick={PageChange3}>신고하기</MenuButton> 
+        <MenuButton onClick={PageChange3}>신고하기</MenuButton>
         <MenuButton onClick={PageChange_ModifyProfile}>프로필 수정</MenuButton>
       </MenuBox>
       <BottomBox>
@@ -428,10 +428,10 @@ const Game = styled.div`
   line-height: 2em;
   color: white;
   border-radius: 5px;
-  background-color: ${({ result }) => 
-    (result === 'Win' ? '#488BDB' : 
-    (result === 'Lose' ? '#EA344B' : 
-    (result === 'Draw' ? '#0FBB8E' : '#f5f5f5')))};
+  background-color: ${({ result }) =>
+  (result === 'Win' ? '#488BDB' :
+    (result === 'Lose' ? '#EA344B' :
+      (result === 'Draw' ? '#0FBB8E' : '#f5f5f5')))};
 `;
 
 const MenuBox = styled.div`

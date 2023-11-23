@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import '../css/Login.css';
 import { Login_google } from './Login_google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -10,7 +9,7 @@ export const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const redirectURI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
 export const Naverstate = 'NAVER';
 
-export const Rest_api_key = process.env.REACT_APP_CLIENT_ID;
+export const Rest_api_key = process.env.REACT_APP_CLIENT_KAKAO_ID;
 
 export default function LoginContainer() {
 
@@ -54,13 +53,6 @@ export default function LoginContainer() {
            
             </Grid>   
             </Box>
-            </Container>
-            <Container maxWidth="sm" sx={{textAlign:"center"}}>
-              <Box sx={{ height: '20px' }} />
-              <Button sx={{ height: '45px', width: '300px', borderRadius: 1, boxShadow: 1 }} onClick={null}>
-                <Box sx={{ height: '13px' }} />
-                <a style={{color:"#585858", fontSize: 13, fontWeight: 600}}>다른 방법으로 로그인</a>
-              </Button>
             </Container>
         </Box>
         <Box sx={{ height: '20px' }}/>
