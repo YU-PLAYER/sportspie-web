@@ -8,6 +8,7 @@ import TeamSelectList from './TeamSelectList';
 const DetailPage = () => {  
   const { id } = useParams();
   const [post, setPost] = useState({});
+  const navigate = useNavigate(); // 페이지 이동 훅
 
   useEffect(() => {
     const fetchPost = async () => {
