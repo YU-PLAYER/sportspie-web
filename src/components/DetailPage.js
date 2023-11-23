@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import TeamSelectList from './TeamSelectList';
 
 const DetailPage = () => {  
-  const { id } = useParams();
   const [post, setPost] = useState({});
   const navigate = useNavigate(); // 페이지 이동 훅
 
