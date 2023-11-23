@@ -25,7 +25,7 @@ const DetailPage = () => {
       }
     };
     fetchPost();
-    }, [id]);
+    }, []);
     return (
       <Container>
         <ImageContainer>       
