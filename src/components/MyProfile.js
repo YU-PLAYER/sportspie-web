@@ -7,73 +7,106 @@ import Swal from 'sweetalert2';
 const MyProfile = () => {
   const navigate = useNavigate(); // 페이지 이동 훅
 
-  const [LoginState, setLoginState] = useState(true); // 로그인 상태 State
-
   const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
 
-  const [userInfo, setUserInfo] = useState({ // 사용자 정보 State
-    nickname: "손흥민",
-    gender: "남자",
-    age: "31세",
-    location: "춘천시 후평동",
-    height: "183cm",
-    weight: "78kg",
-    email: "abcdef.gmail.com"
-  });
+  const [NickName, setNickname] = useState(""); // 사용자 이름 State
+  const [Gender, setGender] = useState(""); // 사용자 성별 State
+  const [Age, setAge] = useState(0); // 사용자 나이 State
+  const [Region, setRegion] = useState(""); // 사용자 지역 State
+  const [Height, setHeight] = useState(0); // 사용자 신장 State
+  const [Weight, setWeight] = useState(0); // 사용자 체중 State
+  const [Email, setEmail] = useState(""); // 사용자 이메일 State
 
-  const [statusMessage, setStatusMessage] = useState("안녕하세요:D"); // 상태 메세지 State
+  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
 
-  const [Forward, setForward] = useState(true);  // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(true); // 선호 포지션(미드필더) State
-  const [Defender, setDefender] = useState(true); // 선호 포지션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(true); // 선호 포지션(골키퍼) State
+  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
+  const [Midfielder, setMidfielder] = useState(false); // 선호 포지션(미드필더) State
+  const [Defender, setDefender] = useState(false); // 선호 포지션(수비수) State
+  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호 포지션(골키퍼) State
 
   const [record, setRecord] = useState({ // 전적 및 승률 State
-    total: 9,
-    win: 3,
-    draw: 3,
-    loes: 3
+    total: 0,
+    win: 0,
+    draw: 0,
+    loes: 0
   });
 
-  const [GameResult1, setGameResult1] = useState('Win'); // 최근 경기 승패 결과 State
-  const [GameResult2, setGameResult2] = useState('Lose'); // 최근 경기 승패 결과 State
-  const [GameResult3, setGameResult3] = useState('Draw'); // 최근 경기 승패 결과 State
-  const [GameResult4, setGameResult4] = useState('Win'); // 최근 경기 승패 결과 State
-  const [GameResult5, setGameResult5] = useState('Lose'); // 최근 경기 승패 결과 State
-  const [GameResult6, setGameResult6] = useState('Draw'); // 최근 경기 승패 결과 State
-  const [GameResult7, setGameResult7] = useState('Win'); // 최근 경기 승패 결과 State
-  const [GameResult8, setGameResult8] = useState('Lose'); // 최근 경기 승패 결과 State
-  const [GameResult9, setGameResult9] = useState('Draw'); // 최근 경기 승패 결과 State
+  const [GameResult1, setGameResult1] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult2, setGameResult2] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult3, setGameResult3] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult4, setGameResult4] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult5, setGameResult5] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult6, setGameResult6] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult7, setGameResult7] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult8, setGameResult8] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult9, setGameResult9] = useState(''); // 최근 경기 승패 결과 State
   const [GameResult10, setGameResult10] = useState(''); // 최근 경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
 
-  useEffect(() => { // 페이지가 로드되었을때 로그인 상태여부를 확인하고 뷰를 처리해주는 부분
-    const LoginCheck = async () => {
+  useEffect(() => { 
+    const fetchUserData = async () => { // 로그인 상태 확인 후 사용자 정보 업데이트
       try {
-        const response = await axios.get('http://223.130.147.184:8080/api'); // 서버에 로그인 상태값을 요청하고 그 값을 받아와 상태를 업데이트
-        setLoginState(response.data.LoginState);
-
-        if (response.data.LoginState) {
-          fetchUserData(); // 로그인이 이미 되어 있을 시 fetchUserData 메소드를 호출하여 화면에 뷰를 출력
-        } else {
-          Swal.fire({ // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
+        const access_token = localStorage.getItem('access_token');
+        const response = await axios.get('http://223.130.147.184:8080/api/user/me', {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          },
+        });
+  
+        const {imageUrl, nickname, age, gender, region, height, weight, email,
+          introduce, attacker, midfielder, defender, goalkeeper, record,
+          GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
+          GameResult6, GameResult7, GameResult8, GameResult9, GameResult10 } = response.data;
+        
+        setProfileImage(imageUrl);
+        setNickname(nickname);
+        setAge(age);
+        setGender(gender);
+        setRegion(region);
+        setHeight(height);
+        setWeight(weight);
+        setEmail(email);
+        setStatusMessage(introduce);
+        setForward(attacker);
+        setMidfielder(midfielder);
+        setDefender(defender);
+        setGoalkeeper(goalkeeper);
+        setRecord(record);
+        setGameResult1(GameResult1);
+        setGameResult2(GameResult2);
+        setGameResult3(GameResult3);
+        setGameResult4(GameResult4);
+        setGameResult5(GameResult5);
+        setGameResult6(GameResult6);
+        setGameResult7(GameResult7);
+        setGameResult8(GameResult8);
+        setGameResult9(GameResult9);
+        setGameResult10(GameResult10);
+  
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
+          Swal.fire({
             icon: 'error',
             title: '로그인이 필요한 기능입니다.',
           });
           navigate('/Login');
+        } else {
+          // 서버와 통신 에러 발생시 경고 메세지 출력 후 메인페이지로 이동
+          Swal.fire({
+            icon: 'error',
+            title: '통신 오류',
+            text: '다시 시도하여 주십시오.'
+          });
+          navigate('/Home');
         }
-      } catch (error) { // 서버와 통신 에러 발생시 경고 메세지 출력후 메인페이지로 이동
-        Swal.fire({
-          icon: 'error',
-          title: '통신 오류',
-          text: '다시 시도하여 주십시오.'
-        });
-        //      navigate('/Home');
       }
     };
-    LoginCheck();
+    fetchUserData();
   }, []);
+  
+    
 
   const toEnlarge = () => { // 이미지 확대 
     setEnlarge(true);
@@ -107,7 +140,6 @@ const MyProfile = () => {
               icon: 'success',
               title: '로그아웃 되었습니다!',
             });
-            setLoginState(false);
             localStorage.removeItem('access_token');
             navigate('/Login');
           }
@@ -148,7 +180,6 @@ const MyProfile = () => {
               icon: 'success',
               title: '회원탈퇴가 완료되었습니다.',
             });
-            setLoginState(false);
             localStorage.removeItem('access_token');
             navigate('/Login');
           }
@@ -163,10 +194,9 @@ const MyProfile = () => {
       }
     });
   };
-
-
-  const PageChange1 = () => { // 공지사항 페이지 이동 메소드
-    navigate('/page1');
+  
+  const PageChange_Notice = () => { // 공지사항 페이지 이동 메소드
+    navigate('/Notice');
   };
 
   const PageChange2 = () => { // 안전정보 페이지 이동 메소드
@@ -180,50 +210,8 @@ const MyProfile = () => {
   const PageChange_ModifyProfile = () => { // 프로필 수정 페이지 이동 메소드
     navigate('/ModifyProfile');
   };
-
-  const fetchUserData = async () => { // 사용자 정보 업데이트 메소드
-
-    try {
-      const access_token = localStorage.getItem('access_token');
-      const userInfoResponse = await axios.get(`http://223.130.147.184:8080/api/`, {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        },
-      });
-
-      const { profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper, record,
-        GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
-        GameResult6, GameResult7, GameResult8, GameResult9, GameResult10 } = userInfoResponse.data;
-
-      setProfileImage(profileImage);
-      setUserInfo(userInfo);
-      setStatusMessage(statusMessage);
-      setForward(Forward);
-      setMidfielder(Midfielder);
-      setDefender(Defender);
-      setGoalkeeper(Goalkeeper);
-      setRecord(record);
-      setGameResult1(GameResult1);
-      setGameResult2(GameResult2);
-      setGameResult3(GameResult3);
-      setGameResult4(GameResult4);
-      setGameResult5(GameResult5);
-      setGameResult6(GameResult6);
-      setGameResult7(GameResult7);
-      setGameResult8(GameResult8);
-      setGameResult9(GameResult9);
-      setGameResult10(GameResult10);
-    } catch (error) { // 서버 통신 오류 발생시 경고창 출력
-      console.error("업데이트에 실패하였습니다. : ", error);
-      Swal.fire({
-        icon: 'error',
-        title: '통신 오류',
-        text: '업데이트에 실패하였습니다. 다시 시도해 주십시오'
-      });
-    }
-  };
-
-  return LoginState ? ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
+  
+  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
         <UserImage src={profileImage} onClick={toEnlarge} />
@@ -233,13 +221,13 @@ const MyProfile = () => {
           </ProfileView>
         )}
         <UserInfoBox>
-          닉네임 : {userInfo.nickname} <br />
-          성별 : {userInfo.gender} <br />
-          나이 : {userInfo.age} <br />
-          지역 : {userInfo.location} <br />
-          신장 : {userInfo.height} <br />
-          체중 : {userInfo.weight} <br />
-          이메일 : {userInfo.email}
+          닉네임 : {NickName} <br/>
+          성별 : {Gender} <br/>
+          나이 : {Age} 세<br/>
+          지역 : {Region} <br/>
+          신장 : {Height} cm<br/>
+          체중 : {Weight} kg<br/>
+          이메일 : {Email} <br/>
         </UserInfoBox>
       </ProfileBox>
       <MessageBox>
@@ -265,9 +253,9 @@ const MyProfile = () => {
           <Game result={GameResult1}>{GameResult1}</Game>
           <Game result={GameResult2}>{GameResult2}</Game>
           <Game result={GameResult3}>{GameResult3}</Game>
-          <Game result={GameResult4}>{GameResult4}</Game>
-          <Game result={GameResult5}>{GameResult5}</Game>
-          <Game result={GameResult6}>{GameResult6}</Game>
+          <Game result={GameResult4}>{GameResult5}</Game>
+          <Game result={GameResult6}>{GameResult4}</Game>
+          <Game result={GameResult5}>{GameResult6}</Game>
           <Game result={GameResult7}>{GameResult7}</Game>
           <Game result={GameResult8}>{GameResult8}</Game>
           <Game result={GameResult9}>{GameResult9}</Game>
@@ -275,7 +263,7 @@ const MyProfile = () => {
         </RecordBoard>
       </RecordBox>
       <MenuBox>
-        <MenuButton onClick={PageChange1}>공지사항</MenuButton>
+        <MenuButton onClick={PageChange_Notice}>공지사항</MenuButton>     
         <MenuButton onClick={PageChange2}>안전정보</MenuButton>
         <MenuButton onClick={PageChange3}>신고하기</MenuButton>
         <MenuButton onClick={PageChange_ModifyProfile}>프로필 수정</MenuButton>
@@ -285,7 +273,7 @@ const MyProfile = () => {
         <WithdrawalButton onClick={handleWithdrawal}>회원탈퇴</WithdrawalButton>
       </BottomBox>
     </Container>
-  ) : null;
+  );
 };
 
 // 여기서부터 컴포넌트 스타일 지정

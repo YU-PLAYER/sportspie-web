@@ -3,46 +3,46 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import default_img from '../images/default_img.jpg';
 
 const ExamineProfile = (props) => {
+  // 비공개 기본 이미지
+  const default_img = "https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp"
+
   const navigate = useNavigate(); // 페이지 이동 훅
 
   const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
 
-  const [userInfo, setUserInfo] = useState({ // 사용자 정보 State
-    nickname: "손흥민",
-    gender: "남자",
-    age: "31세",
-    location: "춘천시 후평동",
-    height: "183cm",
-    weight: "78kg",
-    email: "abcdef.gmail.com"
-  });
+  const [NickName, setNickname] = useState(""); // 사용자 이름 State
+  const [Gender, setGender] = useState(""); // 사용자 성별 State
+  const [Age, setAge] = useState(0); // 사용자 나이 State
+  const [Region, setRegion] = useState(""); // 사용자 지역 State
+  const [Height, setHeight] = useState(0); // 사용자 신장 State
+  const [Weight, setWeight] = useState(0); // 사용자 체중 State
+  const [Email, setEmail] = useState(""); // 사용자 이메일 State
 
-  const [statusMessage, setStatusMessage] = useState("안녕하세요:D"); // 상태 메세지 State
+  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
 
-  const [Forward, setForward] = useState(true); // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(true); // 선호 포지션(미드필더) State
-  const [Defender, setDefender] = useState(true); // 선호 포지션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(true); // 선호 포지션(골키퍼) State
+  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
+  const [Midfielder, setMidfielder] = useState(false); // 선호션(수비수) State
+  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호  포지션(미드필더) State
+  const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
 
   const [record, setRecord] = useState({ // 전적 및 승률 State
-    total: 9,
-    win: 3,
-    draw: 3,
-    loes: 3
+    total: 0,
+    win: 0,
+    draw: 0,
+    loes: 0
   });
 
-  const [GameResult1, setGameResult1] = useState('Win'); // 최근 경기 승패 결과 State
-  const [GameResult2, setGameResult2] = useState('Lose'); // 최근 경기 승패 결과 State
-  const [GameResult3, setGameResult3] = useState('Draw'); // 최근 경기 승패 결과 State
-  const [GameResult4, setGameResult4] = useState('Win'); // 최근 경기 승패 결과 State
-  const [GameResult5, setGameResult5] = useState('Lose'); // 최근 경기 승패 결과 State
-  const [GameResult6, setGameResult6] = useState('Draw'); // 최근 경기 승패 결과 State
-  const [GameResult7, setGameResult7] = useState('Win'); // 최근 경기 승패 결과 State
-  const [GameResult8, setGameResult8] = useState('Lose'); // 최근 경기 승패 결과 State
-  const [GameResult9, setGameResult9] = useState('Draw'); // 최근 경기 승패 결과 State
+  const [GameResult1, setGameResult1] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult2, setGameResult2] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult3, setGameResult3] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult4, setGameResult4] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult5, setGameResult5] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult6, setGameResult6] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult7, setGameResult7] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult8, setGameResult8] = useState(''); // 최근 경기 승패 결과 State
+  const [GameResult9, setGameResult9] = useState(''); // 최근 경기 승패 결과 State
   const [GameResult10, setGameResult10] = useState(''); // 최근 경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
@@ -61,20 +61,27 @@ const ExamineProfile = (props) => {
 
   const fetchUserData = async () => { // 사용자 정보 조회 메소드
     try {
-      const response = await axios.get(`http://223.130.147.184:8080/api/${props.userId}`);
-      const { isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible,
-        profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper, record,
+      const response = await axios.get(`http://223.130.147.184:8080/api/user/me${props.userId}`);
+      const {imageUrl, nickname, age, gender, region, height, weight, email,
+        introduce, attacker, midfielder, defender, goalkeeper, record,
         GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
-        GameResult6, GameResult7, GameResult8, GameResult9, GameResult10 } = response.data;
+        GameResult6, GameResult7, GameResult8, GameResult9, GameResult10,
+        publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;
 
-      setProfileImage(isProfileImageVisible ? profileImage : default_img);
-      setUserInfo(isUserInfoVisible ? userInfo : {});
-      setStatusMessage(isStatusMessageVisible ? statusMessage : "비공개");
-      setForward(Forward);
-      setMidfielder(Midfielder);
-      setDefender(Defender);
-      setGoalkeeper(Goalkeeper);
-      setRecord(isRecordVisible ? record : {});
+      setProfileImage(publicProfile ? imageUrl : default_img);
+      setNickname(publicInformation ? nickname : {});
+      setAge(publicInformation ? age : {});
+      setGender(publicInformation ? gender : {});
+      setRegion(publicInformation ? region : {});
+      setHeight(publicInformation ? height : {});
+      setWeight(publicInformation ? weight : {});
+      setEmail(publicInformation ? email : {});
+      setStatusMessage(publicIntroduce ? introduce : "비공개");
+      setForward(attacker);
+      setMidfielder(midfielder);
+      setDefender(defender);
+      setGoalkeeper(goalkeeper);
+      setRecord(publicRecord ? record : {});
       setGameResult1(GameResult1);
       setGameResult2(GameResult2);
       setGameResult3(GameResult3);
@@ -86,12 +93,12 @@ const ExamineProfile = (props) => {
       setGameResult9(GameResult9);
       setGameResult10(GameResult10);
     } catch (error) { // 서버 통신 오류 발생시 경고창 출력
-      Swal.fire({
-        icon: 'error',
-        title: '조회 실패',
-        text: "서버와의 통신에 실패하였습니다. 다시 시도하여 주십시오"
-      });
-      //      navigate(-1);
+        Swal.fire({
+          icon: 'error',
+          title: '조회 실패',
+          text: "서버와의 통신에 실패하였습니다. 다시 시도하여 주십시오"
+    });
+        navigate(-1);
     }
   };
 
@@ -107,17 +114,17 @@ const ExamineProfile = (props) => {
           <ProfileView onClick={toShrink}>
             <ImageView src={profileImage} />
           </ProfileView>
-        )}
-        {userInfo ? (
+      )}
+        {NickName ? (
           <UserInfoBox>
-            닉네임 : {userInfo.nickname} <br />
-            성별 : {userInfo.gender} <br />
-            나이 : {userInfo.age} <br />
-            지역 : {userInfo.location} <br />
-            신장 : {userInfo.height} <br />
-            체중 : {userInfo.weight} <br />
-            이메일 : {userInfo.email}
-          </UserInfoBox>) : (<PrivateUserInfoBox>비공개</PrivateUserInfoBox>)}
+            닉네임 : {NickName} <br/>
+            성별 : {Gender} <br/>
+            나이 : {Age} <br/>
+            지역 : {Region} <br/>
+            신장 : {Height} <br/>
+            체중 : {Weight} <br/>
+            이메일 : {Email}
+          </UserInfoBox> ) : (<PrivateUserInfoBox>비공개</PrivateUserInfoBox>)}
       </ProfileBox>
       <MessageBox>
         <TextAlign>

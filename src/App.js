@@ -32,9 +32,8 @@ function App() {
 
         <Box sx={{ height: '80px' }}></Box>
 
-        <Box sx={{ width:"100%", '@media all and (min-width:910px)':{width:"60%"}}}>
-            <Routes>
-                <Route path="*" element={<Navigate to="/Home" />} /> 
+        <Box sx={{ width:"80%", '@media all and (min-width:910px)':{width:"60%"}}}>
+            <Routes>         
                 <Route path="/Home" element={<Home />} />
                 <Route path="/TeamSelect" element={<Teamselect />} />
                 <Route path="/Map" element={<MapDisplay />} /> 
@@ -44,6 +43,7 @@ function App() {
                 <Route path="/MyProfile" element={<MyProfile />} />
                 <Route path="/ModifyProfile" element={<ModifyProfile />} />
                 <Route path="/ExamineProfile" element={<ExamineProfile />} />
+                <Route path="/DetailPage/:id" element={<DetailPage />} />
                 <Route path="/Notice" element={<Notice />} />
                 <Route path="/Report" element={<Report />} />
             </Routes>
