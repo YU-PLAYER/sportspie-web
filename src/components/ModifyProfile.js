@@ -14,28 +14,36 @@ const ModifyProfile = () => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://115.85.182.229:8080/api/', {
+        const response = await axios.get('http://115.85.182.229:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
         }); 
-        const {profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
-          isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible} = response.data;     
+        const {imageUrl, nickname, age, gender, region, height, weight, email,
+          introduce, attacker, midfielder, defender, goalkeeper,
+          publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;     
           
-          setProfileImage(profileImage);
-          setUserInfo(userInfo);
-          setStatusMessage(statusMessage);
-          setForward(Forward);
-          setMidfielder(Midfielder);
-          setDefender(Defender);
-          setGoalkeeper(Goalkeeper);
-          setIsProfileImageVisible(isProfileImageVisible);
-          setIsUserInfoVisible(isUserInfoVisible);
-          setIsStatusMessageVisible(isStatusMessageVisible);
-          setIsRecordVisible(isRecordVisible);
+          setProfileImage(imageUrl);
+          setNickname(nickname);
+          setAge(age);
+          setGender(gender);
+          setRegion(region);
+          setHeight(height);
+          setWeight(weight);
+          setEmail(email);
+          setStatusMessage(introduce);
+          setForward(attacker);
+          setMidfielder(midfielder);
+          setDefender(defender);
+          setGoalkeeper(goalkeeper);
+          setIsProfileImageVisible(publicProfile);
+          setIsUserInfoVisible(publicInformation);
+          setIsStatusMessageVisible(publicIntroduce);
+          setIsRecordVisible(publicRecord);
 
-        const data = {profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
-          isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
+        const data = {imageUrl, nickname, age, gender, region, height, weight, email,
+          introduce, attacker, midfielder, defender, goalkeeper,
+          publicProfile, publicInformation, publicIntroduce, publicRecord};
 
           setOriginalValues(data);
           setCurrentValues(data);
@@ -47,7 +55,7 @@ const ModifyProfile = () => {
             title: '통신 오류',
             text: '서버에서 데이터를 가져오는데 실패하였습니다. 다시 시도해 주십시오'
           });
-  //        navigate('./MyProfile');
+          navigate('./MyProfile');
       }
     };
     fetchUserData();
@@ -55,22 +63,20 @@ const ModifyProfile = () => {
 
   const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
 
-  const [userInfo, setUserInfo] = useState({ // 사용자 정보 State
-    nickname: "손흥민",
-    gender: "남자",
-    age: "31세",
-    location: "춘천시 후평동",
-    height: "183cm",
-    weight: "78kg",
-    email: "abcdef.gmail.com"
-  });
+  const [NickName, setNickname] = useState(""); // 사용자 이름 State
+  const [Gender, setGender] = useState(""); // 사용자 성별 State
+  const [Age, setAge] = useState(0); // 사용자 나이 State
+  const [Region, setRegion] = useState(""); // 사용자 지역 State
+  const [Height, setHeight] = useState(0); // 사용자 신장 State
+  const [Weight, setWeight] = useState(0); // 사용자 체중 State
+  const [Email, setEmail] = useState(""); // 사용자 이메일 State
 
-  const [statusMessage, setStatusMessage] = useState("안녕하세요:D"); // 상태 메세지 State
+  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
 
-  const [Forward, setForward] = useState(false); // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(true); // 선호 포지션(미드필더) State
-  const [Defender, setDefender] = useState(false); // 선호 포지션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(true); // 선호 포지션(골키퍼) State
+  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
+  const [Midfielder, setMidfielder] = useState(false); // 선호션(수비수) State
+  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호  포지션(미드필더) State
+  const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
 
   const [isProfileImageVisible, setIsProfileImageVisible] = useState(true); // 프로필 공개 및 비공개 State
   const [isUserInfoVisible, setIsUserInfoVisible] = useState(true); // 사용자 정보 공개 및 비공개 State
@@ -79,7 +85,8 @@ const ModifyProfile = () => {
 
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
-      const data = {profileImage, userInfo, statusMessage, Forward, Midfielder, Defender, Goalkeeper,
+      const data = {profileImage, NickName, Gender, Age, Region, Height, Weight, Email,
+        statusMessage, Forward, Midfielder, Defender, Goalkeeper,
         isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
       const access_token = localStorage.getItem('access_token');
       const response = await axios.put('http://115.85.182.229:8080/api/', data, {
@@ -134,68 +141,109 @@ const ModifyProfile = () => {
       reader.onloadend = () => {
         const newProfileImage = reader.result;
         setProfileImage(newProfileImage);
-        setCurrentValues(prev => ({...prev, profileImage: newProfileImage}));
+        setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
       };
       reader.readAsDataURL(file);
     });
     fileInput.click();
 };
 
-const UserInfoChange = (e) => { // 사용자 정보 변경 메소드
-    const { name, value } = e.target;
-    setUserInfo((prevState) => {
-      const newUserInfo = {...prevState, [name]: value};
-      setCurrentValues(prev => ({...prev, userInfo: newUserInfo}));
-      return newUserInfo;
-    });
+const UserInfoChange = (e) => {
+  const { name, value } = e.target;
+  switch (name) {
+    case 'setNickname':
+      setNickname(value);
+      setCurrentValues(prev => ({...prev, nickname: value}));
+      break;
+    case 'setGender':
+      setGender(value);
+      setCurrentValues(prev => ({...prev, gender: value}));
+      break;
+    case 'setAge':
+      setAge(Number(value));
+      setCurrentValues(prev => ({...prev, age: Number(value)}));
+      break;
+    case 'setRegion':
+      setRegion(value);
+      setCurrentValues(prev => ({...prev, region: value}));
+      break;
+    case 'setHeight':
+      setHeight(Number(value));
+      setCurrentValues(prev => ({...prev, height: Number(value)}));
+      break;
+    case 'setWeight':
+      setWeight(Number(value));
+      setCurrentValues(prev => ({...prev, weight: Number(value)}));
+      break;
+    case 'setEmail':
+      setEmail(value);
+      setCurrentValues(prev => ({...prev, email: value}));
+      break;
+    default:
+      console.error(`Invalid state name: ${name}`);
+  }
 };
+
 
 const MessageChange = (e) => { // 상태 메세지 변경 메소드
     const newStatusMessage = e.target.value;
     setStatusMessage(newStatusMessage);
-    setCurrentValues(prev => ({...prev, statusMessage: newStatusMessage}));
+    setCurrentValues(prev => ({...prev, introduce: newStatusMessage}));
 };
 
-const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 메소드
-    setPosition(prev => {
-      const newPosition = !prev;
-      setCurrentValues(prevState => ({...prevState, [position]: newPosition}));
-      return newPosition;
-    });
-};
-
-  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
+const PositionCheck = (position, setPosition) => {
+  setPosition(prev => {
+    const newPosition = !prev;
+    switch (setPosition) {
+      case setForward:
+        setCurrentValues(prevState => ({...prevState, attacker: newPosition}));
+        break;
+      case setMidfielder:
+        setCurrentValues(prevState => ({...prevState, midfielder: newPosition}));
+        break;
+      case setDefender:
+        setCurrentValues(prevState => ({...prevState, defender: newPosition}));
+        break;
+      case setGoalkeeper:
+        setCurrentValues(prevState => ({...prevState, goalkeeper: newPosition}));
+        break;
+      default:
+        console.error(`Invalid setPosition: ${setPosition}`);
+    }
+    return newPosition;
+  });
+};  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
         <UserImage src={profileImage} onClick={ProfileImageChange}/>
         <UserInfoBox>
           <InputLabel>
             닉네임 : 
-            <Input type="text" name="name" value={userInfo.nickname} onChange={UserInfoChange} />
+            <Input type="text" name="setNickname" value={NickName} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             성별 : 
-            <Input type="text" name="gender" value={userInfo.gender} onChange={UserInfoChange} />
+            <Input type="text" name="setGender" value={Gender} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             나이 : 
-            <Input type="text" name="age" value={userInfo.age} onChange={UserInfoChange} />
+            <Input type="text" name="setAge" value={Age} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             지역 : 
-            <Input type="text" name="location" value={userInfo.location} onChange={UserInfoChange} />
+            <Input type="text" name="setRegion" value={Region} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             신장 : 
-            <Input type="text" name="height" value={userInfo.height} onChange={UserInfoChange} />
+            <Input type="text" name="setHeight" value={Height} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             체중 : 
-            <Input type="text" name="weight" value={userInfo.weight} onChange={UserInfoChange} />
+            <Input type="text" name="setWeight" value={Weight} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             이메일 : 
-            <Input type="text" name="email" value={userInfo.email} onChange={UserInfoChange} />
+            <Input type="text" name="setEmail" value={Email} onChange={UserInfoChange} />
           </InputLabel>
         </UserInfoBox>
       </ProfileBox>
@@ -207,7 +255,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
       <PreferBox>
         <PreferTitle>선호하는 포지션</PreferTitle>
         <PreferPositions>
-          <PositionLabel color="#FF4D4D" checked={Forward} onClick={() => PositionCheck(Forward, setForward)}>
+          <PositionLabel color="#FF4D4D" checked={Forward} onClick={() => PositionCheck(setForward, Forward)}>
             <PositionButton
               name="position"
               checked={Forward}
@@ -215,7 +263,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             />
             공격수
           </PositionLabel>
-          <PositionLabel color="#0FBB8E" checked={Midfielder} onClick={() => PositionCheck(Midfielder, setMidfielder)}>
+          <PositionLabel color="#0FBB8E" checked={Midfielder} onClick={() => PositionCheck(setMidfielder, Midfielder)}>
             <PositionButton
               name="position"
               checked={Midfielder}
@@ -223,7 +271,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             />
             미드필더
           </PositionLabel>
-          <PositionLabel color="#0275D8" checked={Defender} onClick={() => PositionCheck(Defender, setDefender)}>
+          <PositionLabel color="#0275D8" checked={Defender} onClick={() => PositionCheck(setDefender, Defender)}>
             <PositionButton
               name="position"
               checked={Defender}
@@ -231,7 +279,7 @@ const PositionCheck = (position, setPosition) => { // 선호 포지션 변경 �
             />
             수비수
           </PositionLabel>
-          <PositionLabel color="#DF9A13" checked={Goalkeeper} onClick={() => PositionCheck(Goalkeeper, setGoalkeeper)}>
+          <PositionLabel color="#DF9A13" checked={Goalkeeper} onClick={() => PositionCheck(setGoalkeeper, Goalkeeper)}>
             <PositionButton
               name="position"
               checked={Goalkeeper}
