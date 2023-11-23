@@ -14,6 +14,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput';
+import { styled } from '@mui/system';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 import Swal from 'sweetalert2';
 import 'dayjs/locale/ko';
 import qs from 'qs';
@@ -39,6 +43,7 @@ export default function Write() {
 
   const [isTitleOK,setIsTitleOK] = useState(true);
   const [isContentOK,setisContentOK] = useState(true);
+  const [isMaxCapacityOK,setisMaxCapacityOK] = useState(true);
   const [isStartedTimeOK,setisStartedTimeOK] = useState(true);
 
   // authorId = localStorage.getItem('test');
@@ -77,6 +82,8 @@ export default function Write() {
   const button_test = () => {
     setIsTitleOK(true);
     setisContentOK(true);
+    setisStartedTimeOK(true);
+    setisMaxCapacityOK(true);
     console.log("startedDate = " + startedDate);
     console.log("startedTime = " + statedTime);
     startedAt = startedDate + "T" + statedTime;
