@@ -33,8 +33,7 @@ function App() {
         <Box sx={{ height: '80px' }}></Box>
 
         <Box sx={{ width:"80%", '@media all and (min-width:910px)':{width:"60%"}}}>
-            <Routes>
-                <Route path="/" element={<Navigate to="/Home" />} />       
+            <Routes>  
                 <Route path="/Home" element={<Home />} />
                 <Route path="/TeamSelect" element={<Teamselect />} />
                 <Route path="/Map" element={<MapDisplay />} /> 
