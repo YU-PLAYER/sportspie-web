@@ -12,6 +12,7 @@ import MyProfile from './components/MyProfile.js';
 import ModifyProfile from './components/ModifyProfile.js';
 import ExamineProfile from './components/ExamineProfile.js';
 import LoginContainer from './components/LoginContainer.js';
+import DetailPage from './components/DetailPage.js';
 import Notice from './components/Notice.js';
 import Report from './components/Report.js';
 

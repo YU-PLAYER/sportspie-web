@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import {Navigation} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import {Navigation} from 'swiper/modules';
 import '../css/ad.css';
 function Daylist(){
     const now = dayjs();
@@ -44,7 +44,7 @@ function Daylist(){
 
     
     return (
-        <div className="daylist"style={{display:"flex", justifyContent:"center", alignment:"center", fontSize:"12px", width:"100%"}}>
+        <div className="daylist" style={{display:"flex", justifyContent:"center", alignment:"center", fontSize:"12px", width:"100%"}}>
              <Swiper 
                 slidesPerView={8}
                 slidesPerGroup={1}
