@@ -12,7 +12,7 @@ const DetailPage = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://223.130.147.184:8080/api/game/detail/${id}`);
+        const response = await axios.get(`http://223.130.147.184:8080/api/game/detail/`);
         setPost(response.data);
       } catch (error) { // 서버 통신 오류 발생시 경고창 출력
         console.error("서버에서 데이터를 불러오지 못했습니다.", error);
