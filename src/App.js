@@ -9,6 +9,7 @@ import MapDisplay from './routers/MapDisplay.js';
 import MyMatchList from "./routers/MyMatchList.js";
 import WriteDisplay from "./routers/WriteDisplay.js";
 import MyProfile from './components/MyProfile.js';
+import DetailPage from './components/DetailPage.js';
 import ModifyProfile from './components/ModifyProfile.js';
 import ExamineProfile from './components/ExamineProfile.js';
 import LoginContainer from './components/LoginContainer.js';
