@@ -14,7 +14,7 @@ const ModifyProfile = () => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
         const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://223.130.147.184:8080/api/user/me', {
+        const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
@@ -89,7 +89,7 @@ const ModifyProfile = () => {
         statusMessage, Forward, Midfielder, Defender, Goalkeeper,
         isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
       const access_token = localStorage.getItem('access_token');
-      const response = await axios.put('http://223.130.147.184:8080/api/', data, {
+      const response = await axios.put('http://110.165.17.35:8080/api/', data, {
         headers: {
           Authorization: `Bearer ${access_token}`
         }

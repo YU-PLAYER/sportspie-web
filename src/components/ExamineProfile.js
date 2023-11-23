@@ -61,7 +61,7 @@ const ExamineProfile = (props) => {
 
   const fetchUserData = async () => { // 사용자 정보 조회 메소드
     try {
-      const response = await axios.get(`http://223.130.147.184:8080/api/user/me${props.userId}`);
+      const response = await axios.get(`http://110.165.17.35:8080/api/user/me${props.userId}`);
       const {imageUrl, nickname, age, gender, region, height, weight, email,
         introduce, attacker, midfielder, defender, goalkeeper, record,
         GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,

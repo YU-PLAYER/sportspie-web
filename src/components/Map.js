@@ -10,11 +10,9 @@ var { kakao } = window;
 
 function KakaoMap() {
     //const marksArray = [];
-    //const [localStorageValues, setLocalStorageValues] = useState([]);
-    var num = 0;
-    const [localStorageValues, setLocalStorageValues] = useState(
-        [{ name: "축구장", id:0, distance: 1.3325, latitude: 2.344, longitude: 5.234 },
-        { name: "풋살", id:1, distance: 4.3325, latitude: 3.344, longitude: 3.5211 }]);
+    const [localStoragelength, setLocalStoragelength] = useState(0);
+    const [localStorageValue, setLocalStorageValue] = useState({});
+    const [localStorageValues, setLocalStorageValues] = useState([]);
     useEffect(() => {
         window.kakao.maps.load(() => {
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -60,7 +58,7 @@ function KakaoMap() {
 
                 axios({
                     method: 'get',
-                    url: 'http://223.130.147.184:8080/api/stadium/nearby',
+                    url: 'http://110.165.17.35:8080/api/stadium/nearby',
                     data: {
                         latitude: locPosition.y,
                         longitude: locPosition.x,
@@ -78,6 +76,7 @@ function KakaoMap() {
                             console.log(result.data[i]);
                         }
                         console.log(localStorage.length);
+                        setLocalStoragelength(localStorage.length);
                         map.setBounds(bounds);
                     })
                     .catch((error) => {
@@ -101,26 +100,18 @@ function KakaoMap() {
 
         })
     }, [])
-
-    {/*useEffect(() => {
-        // localStorage에서 값을 불러오는 함수
-        const getLocalStorageValues = () => {
-          const storedValues = JSON.parse(localStorage.getItem({num})) || [];
-          setLocalStorageValues(storedValues);
-          num++;
-        };
-    
-        // 컴포넌트가 마운트될 때와 localStorage에 변화가 있을 때마다 실행
-        getLocalStorageValues();
-    
-        // localStorage 변화 감지를 위한 이벤트 리스너 등록
-        window.addEventListener('storage', getLocalStorageValues);
-    
-        // 컴포넌트 언마운트 시 이벤트 리스너 제거
-        return () => {
-          window.removeEventListener('storage', getLocalStorageValues);
-        };
-      }, []);*/}
+    var first = 0;
+    // localStorage에서 값을 불러오는 함수
+    useEffect(()=>{
+        for(var i = 0; i<localStorage.length; i++){
+            const storedValues = JSON.parse(localStorage.getItem(0)) || [];
+            setLocalStorageValue(storedValues);
+            if(first===0){
+                setLocalStorageValues((now)=>[localStorageValue]);  
+                first++;
+            } else setLocalStorageValues((now)=>[...now, localStorageValue]);
+        }
+    }, [localStoragelength])
 
     {/*function setList(){
         for(var i = 0; i<localStorage.length; i++){
@@ -144,7 +135,7 @@ function KakaoMap() {
             }}>
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <p style={{ fontSize: "15px", marginRight: "14px", color: "rgba(0,0,0,0.8)", fontWeight: "bold" }}>{item.name}</p>
-                    <p style={{ color: "rgba(0,0,0,0.6)" }}>{item.distance.toFixed(1)}km</p>
+                    <p style={{ color: "rgba(0,0,0,0.6)" }}>{item.distance}km</p>
                 </div>
                 <div style={{ color: "rgba(0,0,0,0.8)" }}>({item.latitude}, {item.longitude})</div>
             </div>
