@@ -43,6 +43,7 @@ export default function Write() {
 
   const [isTitleOK,setIsTitleOK] = useState(true);
   const [isContentOK,setisContentOK] = useState(true);
+  const [isMaxCapacityOK,setisMaxCapacityOK] = useState(true);
   const [isStartedTimeOK,setisStartedTimeOK] = useState(true);
 
   // authorId = localStorage.getItem('test');
@@ -81,6 +82,8 @@ export default function Write() {
   const button_test = () => {
     setIsTitleOK(true);
     setisContentOK(true);
+    setisStartedTimeOK(true);
+    setisMaxCapacityOK(true);
     console.log("startedDate = " + startedDate);
     console.log("startedTime = " + statedTime);
     startedAt = startedDate + "T" + statedTime;
