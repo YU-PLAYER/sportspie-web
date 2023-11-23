@@ -27,7 +27,7 @@ import qs from 'qs';
 "content": "string" */
 
 export default function Write() {
-
+  
   var DefaultTitle = ["풋살 즐겜하실 멤버 구합니다!", "가볍게 풋살하실 멤버 모집합니다~", "심심한데 축구 한 판 어때요?"];
   var random_index = Math.floor(Math.random() * DefaultTitle.length);
   var random_Title = DefaultTitle[random_index];
@@ -126,7 +126,7 @@ export default function Write() {
             {isTitleOK == true ?
               <TextField label="제목"
                 sx={{
-                  width: 500,
+                  width: 300,
                   maxWidth: '100%',
                 }}
                 className="title" name="Outlined" maxRows={1} placeholder="방 제목" variant="outlined"
@@ -135,7 +135,7 @@ export default function Write() {
               :
               <TextField error label="제목"
                 sx={{
-                  width: 500,
+                  width: 300,
                   maxWidth: '100%',
                 }}
                 className="title" name="Outlined" maxRows={1} placeholder="방 제목" variant="outlined"

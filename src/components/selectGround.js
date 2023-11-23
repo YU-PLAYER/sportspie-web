@@ -26,24 +26,28 @@ export default function SelectOtherProps() {
       name: "대구광역시",
       villages: [
         {
-          name: "중구",
-          stages: ["중구 1", "중구 2"]
+          name: "수성구",
+          stages: ["대구풋살"]
         },
         {
           name: "북구",
-          stages: ["북구 1", "북구 2"]
-        },
-        {
-          name: "동구",
-          stages: ["동구 1", "동구 2"]
+          stages: ["팔공K스타디움", "DS풋볼아카데미 실내풋살장"]
         },
         {
           name: "서구",
-          stages: ["서구 1", "서구 2"]
+          stages: ["비산실내풋살파크"]
         },
         {
           name: "남구",
-          stages: ["남구 1", "남구 2"]
+          stages: ["첼시풋살"]
+        },
+        {
+          name: "달서구",
+          stages: ["상인풋살장", "월배S풋살파크", "LFC 엘에프씨 풋살파크 두류점","라온풋살파크 월배점"]
+        },
+        {
+          name: "달성군",
+          stages: ["유천풋살"]
         }
       ]
     },
