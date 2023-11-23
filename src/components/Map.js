@@ -13,8 +13,8 @@ function KakaoMap() {
     //const [localStorageValues, setLocalStorageValues] = useState([]);
     var num = 0;
     const [localStorageValues, setLocalStorageValues] = useState(
-        [{ name: "축구장", distance: 1.3325, latitude: 2.344, longitude: 5.234 },
-        { name: "풋살", distance: 4.3325, latitude: 3.344, longitude: 3.5211 }]);
+        [{ name: "축구장", id:0, distance: 1.3325, latitude: 2.344, longitude: 5.234 },
+        { name: "풋살", id:1, distance: 4.3325, latitude: 3.344, longitude: 3.5211 }]);
     useEffect(() => {
         window.kakao.maps.load(() => {
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -180,7 +180,7 @@ function KakaoMap() {
                         </div>
                         <section id="maplist" style={{ width: "90%", display: "flex", flexDirection: "column" }}>
                             {localStorageValues.map((item) =>
-                                <MapList item={item} />)}
+                                <MapList item={item} key={item.id}/>)}
                         </section>
                     </div>
                 </Box>
