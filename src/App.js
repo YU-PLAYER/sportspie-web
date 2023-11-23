@@ -43,7 +43,7 @@ function App() {
                 <Route path="/MyProfile" element={<MyProfile />} />
                 <Route path="/ModifyProfile" element={<ModifyProfile />} />
                 <Route path="/ExamineProfile" element={<ExamineProfile />} />
-                <Route path="/DetailPage/:id" element={<DetailPage />} />
+                <Route path="/DetailPage" element={<DetailPage />} />
                 <Route path="/Notice" element={<Notice />} />
                 <Route path="/Report" element={<Report />} />
             </Routes>
