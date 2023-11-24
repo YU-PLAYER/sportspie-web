@@ -38,6 +38,7 @@ export default function Write() {
   const [title, setTitle] = useState(random_Title);
   const [maxCapacity, setMaxCapacity] = useState("");
   const [stadiumId, setStadiumId] = useState("");
+  const [stadium, setStadium] = useState("");
   const [content, setContent] = useState("");
 
   const [isTitleOK,setIsTitleOK] = useState(true);
