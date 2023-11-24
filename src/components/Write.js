@@ -97,7 +97,6 @@ export default function Write() {
   };
 
   const handleContent = e => {
-    console.log(`Typed => ${e.target.value}`);
     setContent(e.target.value);
   };
 
@@ -170,7 +169,7 @@ export default function Write() {
       console.log("content: " + content);
 
       try {
-        const response = axios.get('http://110.165.17.35:8080/api/game', { game: game });
+        const response = axios.post('http://110.165.17.35:8080/api/game', { game: game });
         console.log(response);
       } catch (err) {
         console.log("작성 요청 실패");
