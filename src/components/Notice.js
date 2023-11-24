@@ -12,6 +12,18 @@ import Stack from '@mui/material/Stack';
 
 export default function Notice() {
 
+    const [loading, setLoading] = useState(true);
+    const [noticeAPI, setNoticeAPI] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://110.165.17.35:8080/Notice`)
+        .then((response) => response.json())
+        .then((json) => {
+            setNoticeAPI(json);
+            setLoading(false);
+        });
+    }, []);
+
     function Notice({ notice }) {
         return (
             <div>
@@ -127,7 +139,11 @@ export default function Notice() {
                     <Box sx={{ height: '20px' }} />
 
                     <div>
-                        {page == 1 ? Notices.map(notice => (<Notice notice={notice} />)) : 2}
+                        {page == 1 ? Notices.map(notice => (<Notice notice={notice} />)) 
+                        : 
+                        noticeAPI.map((noticeAPI) => (
+                            <Notice notice={noticeAPI}/>
+                        ))}
                     </div>
 
                     <Box sx={{ height: '20px' }} />

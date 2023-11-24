@@ -37,9 +37,32 @@ export async function getAccessKakaoToken(authCode) {
     const Kakaotoken = token_response.data['access_token'];
     console.log('Kakaotoken:', Kakaotoken);
 
-    const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/kakao', { token: Kakaotoken });
+    const user = await axios.get('https://kapi.kakao.com/v2/user/me',{
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${Kakaotoken}`
+      }
+    })
 
-    localStorage.setItem('access_token', response.data['access_token']);
+    console.log(user);
+
+    const {nickname, profile_image } = user.data.properties;
+    const email = user.data.kakao_account.email;
+
+    console.log(nickname, profile_image, email);
+
+    const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/kakao', {token: Kakaotoken});
+
+    console.log(response);
+    
+    if(response.status !=200){}
+    else {
+      localStorage.setItem('access_token', response.data['access_token']);
+      localStorage.setItem('NickName',nickname);
+      localStorage.setItem('profile_image',profile_image);
+      localStorage.setItem('email',email);
+    }
+    
   } catch (error) {
     console.error('An error occurred:', error);
   }

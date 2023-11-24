@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Unstable_NumberInput as BaseNumberInput } from "@mui/base/Unstable_NumberInput";
-import {styled} from '@mui/system';
+import { styled } from '@mui/system';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add'
 import Swal from 'sweetalert2';
@@ -29,26 +29,27 @@ import 'dayjs/locale/ko';
 "content": "string" */
 
 export default function Write() {
-  
+
   var DefaultTitle = ["풋살 즐겜하실 멤버 구합니다!", "가볍게 풋살하실 멤버 모집합니다~", "심심한데 축구 한 판 어때요?"];
   var random_index = Math.floor(Math.random() * DefaultTitle.length);
   var random_Title = DefaultTitle[random_index];
 
-  const [authorId, setAuthorId] = useState("");
+  var authorId = localStorage.getItem('NickName');
   const [title, setTitle] = useState(random_Title);
   const [maxCapacity, setMaxCapacity] = useState("");
   const [stadiumId, setStadiumId] = useState("");
   const [stadium, setStadium] = useState("");
   const [content, setContent] = useState("");
 
-  const [isTitleOK,setIsTitleOK] = useState(true);
-  const [isContentOK,setisContentOK] = useState(true);
-  const [isMaxCapacityOK,setisMaxCapacityOK] = useState(true);
-  const [isStartedTimeOK,setisStartedTimeOK] = useState(true);
+  const [isTitleOK, setIsTitleOK] = useState(true);
+  const [isContentOK, setisContentOK] = useState(true);
+  const [isMaxCapacityOK, setisMaxCapacityOK] = useState(true);
+  const [isStartedTimeOK, setisStartedTimeOK] = useState(true);
 
-  // authorId = localStorage.getItem('test');
-  
-  // json 객체
+  var startedAt = "";
+  var startedDate = String(dayjs().format('YYYY-MM-DD'));
+  var statedTime = String(dayjs().format('HH:mm:ss'));
+
   const game = {
     authorId: authorId,
     title: title,
@@ -56,44 +57,40 @@ export default function Write() {
     startedAt: startedAt,
     stadiumId: stadiumId,
     content: content,
-};
-
-  var startedAt = "";
-  var startedDate = String(dayjs().format('YYYY-MM-DD'));
-  var statedTime = String(dayjs().format('HH:mm:ss'));
+  };
 
   const handleTitle = e => {
-    if(e.key == "Enter") e.preventDefault();
+    if (e.key == "Enter") e.preventDefault();
     if (e.target.value.length > 20) alert("방제목은 20글자까지만 가능합니다.");
     else setTitle(e.target.value);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setStadium(stadium);
-    if(stadium == '비산실내풋살파크'){
+    if (stadium == '비산실내풋살파크') {
       setStadiumId(1);
-    } else if (stadium == '대구풋살'){
+    } else if (stadium == '대구풋살') {
       setStadiumId(2);
-    } else if (stadium == '상인풋살장'){
+    } else if (stadium == '상인풋살장') {
       setStadiumId(3);
-    } else if (stadium == '월배S풋살파크'){
+    } else if (stadium == '월배S풋살파크') {
       setStadiumId(4);
-    } else if (stadium == 'LFC 엘에프씨 풋살파크 두류점'){
+    } else if (stadium == 'LFC 엘에프씨 풋살파크 두류점') {
       setStadiumId(5);
-    } else if (stadium == '팔공K스타디움'){
+    } else if (stadium == '팔공K스타디움') {
       setStadiumId(6);
-    } else if (stadium == '유천풋살'){
+    } else if (stadium == '유천풋살') {
       setStadiumId(7);
-    } else if (stadium == 'DS풋볼아카데미 실내풋살장'){
+    } else if (stadium == 'DS풋볼아카데미 실내풋살장') {
       setStadiumId(8);
-    } else if (stadium == '첼시풋살'){
+    } else if (stadium == '첼시풋살') {
       setStadiumId(9);
-    } else if (stadium == '라온풋살파크 월배점'){
+    } else if (stadium == '라온풋살파크 월배점') {
       setStadiumId(10);
     } else {
       console.log("err")
     }
-  },[stadium]);
+  }, [stadium]);
 
   const handleDataChange = (newData) => {
     setStadium(newData);
@@ -106,13 +103,13 @@ export default function Write() {
 
   const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
 
-    useEffect(()=>{},[maxCapacity]);
+    useEffect(() => { }, [maxCapacity]);
 
     const handleValue = (e) => {
       console.log(e.target.value);
       setMaxCapacity(e.target.value);
     }
-  
+
     return (
       <BaseNumberInput
         slots={{
@@ -133,7 +130,7 @@ export default function Write() {
         {...props}
         ref={ref}
         value={maxCapacity}
-        onChange={(event,val) => setMaxCapacity(val)}
+        onChange={(event, val) => setMaxCapacity(val)}
       />
     );
   });
@@ -153,24 +150,31 @@ export default function Write() {
         text: '방제목을 2글자 이상 입력해 주세요.'
       });
       setIsTitleOK(false);
+    } else if (maxCapacity == "undefined") {
+      Swal.fire({
+        icon: 'warning',
+        text: '참여가능 최대 인원을 입력해 주세요.'
+      });
     } else if (content.length < 50) {
       Swal.fire({
         icon: 'warning',
         text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
       });
       setisContentOK(false);
-    } else if(maxCapacity == ""){
-      Swal.fire({
-        icon: 'warning',
-        text: '참여가능 최대 인원을 입력해 주세요.'
-      });
-    }else {
-    console.log("AuthorID: " + authorId);
-    console.log("title: " + title);
-    console.log("maxCapacity: " + maxCapacity);
-    console.log("startedAt: " + startedAt);
-    console.log("stadiumId: " + stadiumId);
-    console.log("content: " + content);
+    } else {
+      console.log("AuthorID: " + authorId);
+      console.log("title: " + title);
+      console.log("maxCapacity: " + maxCapacity);
+      console.log("startedAt: " + startedAt);
+      console.log("stadiumId: " + stadiumId);
+      console.log("content: " + content);
+
+      try {
+        const response = axios.get('http://110.165.17.35:8080/api/game', { game: game });
+        console.log(response);
+      } catch (err) {
+        console.log("작성 요청 실패");
+      }
     }
   }
 
@@ -212,12 +216,12 @@ export default function Write() {
             <Box sx={{ height: '30px' }} />
             최대 참여 인원
             <Box sx={{ height: '15px' }} />
-            <NumberInput min={4} max={40} step={2}/>
+            <NumberInput min={4} max={40} step={2} />
           </Container>
         </Box>
         <Box sx={{ height: '20px' }} />
       </Container>
-      
+
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
         <Box sx={{ height: '500px', borderRadius: 5, boxShadow: 3, textAlign: "center" }}>
@@ -260,7 +264,7 @@ export default function Write() {
           <Box sx={{ height: '20px' }} />
           장소 선택
           <Box sx={{ height: '20px' }} />
-          <SelectStadium onDataChange={handleDataChange}/>
+          <SelectStadium onDataChange={handleDataChange} />
         </Box>
         <Box sx={{ height: '20px' }} />
       </Container>
@@ -278,17 +282,17 @@ export default function Write() {
               }}
             >
 
-              {isContentOK ? 
-              <Textarea fullWidth label="fullWidth" id="fullWidth"
-              minRows={20} maxRows={20} placeholder="경기글 상세내역"
-              value={content} onChange={handleContent} />
-              :
-              <Textarea error fullWidth label="fullWidth" id="fullWidth"
-              minRows={20} maxRows={20} placeholder="경기글 상세내역"
-              value={content} onChange={handleContent}
-              helperText="경기글 상세내역을 50글자 이상 입력해 주세요." />
+              {isContentOK ?
+                <Textarea fullWidth label="fullWidth" id="fullWidth"
+                  minRows={20} maxRows={20} placeholder="경기글 상세내역"
+                  value={content} onChange={handleContent} />
+                :
+                <Textarea error fullWidth label="fullWidth" id="fullWidth"
+                  minRows={20} maxRows={20} placeholder="경기글 상세내역"
+                  value={content} onChange={handleContent}
+                  helperText="경기글 상세내역을 50글자 이상 입력해 주세요." />
               }
-              
+
             </Box>
           </Container>
         </Box>
@@ -366,9 +370,8 @@ const StyledInput = styled('input')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 4px ${
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
-  };
+  box-shadow: 0px 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
+    };
   border-radius: 8px;
   margin: 0 8px;
   padding: 10px 12px;
