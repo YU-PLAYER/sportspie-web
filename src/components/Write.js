@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Textarea from '@mui/joy/Textarea';
 import TextField from '@mui/material/TextField';
-import SelectOtherProps from './selectGround.js';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import dayjs from 'dayjs';
+import SelectStadium from './selectStadium.js';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,7 +20,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import Swal from 'sweetalert2';
 import 'dayjs/locale/ko';
-import qs from 'qs';
 
 /* "authorId": 0,
 "title": "string",
@@ -47,15 +46,16 @@ export default function Write() {
   const [isStartedTimeOK,setisStartedTimeOK] = useState(true);
 
   // authorId = localStorage.getItem('test');
-
-  const game = qs.stringify({
-    "authorId": authorId,
-    "title": title,
-    "maxCapacity": maxCapacity,
-    "startedAt": startedAt,
-    "stadiumId": stadiumId,
-    "content": content
-  });
+  
+  // json 객체
+  const game = {
+    authorId: authorId,
+    title: title,
+    maxCapacity: maxCapacity,
+    startedAt: startedAt,
+    stadiumId: stadiumId,
+    content: content,
+};
 
   var startedAt = "";
   var startedDate = String(dayjs().format('YYYY-MM-DD'));
@@ -63,54 +63,49 @@ export default function Write() {
 
   const handleTitle = e => {
     if(e.key == "Enter") e.preventDefault();
-    console.log(`Typed => ${e.target.value}`)
-    console.log(e.target.value.length);
     if (e.target.value.length > 20) alert("방제목은 20글자까지만 가능합니다.");
     else setTitle(e.target.value);
   };
 
-  const handleMaxCapacity = (e) => {
-    console.log(maxCapacity);
-    setMaxCapacity(e.target.value);
-  }
+  useEffect(()=>{
+    setStadium(stadium);
+    if(stadium == '비산실내풋살파크'){
+      setStadiumId(1);
+    } else if (stadium == '대구풋살'){
+      setStadiumId(2);
+    } else if (stadium == '상인풋살장'){
+      setStadiumId(3);
+    } else if (stadium == '월배S풋살파크'){
+      setStadiumId(4);
+    } else if (stadium == 'LFC 엘에프씨 풋살파크 두류점'){
+      setStadiumId(5);
+    } else if (stadium == '팔공K스타디움'){
+      setStadiumId(6);
+    } else if (stadium == '유천풋살'){
+      setStadiumId(7);
+    } else if (stadium == 'DS풋볼아카데미 실내풋살장'){
+      setStadiumId(8);
+    } else if (stadium == '첼시풋살'){
+      setStadiumId(9);
+    } else if (stadium == '라온풋살파크 월배점'){
+      setStadiumId(10);
+    } else {
+      console.log("err")
+    }
+  },[stadium]);
+
+  const handleDataChange = (newData) => {
+    setStadium(newData);
+  };
 
   const handleContent = e => {
     console.log(`Typed => ${e.target.value}`);
     setContent(e.target.value);
   };
 
-  const button_test = () => {
-    setIsTitleOK(true);
-    setisContentOK(true);
-    setisStartedTimeOK(true);
-    setisMaxCapacityOK(true);
-    console.log("startedDate = " + startedDate);
-    console.log("startedTime = " + statedTime);
-    startedAt = startedDate + "T" + statedTime;
-    console.log(startedAt);
-    if (title.length < 2) {
-      Swal.fire({
-        icon: 'warning',
-        text: '방제목을 2글자 이상 입력해 주세요.'
-      });
-      setIsTitleOK(false);
-    } else if (content.length < 50) {
-      Swal.fire({
-        icon: 'warning',
-        text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
-      });
-      setisContentOK(false);
-    } else {
-    console.log("AuthorID: " + authorId);
-    console.log("title: " + title);
-    console.log("maxCapacity: " + maxCapacity);
-    console.log("startedAt: " + startedAt);
-    console.log("stadiumId: " + stadiumId);
-    console.log("content: " + content);
-    }
-  }
-
   const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
+
+    useEffect(()=>{},[maxCapacity]);
 
     const handleValue = (e) => {
       console.log(e.target.value);
@@ -136,10 +131,48 @@ export default function Write() {
         }}
         {...props}
         ref={ref}
-        onChange={handleValue}
+        value={maxCapacity}
+        onChange={(event,val) => setMaxCapacity(val)}
       />
     );
   });
+
+  const post_btn = () => {
+    setIsTitleOK(true);
+    setisContentOK(true);
+    setisStartedTimeOK(true);
+    setisMaxCapacityOK(true);
+    console.log("startedDate = " + startedDate);
+    console.log("startedTime = " + statedTime);
+    startedAt = startedDate + "T" + statedTime;
+    console.log(startedAt);
+    if (title.length < 2) {
+      Swal.fire({
+        icon: 'warning',
+        text: '방제목을 2글자 이상 입력해 주세요.'
+      });
+      setIsTitleOK(false);
+    } else if (content.length < 50) {
+      Swal.fire({
+        icon: 'warning',
+        text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
+      });
+      setisContentOK(false);
+    } else if(maxCapacity == ""){
+      Swal.fire({
+        icon: 'warning',
+        text: '참여가능 최대 인원을 입력해 주세요.'
+      });
+    }else {
+    console.log("AuthorID: " + authorId);
+    console.log("title: " + title);
+    console.log("maxCapacity: " + maxCapacity);
+    console.log("startedAt: " + startedAt);
+    console.log("stadiumId: " + stadiumId);
+    console.log("content: " + content);
+    }
+  }
+
 
   return (
     <React.Fragment>
@@ -178,12 +211,12 @@ export default function Write() {
             <Box sx={{ height: '30px' }} />
             최대 참여 인원
             <Box sx={{ height: '15px' }} />
-            <NumberInput min={4} max={40} value={maxCapacity}/>
+            <NumberInput min={4} max={40} step={2}/>
           </Container>
         </Box>
         <Box sx={{ height: '20px' }} />
       </Container>
-
+      
       <Container maxWidth="sm">
         <Box sx={{ height: '20px' }} />
         <Box sx={{ height: '500px', borderRadius: 5, boxShadow: 3, textAlign: "center" }}>
@@ -226,7 +259,7 @@ export default function Write() {
           <Box sx={{ height: '20px' }} />
           장소 선택
           <Box sx={{ height: '20px' }} />
-          <SelectOtherProps></SelectOtherProps>
+          <SelectStadium onDataChange={handleDataChange}/>
         </Box>
         <Box sx={{ height: '20px' }} />
       </Container>
@@ -270,7 +303,7 @@ export default function Write() {
               justifyContent: 'center',
               alignItems: 'right',
             }}>
-            <Button variant="contained" endIcon={<SendIcon />} onClick={button_test}>
+            <Button variant="contained" endIcon={<SendIcon />} onClick={post_btn}>
               작성하기
             </Button>
             <Button variant="outlined" startIcon={<DeleteIcon />} onClick={null}>
