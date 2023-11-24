@@ -106,7 +106,7 @@ function KakaoMap() {
                     <p style={{ fontSize: "15px", marginRight: "14px", color: "rgba(0,0,0,0.8)", fontWeight: "bold" }}>{item.name}</p>
                     <p style={{ color: "rgba(0,0,0,0.6)" }}>{item.distance.toFixed(2)}km</p>
                 </div>
-                <div style={{ color: "rgba(0,0,0,0.8)" }}>({item.latitude}, {item.longitude})</div>
+                <div style={{ color: "rgba(0,0,0,0.8)", fontSize:"11px"}}>{item.city} {item.district} {item.village}</div>
             </div>
         );
     }
