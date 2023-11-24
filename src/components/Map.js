@@ -5,14 +5,11 @@ import { useState, useEffect } from "react";
 import soccerBlue from '../images/markerBlue.png';
 import soccerRed from '../images/markerRed.png'
 import axios from 'axios';
-import { CollectionsBookmarkOutlined } from '@mui/icons-material';
 var { kakao } = window;
 
 function KakaoMap() {
-    //const marksArray = [];
-    const [localStoragelength, setLocalStoragelength] = useState(0);
-    const [localStorageValue, setLocalStorageValue] = useState({});
-    const [localStorageValues, setLocalStorageValues] = useState([]);
+    const [searchValues, setsearchValues] = useState([]);
+    const [searchLength, setsearchLength] = useState(0);
     useEffect(() => {
         window.kakao.maps.load(() => {
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -39,9 +36,7 @@ function KakaoMap() {
                 });
 
             } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-
                 var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-
                 displayMarker(locPosition);
             }
 
@@ -71,13 +66,13 @@ function KakaoMap() {
                         bounds.extend(new kakao.maps.LatLng(center.getLat(), center.getLng()));
                         for (let i = 0; i < result.data.length; i++) {
                             localStorage.setItem(i, JSON.stringify(result.data[i]));
+                            setsearchValues((now)=>[...now, result.data[i]]);
                             displaySoccerMarker(result.data[i]);
                             bounds.extend(new kakao.maps.LatLng(result.data[i].latitude, result.data[i].longitude));
                             console.log(result.data[i]);
                         }
-                        console.log(localStorage.length);
-                        setLocalStoragelength(localStorage.length);
                         map.setBounds(bounds);
+                        setsearchLength(result.data.length);
                     })
                     .catch((error) => {
                         console.log('요청 실패')
@@ -97,45 +92,19 @@ function KakaoMap() {
                 });
                 soccermarker.setMap(map);
             }
-
         })
     }, [])
-    var first = 0;
-    // localStorage에서 값을 불러오는 함수
-    useEffect(()=>{
-        for(var i = 0; i<localStorage.length; i++){
-            const storedValues = JSON.parse(localStorage.getItem(0)) || [];
-            setLocalStorageValue(storedValues);
-            if(first===0){
-                setLocalStorageValues((now)=>[localStorageValue]);  
-                first++;
-            } else setLocalStorageValues((now)=>[...now, localStorageValue]);
-        }
-    }, [localStoragelength])
 
-    {/*function setList(){
-        for(var i = 0; i<localStorage.length; i++){
-            var storedvalue = localStorage.getItem(i);
-            var storedObject = JSON.parse(storedvalue);
-            console.log(storedObject);
-            marksArray.push(storedObject);
-        }  
-        console.log(marksArray);
-        return marksArray.map((item)=>(
-            <MapList item={item} />
-        ));
-    }*/}
-
-    function MapList({ item }) {
+    function MapList({ item, key }) {
         return (
-            <div style={{
+            <div key={key} style={{
                 borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width: "100%", height: "70px", boxSizing: "border-box",
                 margin: "10px 0", padding: "10px 40px", fontSize: "12px",
                 display: "flex", flexDirection: "column", justifyContent: "space-around"
             }}>
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <p style={{ fontSize: "15px", marginRight: "14px", color: "rgba(0,0,0,0.8)", fontWeight: "bold" }}>{item.name}</p>
-                    <p style={{ color: "rgba(0,0,0,0.6)" }}>{item.distance}km</p>
+                    <p style={{ color: "rgba(0,0,0,0.6)" }}>{item.distance.toFixed(2)}km</p>
                 </div>
                 <div style={{ color: "rgba(0,0,0,0.8)" }}>({item.latitude}, {item.longitude})</div>
             </div>
@@ -169,9 +138,13 @@ function KakaoMap() {
                                 width: "88%", height: "320px", marginBottom: "15px"
                             }}>
                         </div>
+                        <div style={{width:"90%", display:"flex", justifyContent:"space-between", borderBottom:"0.5px", borderStyle:'solid', borderColor:'rgba(0,0,0,0.1)',
+                        boxSizing:"border-box", margin:"10px 0", padding:"5px 10px 10px 10px", fontSize:"12px", color:'rgba(0,0,0,0.5)', fontWeight:"bold"}}>
+                            <span>4km 내</span>
+                            <span>{searchLength}개의 검색 결과</span>
+                        </div>
                         <section id="maplist" style={{ width: "90%", display: "flex", flexDirection: "column" }}>
-                            {localStorageValues.map((item) =>
-                                <MapList item={item} key={item.id}/>)}
+                        {searchValues.map((item) =><MapList item={item} key={item.id}/>)}
                         </section>
                     </div>
                 </Box>
