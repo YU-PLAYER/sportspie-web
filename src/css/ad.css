@@ -37,11 +37,11 @@
   font-size: 1.1rem !important;
   font-weight: 600 !important;
 }
-.swiper-button-prev{
-  right:-20px;
+.swiper-button-prev:after{
+  right: -20px;
 }
-.swiper-button-next{
-  left:-20px;
+.swiper-button-next:after{
+  left: -20px;
 }
   .play-search{
     display: flex;
@@ -101,4 +101,8 @@
     display:flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .css-wjh20t-MuiPagination-ul{
+    justify-content: center;
   }

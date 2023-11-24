@@ -1,15 +1,17 @@
+import * as React from 'react';
+import {useState, useEffect} from 'react';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import {Navigation} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import {Navigation} from 'swiper/modules';
 import '../css/ad.css';
-import * as React from 'react';
-import {useState} from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import '../css/ad.css';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import { StyledEngineProvider } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Ad from './Ad';
@@ -25,7 +27,7 @@ export default function Home() {
   const [fastest, setFastest] = useState(false);
   const [distance, setDistance] = useState(false);
   
-  React.useEffect(() => {
+  useEffect(() => {
     const url = new URL(window.location.href);
     const authCode = url.searchParams.get('code');
     const State = url.searchParams.get('state');
@@ -45,27 +47,13 @@ export default function Home() {
     }
   }, []);
 
-  function DayList({date, day}){
-    return (
-    <div onClick={()=>{SetClick(date); handleClick();}} style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-                width:"40px", height:"40px", borderRadius:"10px", margin:"2px 0", cursor:"pointer",
-                boxShadow : (click===date) ? "0px 0px 5px 0px rgba(0, 0, 0, 0.15)" : "0px 0px 5px 0px rgba(0, 0, 0, 0)", 
-                color : (day==='일')? "rgb(255, 69, 69)" : ((day==='토') ? "rgb(69, 75, 255)" : "black")
-                }}>
-                    <span style={{fontSize:"13px", paddingBottom:"2px"}}>{date}</span>
-                    <span style={{fontSize:"10px"}}>{day}</span>
-                </div>
-    );}
-
-  function handleClick(){
+  useEffect(()=>{
     console.log(click.toString());
     axios({
         method: 'get',    
         url:`http://110.165.17.35:8080/api/game/${click.toString()}`,
         data : {
           page: 0,
-          size: 1,
-          sort: ["empty"]
         }
     })
     .then((result)=>{
@@ -76,7 +64,20 @@ export default function Home() {
     console.log(error)
     })
 
-  }
+  }, [click]);
+
+  //날짜 list
+  function DayList({date, day}){
+    return (
+    <div onClick={()=>{SetClick(date);}} style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+                width:"40px", height:"40px", borderRadius:"10px", margin:"2px 0", cursor:"pointer",
+                boxShadow : (click===date) ? "0px 0px 5px 0px rgba(0, 0, 0, 0.15)" : "0px 0px 5px 0px rgba(0, 0, 0, 0)", 
+                color : (day==='일')? "rgb(255, 69, 69)" : ((day==='토') ? "rgb(69, 75, 255)" : "black")
+                }}>
+                    <span style={{fontSize:"13px", paddingBottom:"2px"}}>{date}</span>
+                    <span style={{fontSize:"10px"}}>{day}</span>
+                </div>
+    );}
 
   //제목으로 검색
   const handleInputChange = (event) => {
@@ -90,6 +91,7 @@ export default function Home() {
     console.log(fastest, distance);
   }
 
+  //경기목록 component
   function PlayList({time, place, title, member}){
     return(
         <div className="play-list">
@@ -124,7 +126,7 @@ export default function Home() {
                 slidesPerView={8}
                 slidesPerGroup={1}
                 spaceBetween={0}
-                navigation={true}
+                navigation= {true}
                 modules={[Navigation]}
                 slidesOffsetBefore={55}
                 className="mySwiper"
@@ -175,10 +177,17 @@ export default function Home() {
             <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
             <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
             <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
+            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
+            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
         </Box>
-       
+        <StyledEngineProvider injectFirst>
+        <Stack spacing={2} style={{marginTop:"30px"}}>
+                <Pagination count={2} shape="rounded" />
+        </Stack>
+        </StyledEngineProvider>
+        <Box sx={{ height: '60px' }}/>
       </Box>
-      <Box sx={{ height: '20px' }} />
+      <Box sx={{ height: '20px' }}/>
       </Container>
     </React.Fragment>
   );
