@@ -131,7 +131,7 @@ export default function Home() {
   function PlayList({item}){
     const time = item.time ? item.time.slice(0,5) : '';
     return(
-        <div className="play-list">
+      <div className="play-list">
         <div className="play-list_room">
           <div>
             <span style={{marginRight:'45px'}}>{time}</span>
@@ -206,8 +206,8 @@ export default function Home() {
                 </form>
                 </div>
           </div>
-            {games.map((item)=>
-              <PlayList  item={item}/>
+            {games.map((item, index)=>
+              <PlayList item={item} key={index}/>
             )}
         </Box>
         <StyledEngineProvider injectFirst>

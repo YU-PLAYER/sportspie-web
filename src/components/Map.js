@@ -40,7 +40,6 @@ function KakaoMap() {
                 displayMarker(locPosition);
             }
 
-
             // 지도에 마커를 표시하는 함수입니다
             function displayMarker(locPosition) {
                 // 마커를 생성합니다
@@ -65,7 +64,6 @@ function KakaoMap() {
                         var bounds = new kakao.maps.LatLngBounds();
                         bounds.extend(new kakao.maps.LatLng(center.getLat(), center.getLng()));
                         for (let i = 0; i < result.data.length; i++) {
-                            localStorage.setItem(i, JSON.stringify(result.data[i]));
                             setsearchValues((now)=>[...now, result.data[i]]);
                             displaySoccerMarker(result.data[i]);
                             bounds.extend(new kakao.maps.LatLng(result.data[i].latitude, result.data[i].longitude));
@@ -95,9 +93,9 @@ function KakaoMap() {
         })
     }, [])
 
-    function MapList({ item, key }) {
+    function MapList({ item }) {
         return (
-            <div key={key} style={{
+            <div style={{
                 borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width: "100%", height: "70px", boxSizing: "border-box",
                 margin: "10px 0", padding: "10px 40px", fontSize: "12px",
                 display: "flex", flexDirection: "column", justifyContent: "space-around"
