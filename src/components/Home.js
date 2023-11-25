@@ -17,6 +17,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Ad from './Ad';
 import { getAccessNaverToken } from './getAccessNaverToken';
 import { getAccessKakaoToken } from './getAccessKakaoToken';
+import { ListItemSecondaryAction } from '@mui/material';
+//import { ConsoleWriter } from 'istanbul-lib-report';
 
 export default function Home() {
   const now = dayjs();
@@ -24,9 +26,11 @@ export default function Home() {
   const [click, SetClick]=useState(now.get("D"));
   const [inputValue, setInputValue] = useState('');
   const [storedValue, setStoredValue] = useState('');
-  const [fastest, setFastest] = useState(false);
-  const [distance, setDistance] = useState(false);
-  
+  const [ASC, setASC] = useState(true); //정렬 default는 ASC
+  const [DESC, setDESC] = useState(false);
+  const [games, setGames] = useState([{}]);
+
+  //소셜로그인
   useEffect(() => {
     const url = new URL(window.location.href);
     const authCode = url.searchParams.get('code');
@@ -47,26 +51,70 @@ export default function Home() {
     }
   }, []);
 
+  //날짜 & 정렬 선택시 data 요청
   useEffect(()=>{
-    console.log(click.toString());
+    var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click.toString()}`;
+    console.log("선택한 날짜 : " + date);
+    var sort = (DESC === true)? "DESC" : "ASC" ;
+    console.log("정렬 기준 : " + sort);
     axios({
         method: 'get',    
-        url:`http://110.165.17.35:8080/api/game/${click.toString()}`,
-        data : {
-          page: 0,
+        url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}`,
+        data: {
+          page:0
         }
     })
     .then((result)=>{
-        console.log('요청 성공')
-        console.log(result.title);
+        console.log('요청 성공');
+        console.log(result.data.content);
+        setGames(result.data.content);
     })
     .catch((error)=>{console.log('요청 실패')
     console.log(error)
     })
+  }, [click, ASC, DESC]);
 
-  }, [click]);
+  //제목 검색하면 data 요청
+  useEffect(()=>{
+    console.log("검색할 내용 : "+storedValue);
+    if(storedValue !== ''){
+      var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click.toString()}`;
+      console.log("선택한 날짜 : " + date);
+      var sort = (DESC === true)? "DESC" : "ASC" ;
+      console.log("정렬 기준 : " + sort);
+      axios({
+          method: 'get',    
+          url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}&title=${storedValue}`,
+          data: {
+            page:0
+          }
+      })      
+    .then((result)=>{
+        console.log('요청 성공')
+        console.log(result);
+        console.log(result.data.content);
+        setGames(result.data.content);
+        setStoredValue('');
+    })
+    .catch((error)=>{console.log('요청 실패')
+    console.log(error)
+    })
+    }
+  },[storedValue])
 
-  //날짜 list
+
+  //제목으로 검색
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleButtonClick = (event) => {
+    event.preventDefault();
+    setStoredValue(inputValue);
+    setInputValue('');
+  }
+
+  //날짜 list component
   function DayList({date, day}){
     return (
     <div onClick={()=>{SetClick(date);}} style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
@@ -78,33 +126,22 @@ export default function Home() {
                     <span style={{fontSize:"10px"}}>{day}</span>
                 </div>
     );}
-
-  //제목으로 검색
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleButtonClick = (event) => {
-    event.preventDefault();
-    setStoredValue(inputValue);
-    setInputValue('');
-    console.log(fastest, distance);
-  }
-
+    
   //경기목록 component
-  function PlayList({time, place, title, member}){
+  function PlayList({item}){
+    const time = item.time ? item.time.slice(0,5) : '';
     return(
-        <div className="play-list">
+      <div className="play-list">
         <div className="play-list_room">
+          <div>
+            <span style={{marginRight:'45px'}}>{time}</span>
+          </div>
           <div className="play-list-room_time">
-            <span>{time}</span>
-            <span>{place}</span>
+            <span style={{fontWeight:'bold'}}>{item.title}</span>
+            <span style={{fontSize:'11px', marginTop:'4px',}}>{item.stadiumName}</span>
           </div>
-          <div className="play-list-room_name">
-            <span>{title}</span>
-          </div>
-          <div className="play-list-room_person">
-            <span>{member}</span>
+          <div style={{width:"33px", display:'flex', justifyContent:'center'}}>
+            <span>{item.currentPeople}/{item.totalPeople}</span>
           </div>
         </div>
       </div>
@@ -133,10 +170,10 @@ export default function Home() {
             >
                 <SwiperSlide><DayList date={now.get("D")} day={day[now.get("d")]}/></SwiperSlide>
                 <SwiperSlide><DayList date={now.add(1,"d").get("D")} day={day[now.add(1,"d").get("d")]}/></SwiperSlide>
-                <SwiperSlide><DayList  date={now.add(2,"d").get("D")} day={day[now.add(2,"d").get("d")]}/></SwiperSlide>
-                <SwiperSlide><DayList  date={now.add(3,"d").get("D")} day={day[now.add(3,"d").get("d")]}/></SwiperSlide>
-                <SwiperSlide><DayList  date={now.add(4,"d").get("D")} day={day[now.add(4,"d").get("d")]}/></SwiperSlide>
-                <SwiperSlide><DayList  date={now.add(5,"d").get("D")} day={day[now.add(5,"d").get("d")]}/></SwiperSlide>
+                <SwiperSlide><DayList date={now.add(2,"d").get("D")} day={day[now.add(2,"d").get("d")]}/></SwiperSlide>
+                <SwiperSlide><DayList date={now.add(3,"d").get("D")} day={day[now.add(3,"d").get("d")]}/></SwiperSlide>
+                <SwiperSlide><DayList date={now.add(4,"d").get("D")} day={day[now.add(4,"d").get("d")]}/></SwiperSlide>
+                <SwiperSlide><DayList date={now.add(5,"d").get("D")} day={day[now.add(5,"d").get("d")]}/></SwiperSlide>
                 <SwiperSlide><DayList date={now.add(6,"d").get("D")} day={day[now.add(6,"d").get("d")]}/></SwiperSlide>
                 <SwiperSlide><DayList date={now.add(7,"d").get("D")} day={day[now.add(7,"d").get("d")]}/></SwiperSlide>
                 <SwiperSlide><DayList date={now.add(8,"d").get("D")} day={day[now.add(8,"d").get("d")]}/></SwiperSlide>
@@ -151,15 +188,15 @@ export default function Home() {
 
         <div className="play-search">
                 <div className="play-search_new">
-                    <button onClick={()=>{setFastest(true); setDistance(false);}} style={{cursor:"pointer"}}>
+                    <button onClick={()=>{setASC(true); setDESC(false);}} style={{cursor:"pointer", color:'black'}}>
                         <div className="play-search_dot"></div>
                         <span>최신순</span>
                     </button>
                 </div>
                 <div className="play-search_distance">
-                    <button onClick={()=>{setFastest(false); setDistance(true);}} style={{cursor:"pointer"}}>
+                    <button onClick={()=>{setASC(false); setDESC(true);}} style={{cursor:"pointer", color:'black'}}>
                         <div className="play-search_dot"></div>
-                        <span>거리순</span>
+                        <span>과거순</span>
                     </button>
                 </div>
                 <div className="play-search_search">
@@ -168,17 +205,10 @@ export default function Home() {
                     <button onClick={handleButtonClick} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
                 </form>
                 </div>
-            </div>
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
-            <PlayList time="20:20" place="장소" title="방 제목" member="9/12" />
+          </div>
+            {games.map((item, index)=>
+              <PlayList item={item} key={index}/>
+            )}
         </Box>
         <StyledEngineProvider injectFirst>
         <Stack spacing={2} style={{marginTop:"30px"}}>
