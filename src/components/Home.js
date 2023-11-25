@@ -15,9 +15,12 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Ad from './Ad';
+import SUNNY from '../images/sunny.jpg';
+import CLOUDY from '../images/cloudy.jpg';
+import RAINY from '../images/rainy.jpg';
 import { getAccessNaverToken } from './getAccessNaverToken';
 import { getAccessKakaoToken } from './getAccessKakaoToken';
-import { ListItemSecondaryAction } from '@mui/material';
+//import { ListItemSecondaryAction } from '@mui/material';
 //import { ConsoleWriter } from 'istanbul-lib-report';
 
 export default function Home() {
@@ -31,7 +34,6 @@ export default function Home() {
   const [games, setGames] = useState([{}]);
   const [totalpage, settotalpage] = useState(1);
   const [pages, setPages] = useState(1);
-
   //소셜로그인
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -137,18 +139,22 @@ export default function Home() {
   //경기목록 component
   function PlayList({item}){
     const time = item.time ? item.time.slice(0,5) : '';
+    var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : RAINY;
     return(
       <div className="play-list">
         <div className="play-list_room">
-          <div>
-            <span style={{marginRight:'45px'}}>{time}</span>
+          <div style={{width:"50px", display:'flex', flexDirection:"column", height:"100%", justifyContent:'center', alignItems:"center"}}>
+            <span style={{fontSize:'13px'}}>{time}</span>
           </div>
-          <div className="play-list-room_time">
-            <span style={{fontWeight:'bold'}}>{item.title}</span>
-            <span style={{fontSize:'11px', marginTop:'4px',}}>{item.stadiumName}</span>
+          <div style={{display:"flex"}}>
+          <div className="play-list-room_title">
+            <span style={{fontWeight:'bold', marginTop:'3px'}}>{item.title}</span>
+            <span style={{fontSize:'11px', marginTop:'5px',}}>{item.stadiumName}</span>
+          </div>
+          <span><img src={weather} alt='weather' style={{width:'35px', height:'35px'}}/></span>
           </div>
           <div style={{width:"33px", display:'flex', justifyContent:'center'}}>
-            <span>{item.currentPeople}/{item.totalPeople}</span>
+            <span style={{fontSize:'12px'}}>{item.currentPeople}/{item.totalPeople}</span>
           </div>
         </div>
       </div>
