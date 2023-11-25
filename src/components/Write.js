@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Textarea from '@mui/joy/Textarea';
@@ -17,24 +18,34 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Unstable_NumberInput as BaseNumberInput } from "@mui/base/Unstable_NumberInput";
 import { styled } from '@mui/system';
 import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add'
+import AddIcon from '@mui/icons-material/Add';
 import Swal from 'sweetalert2';
 import 'dayjs/locale/ko';
+import axios from 'axios';
 
 /* "authorId": 0,
 "title": "string",
 "maxCapacity": 0,
-"startedAt": "2023-11-16T11:32:23.973Z",
+"startedAt": "2023-11-16T11:32:00",
 "stadiumId": 0,
 "content": "string" */
 
 export default function Write() {
+  
+  const navigate = useNavigate();
 
-  var DefaultTitle = ["풋살 즐겜하실 멤버 구합니다!", "가볍게 풋살하실 멤버 모집합니다~", "심심한데 축구 한 판 어때요?"];
+  var DefaultTitle = [
+    "풋살 즐겜하실 멤버 구합니다!", 
+    "가볍게 풋살하실 멤버 모집합니다~", 
+    "심심한데 축구 한 판 어때요?",
+    "다치지 않게 경기해요",
+    "같이 공 찰 분 모집합니다."
+  ];
   var random_index = Math.floor(Math.random() * DefaultTitle.length);
   var random_Title = DefaultTitle[random_index];
 
-  var authorId = localStorage.getItem('NickName');
+  const [authorId, setAuthorId] = useState(111); // test 3. 임시 id num
+  // 사용자 본인 정보 조회 필요 (고유 id값)
   const [title, setTitle] = useState(random_Title);
   const [maxCapacity, setMaxCapacity] = useState("");
   const [stadiumId, setStadiumId] = useState("");
@@ -43,21 +54,13 @@ export default function Write() {
 
   const [isTitleOK, setIsTitleOK] = useState(true);
   const [isContentOK, setisContentOK] = useState(true);
+  const [isStadiumIdOK, setIsStadiumIdOK] = useState(true);
   const [isMaxCapacityOK, setisMaxCapacityOK] = useState(true);
   const [isStartedTimeOK, setisStartedTimeOK] = useState(true);
 
-  var startedAt = "";
+  const [startedAt,setStartedAt] = useState("");
   var startedDate = String(dayjs().format('YYYY-MM-DD'));
   var statedTime = String(dayjs().format('HH:mm:ss'));
-
-  const game = {
-    authorId: authorId,
-    title: title,
-    maxCapacity: maxCapacity,
-    startedAt: startedAt,
-    stadiumId: stadiumId,
-    content: content,
-  };
 
   const handleTitle = e => {
     if (e.key == "Enter") e.preventDefault();
@@ -104,11 +107,6 @@ export default function Write() {
 
     useEffect(() => { }, [maxCapacity]);
 
-    const handleValue = (e) => {
-      console.log(e.target.value);
-      setMaxCapacity(e.target.value);
-    }
-
     return (
       <BaseNumberInput
         slots={{
@@ -134,49 +132,82 @@ export default function Write() {
     );
   });
 
-  const post_btn = () => {
+  const post_btn = () => { //작성하기 버튼 클릭시 동작
     setIsTitleOK(true);
     setisContentOK(true);
+    setIsStadiumIdOK(true);
     setisStartedTimeOK(true);
     setisMaxCapacityOK(true);
-    console.log("startedDate = " + startedDate);
-    console.log("startedTime = " + statedTime);
-    startedAt = startedDate + "T" + statedTime;
-    console.log(startedAt);
     if (title.length < 2) {
       Swal.fire({
         icon: 'warning',
         text: '방제목을 2글자 이상 입력해 주세요.'
       });
       setIsTitleOK(false);
-    } else if (maxCapacity == "undefined") {
+    } else if (maxCapacity == "") {
       Swal.fire({
         icon: 'warning',
         text: '참여가능 최대 인원을 입력해 주세요.'
       });
-    } else if (content.length < 50) {
+      setisMaxCapacityOK(false);
+    } else if (content.length < 10) {
       Swal.fire({
         icon: 'warning',
-        text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
+        text: '경기글 상세 내역을 10글자 이상 입력해 주세요.'
       });
       setisContentOK(false);
+    } else if(stadiumId == ""){
+      Swal.fire({
+        icon: 'warning',
+        text: '경기장을 선택해 주세요.'
+      });
+      setIsStadiumIdOK(false);
     } else {
+      console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
       console.log("title: " + title);
       console.log("maxCapacity: " + maxCapacity);
       console.log("startedAt: " + startedAt);
       console.log("stadiumId: " + stadiumId);
       console.log("content: " + content);
+      console.log("-----게시글 작성 요청-----");
 
       try {
-        const response = axios.post('http://110.165.17.35:8080/api/game', { game: game });
+        const response = axios.post('http://110.165.17.35:8080/api/game', {
+          authorId: authorId,
+          title: title,
+          maxCapacity: maxCapacity,
+          startedAt: startedAt,
+          stadiumId: stadiumId,
+          content: content
+        });
+
         console.log(response);
+        Swal.fire({
+          icon: 'success',
+          text: '경기글 작성에 성공하였습니다.'
+        }).then(navigate('/Home'));
       } catch (err) {
+        console.log(err);
         console.log("작성 요청 실패");
       }
     }
   }
 
+  const cancel_btn = () => {
+    Swal.fire({ // 한번 더 되묻는 경고창 출력
+      icon: 'warning',
+      title: '경기글 작성을 취소하시겠습니까?',
+      text: '작성한 경기 인원 모집 내용이 전부 사라집니다.',
+      showCancelButton: true,
+      confirmButtonColor: '#488BDB',
+      cancelButtonColor: '#EA344B',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then(function(result){
+      if(result.isConfirmed==true) navigate('/Home');
+    })
+  }
 
   return (
     <React.Fragment>
@@ -215,7 +246,7 @@ export default function Write() {
             <Box sx={{ height: '30px' }} />
             최대 참여 인원
             <Box sx={{ height: '15px' }} />
-            <NumberInput min={4} max={40} step={2} />
+            <NumberInput min={2} max={40} step={2} />
           </Container>
         </Box>
         <Box sx={{ height: '20px' }} />
@@ -246,7 +277,9 @@ export default function Write() {
                 onChange={(newValue) => {
                   console.log(dayjs(newValue).format("HH:mm:ss"));
                   statedTime = dayjs(newValue).format("HH:mm:ss");
+                  setStartedAt(startedDate + "T" + statedTime);
                   console.log("Started Time : " + statedTime);
+                  console.log(startedAt);
                 }} />
             </DemoContainer>
           </LocalizationProvider>
@@ -289,7 +322,7 @@ export default function Write() {
                 <Textarea error fullWidth label="fullWidth" id="fullWidth"
                   minRows={20} maxRows={20} placeholder="경기글 상세내역"
                   value={content} onChange={handleContent}
-                  helperText="경기글 상세내역을 50글자 이상 입력해 주세요." />
+                  helperText="경기글 상세내역을 10글자 이상 입력해 주세요." />
               }
 
             </Box>
@@ -310,7 +343,7 @@ export default function Write() {
             <Button variant="contained" endIcon={<SendIcon />} onClick={post_btn}>
               작성하기
             </Button>
-            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={null}>
+            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={cancel_btn}>
               취소하기
             </Button>
           </Stack>

@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
+import ReactLoading from "react-loading";
 
 export default function Notice() {
 
@@ -137,15 +137,22 @@ export default function Notice() {
                 <Container maxWidth="sm">
                     <Box sx={{textAlign : 'center'}}>공 지 사 항</Box>
                     <Box sx={{ height: '20px' }} />
-
-                    <div>
-                        {page == 1 ? Notices.map(notice => (<Notice notice={notice} />)) 
-                        : 
-                        noticeAPI.map((noticeAPI) => (
-                            <Notice notice={noticeAPI}/>
-                        ))}
-                    </div>
-
+                    {loading ?
+                        <Container sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <ReactLoading type="spin" color="#A593E0" />
+                        </Container>
+                        : <div>
+                            {page == 1 ? Notices.map(notice => (<Notice notice={notice} />)) 
+                            : 
+                            noticeAPI.map((noticeAPI) => (
+                                <Notice notice={noticeAPI}/>
+                            ))}
+                        </div>
+                    }
                     <Box sx={{ height: '20px' }} />
                     <Stack spacing={5} sx={{
                         display: 'flex',
