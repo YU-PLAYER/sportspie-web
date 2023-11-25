@@ -29,6 +29,8 @@ export default function Home() {
   const [ASC, setASC] = useState(true); //정렬 default는 ASC
   const [DESC, setDESC] = useState(false);
   const [games, setGames] = useState([{}]);
+  const [totalpage, settotalpage] = useState(1);
+  const [pages, setPages] = useState(1);
 
   //소셜로그인
   useEffect(() => {
@@ -59,24 +61,25 @@ export default function Home() {
     console.log("정렬 기준 : " + sort);
     axios({
         method: 'get',    
-        url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}`,
-        data: {
-          page:0
-        }
+        url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}&page=${pages-1}`,
     })
     .then((result)=>{
         console.log('요청 성공');
+        console.log(result);
+        console.log(result.data.totalPages);
+        settotalpage(result.data.totalPages);
         console.log(result.data.content);
         setGames(result.data.content);
     })
     .catch((error)=>{console.log('요청 실패')
     console.log(error)
     })
-  }, [click, ASC, DESC]);
+  }, [click, ASC, DESC,]);
 
   //제목 검색하면 data 요청
   useEffect(()=>{
     console.log("검색할 내용 : "+storedValue);
+    console.log(typeof(storedValue));
     if(storedValue !== ''){
       var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click.toString()}`;
       console.log("선택한 날짜 : " + date);
@@ -84,24 +87,27 @@ export default function Home() {
       console.log("정렬 기준 : " + sort);
       axios({
           method: 'get',    
-          url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}&title=${storedValue}`,
-          data: {
-            page:0
-          }
+          url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}&title=${storedValue}&page=${pages-1}`,
       })      
     .then((result)=>{
         console.log('요청 성공')
         console.log(result);
+        console.log(result.data.totalPages);
+        settotalpage(result.data.totalPages);
         console.log(result.data.content);
         setGames(result.data.content);
         setStoredValue('');
     })
     .catch((error)=>{console.log('요청 실패')
     console.log(error)
-    })
-    }
-  },[storedValue])
+    })}
+  },[storedValue, pages]);
 
+  const handlepage=(event)=>{
+    const currentpage = Number(event.target.outerText);
+    console.log("page : " +currentpage);
+    setPages(currentpage);
+  }
 
   //제목으로 검색
   const handleInputChange = (event) => {
@@ -212,7 +218,7 @@ export default function Home() {
         </Box>
         <StyledEngineProvider injectFirst>
         <Stack spacing={2} style={{marginTop:"30px"}}>
-                <Pagination count={2} shape="rounded" />
+                <Pagination page={pages} onChange={handlepage} defaultPage={1} count={totalpage} shape="rounded" />
         </Stack>
         </StyledEngineProvider>
         <Box sx={{ height: '60px' }}/>
