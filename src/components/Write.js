@@ -54,6 +54,7 @@ export default function Write() {
 
   const [isTitleOK, setIsTitleOK] = useState(true);
   const [isContentOK, setisContentOK] = useState(true);
+  const [isStadiumIdOK, setIsStadiumIdOK] = useState(true);
   const [isMaxCapacityOK, setisMaxCapacityOK] = useState(true);
   const [isStartedTimeOK, setisStartedTimeOK] = useState(true);
 
@@ -134,6 +135,7 @@ export default function Write() {
   const post_btn = () => { //작성하기 버튼 클릭시 동작
     setIsTitleOK(true);
     setisContentOK(true);
+    setIsStadiumIdOK(true);
     setisStartedTimeOK(true);
     setisMaxCapacityOK(true);
     if (title.length < 2) {
@@ -147,12 +149,19 @@ export default function Write() {
         icon: 'warning',
         text: '참여가능 최대 인원을 입력해 주세요.'
       });
-    } else if (content.length < 50) {
+      setisMaxCapacityOK(false);
+    } else if (content.length < 10) {
       Swal.fire({
         icon: 'warning',
-        text: '경기글 상세 내역을 50글자 이상 입력해 주세요.'
+        text: '경기글 상세 내역을 10글자 이상 입력해 주세요.'
       });
       setisContentOK(false);
+    } else if(stadiumId == ""){
+      Swal.fire({
+        icon: 'warning',
+        text: '경기장을 선택해 주세요.'
+      });
+      setIsStadiumIdOK(false);
     } else {
       console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
@@ -172,6 +181,7 @@ export default function Write() {
           stadiumId: stadiumId,
           content: content
         });
+
         console.log(response);
         Swal.fire({
           icon: 'success',
@@ -194,7 +204,9 @@ export default function Write() {
       cancelButtonColor: '#EA344B',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
-    }).then(navigate('/Home'));
+    }).then(function(result){
+      if(result.isConfirmed==true) navigate('/Home');
+    })
   }
 
   return (
@@ -310,7 +322,7 @@ export default function Write() {
                 <Textarea error fullWidth label="fullWidth" id="fullWidth"
                   minRows={20} maxRows={20} placeholder="경기글 상세내역"
                   value={content} onChange={handleContent}
-                  helperText="경기글 상세내역을 50글자 이상 입력해 주세요." />
+                  helperText="경기글 상세내역을 10글자 이상 입력해 주세요." />
               }
 
             </Box>
