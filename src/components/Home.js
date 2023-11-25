@@ -74,7 +74,7 @@ export default function Home() {
     .catch((error)=>{console.log('요청 실패')
     console.log(error)
     })
-  }, [click, ASC, DESC,]);
+  }, [click, ASC, DESC, pages]);
 
   //제목 검색하면 data 요청
   useEffect(()=>{
@@ -117,6 +117,7 @@ export default function Home() {
   const handleButtonClick = (event) => {
     event.preventDefault();
     setStoredValue(inputValue);
+    setPages(1);
     setInputValue('');
   }
 
