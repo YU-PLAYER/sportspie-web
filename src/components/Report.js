@@ -47,22 +47,15 @@ export default function Report() {
 
     return (
         <div style={{ width: '100%', height: '100vh' }}>
-            <Box
-                sx={{
-                    display: 'grid',
-                    fontSize: '0.875rem',
-                    fontWeight: '700',
-                }}
-            >
-
+            <Container maxWidth="sm">
                 <Box sx={{ height: '20px' }} />
                 <Box sx={{
-                    height: '850px', borderRadius: 5, boxShadow: 3
+                    height: '900px', borderRadius: 5, boxShadow: 3
                 }}>
                     <Box sx={{ height: '20px' }} />
                     <Box sx={{textAlign : 'center'}}>신고하기</Box>
                     <Box sx={{ height: '20px' }} />
-                    <Container maxWidth="la">
+                    <Container maxWidth="sm">
                         <FormControl>
                             <RadioGroup
                                 row
@@ -133,7 +126,7 @@ export default function Report() {
                     </Container>
                 </Box>
                 <Box sx={{ height: '70px' }} />
-            </Box>
+                </Container>
         </div>
     );
 }
