@@ -34,7 +34,8 @@ export default function Write() {
   var random_index = Math.floor(Math.random() * DefaultTitle.length);
   var random_Title = DefaultTitle[random_index];
 
-  var authorId = localStorage.getItem('NickName');
+  const [authorId, setAuthorId] = useState(localStorage.getItem('NickName')); // test 2
+  //var authorId = localStorage.getItem('NickName');
   const [title, setTitle] = useState(random_Title);
   const [maxCapacity, setMaxCapacity] = useState("");
   const [stadiumId, setStadiumId] = useState("");
@@ -46,7 +47,7 @@ export default function Write() {
   const [isMaxCapacityOK, setisMaxCapacityOK] = useState(true);
   const [isStartedTimeOK, setisStartedTimeOK] = useState(true);
 
-  var startedAt = "";
+  const [startedAt,setStartedAt] = useState("");
   var startedDate = String(dayjs().format('YYYY-MM-DD'));
   var statedTime = String(dayjs().format('HH:mm:ss'));
 
@@ -139,10 +140,6 @@ export default function Write() {
     setisContentOK(true);
     setisStartedTimeOK(true);
     setisMaxCapacityOK(true);
-    console.log("startedDate = " + startedDate);
-    console.log("startedTime = " + statedTime);
-    startedAt = startedDate + "T" + statedTime;
-    console.log(startedAt);
     if (title.length < 2) {
       Swal.fire({
         icon: 'warning',
@@ -161,17 +158,20 @@ export default function Write() {
       });
       setisContentOK(false);
     } else {
+      console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
       console.log("title: " + title);
       console.log("maxCapacity: " + maxCapacity);
       console.log("startedAt: " + startedAt);
       console.log("stadiumId: " + stadiumId);
       console.log("content: " + content);
+      console.log("-----게시글 작성 요청-----");
 
       try {
         const response = axios.post('http://110.165.17.35:8080/api/game', { game: game });
         console.log(response);
       } catch (err) {
+        console.log(err);
         console.log("작성 요청 실패");
       }
     }
@@ -215,7 +215,7 @@ export default function Write() {
             <Box sx={{ height: '30px' }} />
             최대 참여 인원
             <Box sx={{ height: '15px' }} />
-            <NumberInput min={4} max={40} step={2} />
+            <NumberInput min={2} max={40} step={2} />
           </Container>
         </Box>
         <Box sx={{ height: '20px' }} />
@@ -246,7 +246,9 @@ export default function Write() {
                 onChange={(newValue) => {
                   console.log(dayjs(newValue).format("HH:mm:ss"));
                   statedTime = dayjs(newValue).format("HH:mm:ss");
+                  setStartedAt(startedDate + "T" + statedTime);
                   console.log("Started Time : " + statedTime);
+                  console.log(startedAt);
                 }} />
             </DemoContainer>
           </LocalizationProvider>
