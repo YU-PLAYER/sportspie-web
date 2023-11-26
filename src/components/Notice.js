@@ -10,6 +10,18 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import ReactLoading from "react-loading";
 
+/* 
+    [
+        {
+          "id": 0,
+          "createdAt": "2023-11-26T14:43:49.877Z",
+          "updatedAt": "2023-11-26T14:43:49.877Z",
+          "title": "string",
+          "content": "string"
+        }
+    ]
+ */
+
 export default function Notice() {
 
     const [loading, setLoading] = useState(true);

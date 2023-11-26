@@ -20,7 +20,6 @@ export default function Dayalarm() {
                 <CssBaseline />
 
                 <Container maxWidth="sm">
-                    11.01 수요일
                     <Box sx={{ height: '10px' }} />
                     <DescriptionAlerts />
 
