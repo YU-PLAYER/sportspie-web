@@ -20,6 +20,7 @@ import CLOUDY from '../images/cloudy.jpg';
 import RAINY from '../images/rainy.jpg';
 import { getAccessNaverToken } from './getAccessNaverToken';
 import { getAccessKakaoToken } from './getAccessKakaoToken';
+import { useNavigate } from 'react-router-dom';
 //import { ListItemSecondaryAction } from '@mui/material';
 //import { ConsoleWriter } from 'istanbul-lib-report';
 
@@ -123,6 +124,12 @@ export default function Home() {
     setInputValue('');
   }
 
+  const Navigate = useNavigate();
+  const handleclick = (id)=>{
+    console.log('gameId:'+id);
+    Navigate('/DetailPage', {state: {gameid: `${id}`,},});
+  }
+
   //날짜 list component
   function DayList({date, day}){
     return (
@@ -141,7 +148,7 @@ export default function Home() {
     const time = item.time ? item.time.slice(0,5) : '';
     var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : RAINY;
     return(
-      <div className="play-list">
+      <div className="play-list" onClick={()=>handleclick(item.gameId)}>
         <div className="play-list_room">
           <div style={{width:"50px", display:'flex', flexDirection:"column", height:"100%", justifyContent:'center', alignItems:"center"}}>
             <span style={{fontSize:'13px'}}>{time}</span>

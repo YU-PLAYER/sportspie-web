@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
@@ -11,6 +11,8 @@ const DetailPage = () => {
   const [user, setUser] = useState({});
   const { gameId } = useParams(); // 경로 파라미터 받아오기
   const navigate = useNavigate(); // 페이지 이동 훅
+  const location = useLocation();
+  const gameid = location.state.gameid; //gameid props 받기
   
   useEffect(() => {
     // 사용자 정보를 가져오는 함수
