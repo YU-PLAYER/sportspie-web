@@ -25,22 +25,12 @@ const MyProfile = () => {
   const [Goalkeeper, setGoalkeeper] = useState(false); // 선호 포지션(골키퍼) State
 
   const [record, setRecord] = useState({ // 전적 및 승률 State
-    total: 0,
     win: 0,
     draw: 0,
     loes: 0
   });
 
-  const [GameResult1, setGameResult1] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult2, setGameResult2] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult3, setGameResult3] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult4, setGameResult4] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult5, setGameResult5] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult6, setGameResult6] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult7, setGameResult7] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult8, setGameResult8] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult9, setGameResult9] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult10, setGameResult10] = useState(''); // 최근 경기 승패 결과 State
+  const [recent10, setRecent10] = useState([]); // 최근 경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
 
@@ -55,9 +45,7 @@ const MyProfile = () => {
         });
   
         const {imageUrl, nickname, age, gender, region, height, weight, email,
-          introduce, attacker, midfielder, defender, goalkeeper, record,
-          GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
-          GameResult6, GameResult7, GameResult8, GameResult9, GameResult10 } = response.data;
+          introduce, attacker, midfielder, defender, goalkeeper, record, recent10} = response.data;
         
         setProfileImage(imageUrl);
         setNickname(nickname);
@@ -73,16 +61,7 @@ const MyProfile = () => {
         setDefender(defender);
         setGoalkeeper(goalkeeper);
         setRecord(record);
-        setGameResult1(GameResult1);
-        setGameResult2(GameResult2);
-        setGameResult3(GameResult3);
-        setGameResult4(GameResult4);
-        setGameResult5(GameResult5);
-        setGameResult6(GameResult6);
-        setGameResult7(GameResult7);
-        setGameResult8(GameResult8);
-        setGameResult9(GameResult9);
-        setGameResult10(GameResult10);
+        setRecent10(recent10);
   
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -106,7 +85,11 @@ const MyProfile = () => {
     fetchUserData();
   }, []);
   
-    
+  const gameResultMap = { // 숫자와 결과를 매핑하는 객체
+    0: "Win",
+    1: "Draw",
+    2: "Lose"
+  };
 
   const toEnlarge = () => { // 이미지 확대 
     setEnlarge(true);
@@ -116,7 +99,7 @@ const MyProfile = () => {
     setEnlarge(false);
   };
 
-  const handleLogout = async () => { // 로그아웃 메소드
+  const handleLogout = () => { // 로그아웃 메소드
     Swal.fire({ // 한번 더 되묻는 경고창 출력
       icon: 'warning',
       title: '정말로 로그아웃 하시겠습니까?',
@@ -125,32 +108,14 @@ const MyProfile = () => {
       cancelButtonColor: '#EA344B',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
-    }).then(async (result) => {
+    }).then((result) => {
       if (result.isConfirmed) {
-        try {
-          const access_token = localStorage.getItem('access_token');
-          const response = await axios.post('http://110.165.17.35:8080/api/', {
-            headers: {
-              Authorization: `Bearer ${access_token}`
-            }
-          });
-
-          if (response.status === 200) { // 확인버튼 클릭 시 서버에서 정상적으로 로그아웃 처리가 완료되면 로그인 페이지로 이동
-            Swal.fire({                  // 취소버튼 클릭 시 경고창 닫기
-              icon: 'success',
-              title: '로그아웃 되었습니다!',
-            });
-            localStorage.removeItem('access_token');
-            navigate('/Login');
-          }
-        } catch (error) {
-          Swal.fire({ // 서버 통신 에러 발생시 경고창 출력
-            icon: 'error',
-            title: '로그아웃 실패',
-            text: '다시 시도하여 주십시오'
-          });
-          console.error("로그아웃 중 에러 발생", error);
-        }
+        localStorage.removeItem('access_token'); // 로컬 스토리지에서 토큰 제거
+        Swal.fire({
+          icon: 'success',
+          title: '로그아웃 되었습니다!',
+        });
+        navigate('/Login'); // 로그인 페이지로 이동
       }
     });
   };
@@ -203,8 +168,8 @@ const MyProfile = () => {
     navigate('/page2');
   };
 
-  const PageChange3 = () => { // 신고하기 페이지 이동 메소드
-    navigate('/page3');
+  const PageChange_Report = () => { // 신고하기 페이지 이동 메소드
+    navigate('/Report');
   };
 
   const PageChange_ModifyProfile = () => { // 프로필 수정 페이지 이동 메소드
@@ -246,26 +211,22 @@ const MyProfile = () => {
       </PreferBox>
       <RecordBox>
         <Record>
-          전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 /
-          승률 : {((record.win / record.total) * 100).toFixed(1)}%
+          전체 전적 : {record.win + record.draw + record.lose}전 {record.win}승 {record.draw}무 {record.loes}패 /
+          승률 : {((record.win / (record.win + record.draw + record.lose)) * 100).toFixed(1)}%
         </Record>
         <RecordBoard>
-          <Game result={GameResult1}>{GameResult1}</Game>
-          <Game result={GameResult2}>{GameResult2}</Game>
-          <Game result={GameResult3}>{GameResult3}</Game>
-          <Game result={GameResult4}>{GameResult5}</Game>
-          <Game result={GameResult6}>{GameResult4}</Game>
-          <Game result={GameResult5}>{GameResult6}</Game>
-          <Game result={GameResult7}>{GameResult7}</Game>
-          <Game result={GameResult8}>{GameResult8}</Game>
-          <Game result={GameResult9}>{GameResult9}</Game>
-          <Game result={GameResult10}>{GameResult10}</Game>
+          {recent10.map((result, index) => (
+            <Game key={index} result={gameResultMap[result]}>{gameResultMap[result]}</Game>
+          ))}
+          {Array(10 - recent10.length).fill().map((_, index) => (
+            <Game key={index + recent10.length}></Game>
+          ))}
         </RecordBoard>
       </RecordBox>
       <MenuBox>
         <MenuButton onClick={PageChange_Notice}>공지사항</MenuButton>     
         <MenuButton onClick={PageChange2}>안전정보</MenuButton>
-        <MenuButton onClick={PageChange3}>신고하기</MenuButton>
+        <MenuButton onClick={PageChange_Report}>신고하기</MenuButton>
         <MenuButton onClick={PageChange_ModifyProfile}>프로필 수정</MenuButton>
       </MenuBox>
       <BottomBox>

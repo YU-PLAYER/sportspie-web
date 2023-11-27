@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
@@ -7,19 +7,24 @@ import { differenceInHours } from "date-fns";
 import TeamSelectList from './TeamSelectList';
 
 const DetailPage = () => {  
-  const [post, setPost] = useState({});
-  const [user, setUser] = useState({});
-  const { gameId } = useParams(); // 경로 파라미터 받아오기
   const navigate = useNavigate(); // 페이지 이동 훅
-  const location = useLocation();
-  const gameid = location.state.gameid; //gameid props 받기
+
+  const [post, setPost] = useState({}); // 경기글 상세정보 State
+  const [user, setUser] = useState({}); // 현재 로그인한 사용자 정보 State
+
+  const location = useLocation(); // 현재 위치 정보 훅
+  const gameId = location.state.gameid; // gameID를 가져오기
   
-  useEffect(() => {
-    // 사용자 정보를 가져오는 함수
+  useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://110.165.17.35:8080/api/user/me'); 
-        setUser(response.data);
+        const access_token = localStorage.getItem('access_token');
+        const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          },
+        });
+        setUser(response.data); // 사용자 정보를 상태에 저장
       } catch (error) {
         console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
         Swal.fire({
@@ -27,31 +32,37 @@ const DetailPage = () => {
           title: '사용자 정보 조회 오류',
           text: '서버에서 사용자 정보를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
         });
+        navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
     fetchUser();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // 경기글의 상세 정보를 불러오는 useEffect
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://110.165.17.35:8080/api/game/detail/${gameId}`);
-        setPost(response.data);
-      } catch (error) { // 서버 통신 오류 발생시 경고창 출력
+        const access_token = localStorage.getItem('access_token');
+        const response = await axios.get(`http://110.165.17.35:8080/api/game/detail/${gameId}`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          },
+        });
+        setPost(response.data); // 게시물의 상세 정보를 상태에 저장
+      } catch (error) { 
         console.error("서버에서 데이터를 불러오지 못했습니다.", error);
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
             text: '서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
           });
-          navigate('./Home');
+          navigate('./Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
     fetchPost();
     }, [gameId]);
 
-    const handleConfirm = async () => {
-      if (post.author.id !== user.id) {
+    const handleConfirm = async () => { // 인원 확정 버튼 메소드
+      if (post.userId !== user.id) {
         Swal.fire({
           icon: 'error',
           title: '인원 확정 실패',
@@ -70,13 +81,15 @@ const DetailPage = () => {
       try {
         const response = await axios.patch('http://110.165.17.35:8080/api/game/progress', {
           userId: user.id,
-          gameId: gameId
+          gameId: gameId,
+          gameTeam: "HOME"
         });
         Swal.fire({
           icon: 'success',
           title: '인원 확정 성공',
           text: '인원이 성공적으로 확정되었습니다.'
         });
+        fetchPost();  // 인원 확정 후 게시물의 상세 정보 새로고침
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -86,7 +99,7 @@ const DetailPage = () => {
       }
     };
 
-    const handleResultConfirm = async (result) => {
+    const handleResultConfirm = async (result) => { // 결과 확정 버튼 메소드
       try {
         const response = await axios.patch('http://110.165.17.35:8080/api/game/after', {
           userId: user.id,
@@ -98,6 +111,7 @@ const DetailPage = () => {
           title: '결과 확정 성공',
           text: '경기 결과가 성공적으로 확정되었습니다.'
         });
+        fetchPost(); // 결과 확정 후 게시물의 상세 정보 새로고침
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -107,8 +121,8 @@ const DetailPage = () => {
       }
     };
     
-    const handleResultButtonClick = () => {
-      if (post.author.id !== user.id) {
+    const handleResultButtonClick = () => { // 경기 결과 선택창 메소드
+      if (post.userId !== user.id) {
         Swal.fire({
           icon: 'error',
           title: '결과 확정 실패',
@@ -135,18 +149,19 @@ const DetailPage = () => {
       })
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async () => { // 경기글 삭제 버튼 메소드
       try {
           const response = await axios.post('http://110.165.17.35:8080/api/game/delete', {
               userId: user.id,
-              gameId: gameId
+              gameId: gameId,
+              gameTeam: "HOME"
           });
           Swal.fire({
               icon: 'success',
               title: '게시글 삭제 성공',
               text: '게시글이 성공적으로 삭제되었습니다.'
           });
-          navigate('./Home'); // 게시글이 성공적으로 삭제되면 홈으로 이동
+          navigate('./Home'); // 게시물 삭제 후 홈 페이지로 이동
       } catch (error) {
           Swal.fire({
               icon: 'error',
@@ -155,7 +170,7 @@ const DetailPage = () => {
           });
       }
   };
-    return (
+    return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
       <Container>
         <ImageContainer>       
             <FieldImage src={post.stadium?.imageUrl}/>
@@ -173,13 +188,14 @@ const DetailPage = () => {
         </ContentContainer>
         <TeamSelectionUI>{<TeamSelectList/>}</TeamSelectionUI>
         <ButtonContainer>
-          {post.author.id === user.id && <DeadlineButton disabled={post.currentCapacity % 2 !== 0} onClick={handleConfirm}>인원 확정</DeadlineButton>}
-          {post.author.id === user.id && <ConfirmationButton disabled={!(post.status === 'PROGRESS' && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
+          {post.userId === user.id && <DeadlineButton disabled={post.currentCapacity % 2 !== 0 && post.status !== 0} onClick={handleConfirm}>인원 확정</DeadlineButton>}
+          {post.userId === user.id && <ConfirmationButton disabled={(post.status !== 1 && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
         </ButtonContainer>
-        {post.author.id === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
+        {post.userId === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
       </Container>
     );
   };
+  // 여기서부터 컴포넌트 스타일 지정
   
   const Container = styled.div`
     width:100%;

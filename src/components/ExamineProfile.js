@@ -28,22 +28,12 @@ const ExamineProfile = (props) => {
   const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
 
   const [record, setRecord] = useState({ // 전적 및 승률 State
-    total: 0,
     win: 0,
     draw: 0,
     loes: 0
   });
 
-  const [GameResult1, setGameResult1] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult2, setGameResult2] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult3, setGameResult3] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult4, setGameResult4] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult5, setGameResult5] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult6, setGameResult6] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult7, setGameResult7] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult8, setGameResult8] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult9, setGameResult9] = useState(''); // 최근 경기 승패 결과 State
-  const [GameResult10, setGameResult10] = useState(''); // 최근 경기 승패 결과 State
+  const [recent10, setRecent10] = useState([]); // 최근 경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
 
@@ -59,13 +49,17 @@ const ExamineProfile = (props) => {
     navigate(-1);
   };
 
+  const gameResultMap = { // 숫자와 결과를 매핑하는 객체
+    0: "Win",
+    1: "Draw",
+    2: "Lose"
+  };
+
   const fetchUserData = async () => { // 사용자 정보 조회 메소드
     try {
       const response = await axios.get(`http://110.165.17.35:8080/api/user/me${props.userId}`);
       const {imageUrl, nickname, age, gender, region, height, weight, email,
-        introduce, attacker, midfielder, defender, goalkeeper, record,
-        GameResult1, GameResult2, GameResult3, GameResult4, GameResult5,
-        GameResult6, GameResult7, GameResult8, GameResult9, GameResult10,
+        introduce, attacker, midfielder, defender, goalkeeper, record, recent10,
         publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;
 
       setProfileImage(publicProfile ? imageUrl : default_img);
@@ -82,16 +76,7 @@ const ExamineProfile = (props) => {
       setDefender(defender);
       setGoalkeeper(goalkeeper);
       setRecord(publicRecord ? record : {});
-      setGameResult1(GameResult1);
-      setGameResult2(GameResult2);
-      setGameResult3(GameResult3);
-      setGameResult4(GameResult4);
-      setGameResult5(GameResult5);
-      setGameResult6(GameResult6);
-      setGameResult7(GameResult7);
-      setGameResult8(GameResult8);
-      setGameResult9(GameResult9);
-      setGameResult10(GameResult10);
+      setRecent10(recent10);
     } catch (error) { // 서버 통신 오류 발생시 경고창 출력
         Swal.fire({
           icon: 'error',
@@ -143,20 +128,16 @@ const ExamineProfile = (props) => {
       {record ? (
         <RecordBox>
           <Record>
-            전체 전적 : {record.total}전 {record.win}승 {record.draw}무 {record.loes}패 /
-            승률 : {((record.win / record.total) * 100).toFixed(1)}%
+            전체 전적 : {record.win + record.draw + record.lose}전 {record.win}승 {record.draw}무 {record.loes}패 /
+            승률 : {((record.win / (record.win + record.draw + record.lose)) * 100).toFixed(1)}%
           </Record>
           <RecordBoard>
-            <Game result={GameResult1}>{GameResult1}</Game>
-            <Game result={GameResult2}>{GameResult2}</Game>
-            <Game result={GameResult3}>{GameResult3}</Game>
-            <Game result={GameResult4}>{GameResult4}</Game>
-            <Game result={GameResult5}>{GameResult5}</Game>
-            <Game result={GameResult6}>{GameResult6}</Game>
-            <Game result={GameResult7}>{GameResult7}</Game>
-            <Game result={GameResult8}>{GameResult8}</Game>
-            <Game result={GameResult9}>{GameResult9}</Game>
-            <Game result={GameResult10}>{GameResult10}</Game>
+            {recent10.map((result, index) => (
+              <Game key={index} result={gameResultMap[result]}>{gameResultMap[result]}</Game>
+            ))}
+            {Array(10 - recent10.length).fill().map((_, index) => (
+              <Game key={index + recent10.length}></Game>
+            ))}
           </RecordBoard>
         </RecordBox>) : (<PrivateRecordBox>전적 비공개</PrivateRecordBox>)}
       <BackToPageButton onClick={backToPage}>돌아가기</BackToPageButton>

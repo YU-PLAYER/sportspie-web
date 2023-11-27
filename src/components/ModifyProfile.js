@@ -10,6 +10,28 @@ const ModifyProfile = () => {
   const [originalValues, setOriginalValues] = useState({}); // 원래의 값을 저장할 상태
   const [currentValues, setCurrentValues] = useState({});   // 현재의 값을 저장할 상태
 
+  const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
+
+  const [NickName, setNickname] = useState(""); // 사용자 이름 State
+  const [Gender, setGender] = useState(""); // 사용자 성별 State
+  const [Age, setAge] = useState(0); // 사용자 나이 State
+  const [Region, setRegion] = useState(""); // 사용자 지역 State
+  const [Height, setHeight] = useState(0); // 사용자 신장 State
+  const [Weight, setWeight] = useState(0); // 사용자 체중 State
+  const [Email, setEmail] = useState(""); // 사용자 이메일 State
+
+  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
+
+  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
+  const [Midfielder, setMidfielder] = useState(false); // 선호션(수비수) State
+  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호  포지션(미드필더) State
+  const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
+
+  const [isProfileImageVisible, setIsProfileImageVisible] = useState(true); // 프로필 공개 및 비공개 State
+  const [isUserInfoVisible, setIsUserInfoVisible] = useState(true); // 사용자 정보 공개 및 비공개 State
+  const [isStatusMessageVisible, setIsStatusMessageVisible] = useState(true); // 상태메세지 공개 및 비공개 State
+  const [isRecordVisible, setIsRecordVisible] = useState(true); // 전적 공개 및 비공개 State
+
   useEffect(() => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
@@ -60,28 +82,6 @@ const ModifyProfile = () => {
     };
     fetchUserData();
   }, []);
-
-  const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
-
-  const [NickName, setNickname] = useState(""); // 사용자 이름 State
-  const [Gender, setGender] = useState(""); // 사용자 성별 State
-  const [Age, setAge] = useState(0); // 사용자 나이 State
-  const [Region, setRegion] = useState(""); // 사용자 지역 State
-  const [Height, setHeight] = useState(0); // 사용자 신장 State
-  const [Weight, setWeight] = useState(0); // 사용자 체중 State
-  const [Email, setEmail] = useState(""); // 사용자 이메일 State
-
-  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
-
-  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(false); // 선호션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호  포지션(미드필더) State
-  const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
-
-  const [isProfileImageVisible, setIsProfileImageVisible] = useState(true); // 프로필 공개 및 비공개 State
-  const [isUserInfoVisible, setIsUserInfoVisible] = useState(true); // 사용자 정보 공개 및 비공개 State
-  const [isStatusMessageVisible, setIsStatusMessageVisible] = useState(true); // 상태메세지 공개 및 비공개 State
-  const [isRecordVisible, setIsRecordVisible] = useState(true); // 전적 공개 및 비공개 State
 
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
@@ -184,11 +184,10 @@ const UserInfoChange = (e) => {
   }
 };
 
-
-  const MessageChange = (e) => { // 상태 메세지 변경 메소드
-    const newStatusMessage = e.target.value;
-    setStatusMessage(newStatusMessage);
-    setCurrentValues(prev => ({...prev, introduce: newStatusMessage}));
+const MessageChange = (e) => { // 상태 메세지 변경 메소드
+  const newStatusMessage = e.target.value;
+  setStatusMessage(newStatusMessage);
+  setCurrentValues(prev => ({...prev, introduce: newStatusMessage}));
 };
 
 const PositionCheck = (position, setPosition) => {
