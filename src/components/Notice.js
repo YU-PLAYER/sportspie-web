@@ -33,6 +33,7 @@ export default function Notice() {
         .then((json) => {
             setNoticeAPI(json);
             setLoading(false);
+            console.log(json);
         });
     }, []);
 
