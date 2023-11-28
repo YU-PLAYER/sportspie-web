@@ -8,61 +8,14 @@ const REDIRECT_URI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI
 export async function getAccessKakaoToken(authCode) {
   console.log('getAccessKakaoToken called with authCode:', authCode);
   try {
-    const apiUrl = 'https://kauth.kakao.com/oauth/token';
-    var params_temp = qs.stringify({
-      grant_type: 'authorization_code',
-      client_id: REST_API_KEY,
-      client_secret: REACT_APP_CLIENT_SECRET,
-      redirect_uri: REDIRECT_URI,
-      code: authCode
-    });
-
-    console.log("초기값" + params_temp)
-
-    var params_replace = params_temp.replace(/%253A/g, ':');
-
-    console.log("%253A 처리" + params_replace);
-
-    params_temp = params_replace.replace(/%252F/g, '/');
-
-    console.log("%252F 처리" + params_temp);
-
-    const body = params_temp;
-
-    const header = { 'Content-type': 'application/x-www-form-urlencoded;charset=utf-8' };
-
-    const token_response = await axios.post(apiUrl, body, header);
-    window.Kakao.init(REST_API_KEY);
+    const token_response = await axios.get(`http://110.165.17.35:8080/api/auth/sign-in/kakao/token?code=${authCode}`);
     console.log('Token response:', token_response);
-    const Kakaotoken = token_response.data['access_token'];
-    console.log('Kakaotoken:', Kakaotoken);
-
-    const user = await axios.get('https://kapi.kakao.com/v2/user/me',{
-        headers:{
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Bearer ${Kakaotoken}`
-      }
-    })
-
-    console.log(user);
-
-    const {nickname, profile_image } = user.data.properties;
-    const email = user.data.kakao_account.email;
-
-    console.log(nickname, profile_image, email);
-
-    const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/kakao', {token: Kakaotoken});
-
-    console.log(response);
+    const KakaoToken = token_response.data['token'];
+    console.log('KakaoToken:', KakaoToken);
     
-    if(response.status !=200){}
-    else {
-      localStorage.setItem('access_token', response.data['access_token']);
-      localStorage.setItem('NickName',nickname);
-      localStorage.setItem('profile_image',profile_image);
-      localStorage.setItem('email',email);
-    }
-    
+    const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/kakao', { token: KakaoToken });
+
+    localStorage.setItem('access_token', JSON.stringify(response.data['access_token']));
   } catch (error) {
     console.error('An error occurred:', error);
   }
