@@ -34,6 +34,7 @@ export default function Write() {
   
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const [authorId, setAuthorId] = useState(1);
 
   useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
@@ -44,6 +45,7 @@ export default function Write() {
           headers:  { Authorization: `Bearer ${access_token}`},
         },);
         setUser(response.data); // 사용자 정보를 상태에 저장
+        setAuthorId(response.data.id);
         console.log(response.data);
       } catch (error) {
         console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
@@ -68,16 +70,14 @@ export default function Write() {
   var random_index = Math.floor(Math.random() * DefaultTitle.length);
   var random_Title = DefaultTitle[random_index];
 
-  const [authorId, setAuthorId] = useState(111); // test 3. 임시 id num
-  // 사용자 본인 정보 조회 필요 (고유 id값)
   const [title, setTitle] = useState(random_Title);
   const [maxCapacity, setMaxCapacity] = useState("");
   const [stadiumId, setStadiumId] = useState("");
   const [stadium, setStadium] = useState("");
   const [content, setContent] = useState("");
 
-  const [isTitleOK, setIsTitleOK] = useState(false);
-  const [isContentOK, setisContentOK] = useState(false);
+  const [isTitleOK, setIsTitleOK] = useState(true);
+  const [isContentOK, setisContentOK] = useState(true);
   const [isStadiumIdOK, setIsStadiumIdOK] = useState(false);
   const [isMaxCapacityOK, setisMaxCapacityOK] = useState(false);
 
@@ -158,6 +158,10 @@ export default function Write() {
   const post_btn = () => { //작성하기 버튼 클릭시 동작
     
     var alert_text="";
+    setIsTitleOK(false);
+    setisContentOK(false);
+    setisMaxCapacityOK(false);
+    setIsStadiumIdOK(false);
 
     if (title.length < 2) {
       alert_text = alert_text.concat('방제목을 2글자 이상 입력해 주세요.<br>');
@@ -240,7 +244,7 @@ export default function Write() {
           <Box sx={{ height: '20px' }} />
           <Container maxWidth="sm">
 
-            {isTitleOK == false ?
+            {isTitleOK == true ?
               <TextField label="제목"
                 sx={{
                   width: 300,
@@ -332,7 +336,7 @@ export default function Write() {
               }}
             >
 
-              {isContentOK == false ?
+              {isContentOK == true ?
                 <Textarea fullWidth label="fullWidth" id="fullWidth"
                   minRows={20} maxRows={20} placeholder="경기글 상세내역"
                   value={content} onChange={handleContent} />
