@@ -7,37 +7,35 @@ import Swal from 'sweetalert2';
 const MyProfile = () => {
   const navigate = useNavigate(); // 페이지 이동 훅
 
-  const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
+  const [imageUrl, setImageUrl] = useState(""); // 프로필 이미지 State
 
-  const [NickName, setNickname] = useState(""); // 사용자 이름 State
-  const [Gender, setGender] = useState(""); // 사용자 성별 State
-  const [Age, setAge] = useState(0); // 사용자 나이 State
-  const [Region, setRegion] = useState(""); // 사용자 지역 State
-  const [Height, setHeight] = useState(0); // 사용자 신장 State
-  const [Weight, setWeight] = useState(0); // 사용자 체중 State
-  const [Email, setEmail] = useState(""); // 사용자 이메일 State
+  const [nickName, setNickname] = useState(""); // 사용자 이름 State
+  const [gender, setGender] = useState(""); // 사용자 성별 State
+  const [age, setAge] = useState(0); // 사용자 나이 State
+  const [region, setRegion] = useState(""); // 사용자 지역 State
+  const [height, setHeight] = useState(0); // 사용자 신장 State
+  const [weight, setWeight] = useState(0); // 사용자 체중 State
+  const [email, setEmail] = useState(""); // 사용자 이메일 State
 
-  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
+  const [introduce, setIntroduce] = useState(""); // 상태 메세지 State
 
-  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(false); // 선호 포지션(미드필더) State
-  const [Defender, setDefender] = useState(false); // 선호 포지션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호 포지션(골키퍼) State
+  const [attacker, setAttacker] = useState(false);  // 선호 포지션(공격수) State
+  const [midfielder, setMidfielder] = useState(false); // 선호 포지션(미드필더) State
+  const [defender, setDefender] = useState(false); // 선호 포지션(수비수) State
+  const [goalkeeper, setGoalkeeper] = useState(false); // 선호 포지션(골키퍼) State
 
-  const [record, setRecord] = useState({ // 전적 및 승률 State
-    win: 0,
-    draw: 0,
-    loes: 0
-  });
+  const [win, setWin] = useState(0); // 승리 State
+  const [draw, setDraw] = useState(0); // 무승부 State
+  const [lose, setLose] = useState(0); // 패배 State
 
-  const [recent10, setRecent10] = useState([]); // 최근 경기 승패 결과 State
+  const [recent10, setRecent10] = useState([]); // 최근 10경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
 
   useEffect(() => { 
     const fetchUserData = async () => { // 로그인 상태 확인 후 사용자 정보 업데이트
       try {
-        const access_token = localStorage.getItem('access_token');
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
@@ -45,9 +43,9 @@ const MyProfile = () => {
         });
   
         const {imageUrl, nickname, age, gender, region, height, weight, email,
-          introduce, attacker, midfielder, defender, goalkeeper, record, recent10} = response.data;
+          introduce, attacker, midfielder, defender, goalkeeper} = response.data;
         
-        setProfileImage(imageUrl);
+        setImageUrl(imageUrl);
         setNickname(nickname);
         setAge(age);
         setGender(gender);
@@ -55,14 +53,11 @@ const MyProfile = () => {
         setHeight(height);
         setWeight(weight);
         setEmail(email);
-        setStatusMessage(introduce);
-        setForward(attacker);
+        setIntroduce(introduce);
+        setAttacker(attacker);
         setMidfielder(midfielder);
         setDefender(defender);
-        setGoalkeeper(goalkeeper);
-        setRecord(record);
-        setRecent10(recent10);
-  
+        setGoalkeeper(goalkeeper);  
       } catch (error) {
         if (error.response && error.response.status === 401) {
           // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
@@ -76,7 +71,7 @@ const MyProfile = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            text: '다시 시도하여 주십시오.'
+            text: '사용자 정보를 불러오지 못했습니다. 다시 시도하여 주십시오.'
           });
           navigate('/Home');
         }
@@ -84,6 +79,37 @@ const MyProfile = () => {
     };
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    const fetchUserRecord = async () => { // 사용자 전적 정보 업데이트
+      try {
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
+        const response = await axios.get('http://110.165.17.35:8080/api/gameUser/history', {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          },
+        });
+  
+        const { win, draw, lose, recent10 } = response.data;
+  
+        setWin(win);
+        setDraw(draw);
+        setLose(lose);
+        setRecent10(recent10);
+      } catch (error) {
+        console.error('An error occurred:', error);
+        Swal.fire({
+          icon: 'error',
+          title: '통신 오류',
+          text: '전적 정보를 불러오지 못했습니다. 다시 시도하여 주십시오.'
+        });
+        navigate('/Home');
+      }
+    };
+  
+    fetchUserRecord();
+  }, []);
+  
   
   const gameResultMap = { // 숫자와 결과를 매핑하는 객체
     0: "Win",
@@ -133,8 +159,8 @@ const MyProfile = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const access_token = localStorage.getItem('access_token');
-          const response = await axios.delete('http://110.165.17.35:8080/api/', {
+          const access_token = JSON.parse(localStorage.getItem('access_token'));
+          const response = await axios.delete('http://110.165.17.35:8080/api/auth/withdrawal', {
             headers: {
               Authorization: `Bearer ${access_token}`
             }
@@ -179,40 +205,40 @@ const MyProfile = () => {
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={toEnlarge} />
+        <UserImage src={imageUrl} onClick={toEnlarge} />
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={profileImage} />
+            <ImageView src={imageUrl} />
           </ProfileView>
         )}
         <UserInfoBox>
-          닉네임 : {NickName} <br/>
-          성별 : {Gender} <br/>
-          나이 : {Age} 세<br/>
-          지역 : {Region} <br/>
-          신장 : {Height} cm<br/>
-          체중 : {Weight} kg<br/>
-          이메일 : {Email} <br/>
+          닉네임 : {nickName} <br/>
+          성별 : {gender} <br/>
+          나이 : {age} 세<br/>
+          지역 : {region} <br/>
+          신장 : {height} cm<br/>
+          체중 : {weight} kg<br/>
+          이메일 : {email} <br/>
         </UserInfoBox>
       </ProfileBox>
       <MessageBox>
         <TextAlign>
-          {statusMessage}
+          {introduce}
         </TextAlign>
       </MessageBox>
       <PreferBox>
         <PreferTitle>선호하는 포지션</PreferTitle>
         <PreferPositions>
-          <ForwardPosition forward={Forward}>공격수</ForwardPosition>
-          <MidfielderPosition midfielder={Midfielder}>미드필더</MidfielderPosition>
-          <DefenderPosition defender={Defender}>수비수</DefenderPosition>
-          <GoalkeeperPosition goalkeeper={Goalkeeper}>골키퍼</GoalkeeperPosition>
+          <ForwardPosition attacker={attacker}>공격수</ForwardPosition>
+          <MidfielderPosition midfielder={midfielder}>미드필더</MidfielderPosition>
+          <DefenderPosition defender={defender}>수비수</DefenderPosition>
+          <GoalkeeperPosition goalkeeper={goalkeeper}>골키퍼</GoalkeeperPosition>
         </PreferPositions>
       </PreferBox>
       <RecordBox>
         <Record>
-          전체 전적 : {record.win + record.draw + record.lose}전 {record.win}승 {record.draw}무 {record.loes}패 /
-          승률 : {((record.win / (record.win + record.draw + record.lose)) * 100).toFixed(1)}%
+          전체 전적 : {win + draw + lose}전 {win}승 {draw}무 {lose}패 /
+          승률 : {((win / (win + draw + lose)) * 100).toFixed(1)}%
         </Record>
         <RecordBoard>
           {recent10.map((result, index) => (
@@ -314,7 +340,7 @@ const ForwardPosition = styled.div`
   line-height: 2em;
   margin-left: 5%;
   border-radius: 15px;
-  display: ${({ forward }) => (forward ? 'block' : 'none')};;
+  display: ${({ attacker }) => (attacker ? 'block' : 'none')};;
 `;
 
 const MidfielderPosition = styled.div`
