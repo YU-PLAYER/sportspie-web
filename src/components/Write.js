@@ -288,8 +288,8 @@ export default function Write() {
                 defaultValue={dayjs()}
                 minDate={dayjs()}
                 onChange={(newValue) => {
-                  console.log(newValue.format('YYYY-MM-DD'));
-                  startedDate = newValue.format('YYYY-MM-DD');
+                  console.log(dayjs(newValue).format('YYYY-MM-DD'));
+                  startedDate = (dayjs(newValue).format('YYYY-MM-DD'));
                 }}
               />
             </DemoContainer>
