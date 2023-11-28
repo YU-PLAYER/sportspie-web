@@ -18,10 +18,10 @@ export function Login_google() {
       localStorage.setItem("Name", JSON.stringify(userInfo.data['name']));
       localStorage.setItem("Email", JSON.stringify(userInfo.data['email']));
       localStorage.setItem("PictureURL", JSON.stringify(userInfo.data['picture']));
-      /*const userInfoDB = await axios.get('http://110.165.17.35:8080/api/user/me',
-        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } },
+      const userInfoDB = await axios.get('http://110.165.17.35:8080/api/user/me',
+        { headers: { Authorization: `Bearer ${googletoken.data['access_token']}` } },
       );
-      console.log(userInfoDB);*/
+      console.log(userInfoDB);
       navigate('/Home');
     },
     onError: errorResponse => console.log(errorResponse),
