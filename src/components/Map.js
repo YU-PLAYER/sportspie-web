@@ -19,7 +19,7 @@ function KakaoMap() {
                 };
             var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-            // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+            /*// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
             if (navigator.geolocation) {
 
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -38,8 +38,13 @@ function KakaoMap() {
             } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
                 var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
                 displayMarker(locPosition);
-            }
-
+            }*/
+            var lat = 35.83192037867368, // 위도
+                lon = 128.7585384530709; // 경도
+            console.log("현재 위치는 : " + lat + ", " + lon);
+            var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            displayMarker(locPosition);
+            
             // 지도에 마커를 표시하는 함수입니다
             function displayMarker(locPosition) {
                 // 마커를 생성합니다
@@ -49,14 +54,10 @@ function KakaoMap() {
                 marker.setMap(map);
 
                 map.setCenter(locPosition);  // 지도 중심좌표를 접속위치로 변경합니다
-
+               
                 axios({
                     method: 'get',
-                    url: 'http://110.165.17.35:8080/api/stadium/nearby',
-                    data: {
-                        latitude: locPosition.y,
-                        longitude: locPosition.x,
-                    },
+                    url: `http://110.165.17.35:8080/api/stadium/nearby?latitude=${locPosition.Ma}&longitude=${locPosition.La}`,
                 })
                     .then((result) => {
                         console.log('요청 성공')
@@ -138,11 +139,11 @@ function KakaoMap() {
                         </div>
                         <div style={{width:"90%", display:"flex", justifyContent:"space-between", borderBottom:"0.5px", borderStyle:'solid', borderColor:'rgba(0,0,0,0.1)',
                         boxSizing:"border-box", margin:"10px 0", padding:"5px 10px 10px 10px", fontSize:"12px", color:'rgba(0,0,0,0.5)', fontWeight:"bold"}}>
-                            <span>4km 내</span>
+                            <span>10km 내</span>
                             <span>{searchLength}개의 검색 결과</span>
                         </div>
                         <section id="maplist" style={{ width: "90%", display: "flex", flexDirection: "column" }}>
-                        {searchValues.map((item) =><MapList item={item} key={item.id}/>)}
+                        {searchValues.map((item, index) =><MapList item={item} key={index}/>)}
                         </section>
                     </div>
                 </Box>
