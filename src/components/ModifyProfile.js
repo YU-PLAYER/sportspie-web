@@ -35,11 +35,9 @@ const ModifyProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
-        const access_token = localStorage.getItem('access_token');
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
-          headers: {
-            Authorization: `Bearer ${access_token}`
-          }
+          headers: {Authorization: `Bearer ${access_token}`}
         }); 
         const {imageUrl, nickname, age, gender, region, height, weight, email,
           introduce, attacker, midfielder, defender, goalkeeper,
@@ -88,12 +86,10 @@ const ModifyProfile = () => {
       const data = {profileImage, NickName, Gender, Age, Region, Height, Weight, Email,
         statusMessage, Forward, Midfielder, Defender, Goalkeeper,
         isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
-      const access_token = localStorage.getItem('access_token');
+      const access_token = JSON.parse(localStorage.getItem('access_token'));
       const response = await axios.put('http://110.165.17.35:8080/api/', data, {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      });
+        headers: { Authorization: `Bearer ${access_token}`
+        }});
       console.log(response.data);
       Swal.fire({
         icon: 'success',

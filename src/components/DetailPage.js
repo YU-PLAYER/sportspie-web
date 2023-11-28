@@ -18,12 +18,11 @@ const DetailPage = () => {
   useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
       try {
-        const access_token = localStorage.getItem('access_token');
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
+        console.log(access_token);
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
-          headers: {
-            Authorization: `Bearer ${access_token}`
-          },
-        });
+          headers:  { Authorization: `Bearer ${access_token}`},
+        },);
         setUser(response.data); // 사용자 정보를 상태에 저장
       } catch (error) {
         console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
@@ -41,11 +40,10 @@ const DetailPage = () => {
   useEffect(() => { // 경기글의 상세 정보를 불러오는 useEffect
     const fetchPost = async () => {
       try {
-        const access_token = localStorage.getItem('access_token');
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get(`http://110.165.17.35:8080/api/game/detail/${gameId}`, {
           headers: {
-            Authorization: `Bearer ${access_token}`
-          },
+            Authorization: `Bearer ${access_token}`},
         });
         setPost(response.data); // 게시물의 상세 정보를 상태에 저장
       } catch (error) { 
