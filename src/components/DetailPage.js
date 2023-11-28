@@ -199,29 +199,29 @@ const DetailPage = () => {
           case 'SUNNY':
               return (
                 <>
-                  <img src={SUNNY} alt="맑음" style={{ width: "20px", height: "20px" }} />
-                  <span style={{ marginLeft: "20px" }}>맑음</span>
+                  <img src={SUNNY} alt="맑음" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>맑음</span>
                 </>
               );
           case 'CLOUDY':
               return (
                 <>
-                  <img src={CLOUDY} alt="흐림" style={{ width: "20px", height: "20px" }} />
-                  <span style={{ marginLeft: "20px" }}>흐림</span>
+                  <img src={CLOUDY} alt="흐림" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>흐림</span>
                 </>
               );
           case 'RAIN':
               return (
                 <>
-                  <img src={RAINY} alt="비" style={{ width: "20px", height: "20px" }} />
-                  <span style={{ marginLeft: "20px" }}>비</span>
+                  <img src={RAINY} alt="비" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>비</span>
                 </>
               );
           case 'SNOW':
               return (
                 <>
-                  <img src={SNOW} alt="눈" style={{ width: "20px", height: "20px" }} />
-                  <span style={{ marginLeft: "20px" }}>눈</span>
+                  <img src={SNOW} alt="눈" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>눈</span>
                 </>
               );
           default:
@@ -336,7 +336,7 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
-    height: 4vh;
+    height: 6vh;
     line-height: 4vh;
     font-size: 1em;
   `;
