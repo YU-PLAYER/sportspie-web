@@ -30,7 +30,7 @@ import axios from 'axios';
 "stadiumId": 0,
 "content": "string" */
 
-export default function Write() {
+export default async function Write() {
   
   const navigate = useNavigate();
 
@@ -52,11 +52,10 @@ export default function Write() {
   const [stadium, setStadium] = useState("");
   const [content, setContent] = useState("");
 
-  const [isTitleOK, setIsTitleOK] = useState(true);
-  const [isContentOK, setisContentOK] = useState(true);
-  const [isStadiumIdOK, setIsStadiumIdOK] = useState(true);
-  const [isMaxCapacityOK, setisMaxCapacityOK] = useState(true);
-  const [isStartedTimeOK, setisStartedTimeOK] = useState(true);
+  const [isTitleOK, setIsTitleOK] = useState(false);
+  const [isContentOK, setisContentOK] = useState(false);
+  const [isStadiumIdOK, setIsStadiumIdOK] = useState(false);
+  const [isMaxCapacityOK, setisMaxCapacityOK] = useState(false);
 
   const [startedAt,setStartedAt] = useState("");
   var startedDate = String(dayjs().format('YYYY-MM-DD'));
@@ -133,35 +132,30 @@ export default function Write() {
   });
 
   const post_btn = () => { //작성하기 버튼 클릭시 동작
-    setIsTitleOK(true);
-    setisContentOK(true);
-    setIsStadiumIdOK(true);
-    setisStartedTimeOK(true);
-    setisMaxCapacityOK(true);
+    
+    var alert_text="";
+
     if (title.length < 2) {
-      Swal.fire({
-        icon: 'warning',
-        text: '방제목을 2글자 이상 입력해 주세요.'
-      });
+      alert_text = alert_text.concat('방제목을 2글자 이상 입력해 주세요.<br>');
       setIsTitleOK(false);
-    } else if (maxCapacity == "") {
-      Swal.fire({
-        icon: 'warning',
-        text: '참여가능 최대 인원을 입력해 주세요.'
-      });
-      setisMaxCapacityOK(false);
-    } else if (content.length < 10) {
-      Swal.fire({
-        icon: 'warning',
-        text: '경기글 상세 내역을 10글자 이상 입력해 주세요.'
-      });
+    } else setIsTitleOK(true);
+    if (content.length < 10) {
+      alert_text = alert_text.concat('경기글 상세 내역을 10글자 이상 입력해 주세요.<br>');
       setisContentOK(false);
-    } else if(stadiumId == ""){
+    } else setisContentOK(true);
+    if(maxCapacity == ""){
+      alert_text = alert_text.concat('참여가능 최대 인원을 입력해 주세요.<br>');
+      setisMaxCapacityOK(false);
+    } else setisMaxCapacityOK(true);
+    if(stadiumId == ""){
+      alert_text = alert_text.concat('경기장을 선택해 주세요.<br>');
+      setIsStadiumIdOK(false);
+    } else setIsStadiumIdOK(true);
+    if(((isTitleOK || isContentOK) || (isStadiumIdOK || isMaxCapacityOK))) {
       Swal.fire({
         icon: 'warning',
-        text: '경기장을 선택해 주세요.'
+        html: alert_text
       });
-      setIsStadiumIdOK(false);
     } else {
       console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
@@ -171,7 +165,7 @@ export default function Write() {
       console.log("stadiumId: " + stadiumId);
       console.log("content: " + content);
       console.log("-----게시글 작성 요청-----");
-
+      
       try {
         const response = axios.post('http://110.165.17.35:8080/api/game', {
           authorId: authorId,
@@ -191,7 +185,7 @@ export default function Write() {
         console.log(err);
         console.log("작성 요청 실패");
       }
-    }
+    }    
   }
 
   const cancel_btn = () => {
@@ -222,7 +216,7 @@ export default function Write() {
           <Box sx={{ height: '20px' }} />
           <Container maxWidth="sm">
 
-            {isTitleOK == true ?
+            {isTitleOK == false ?
               <TextField label="제목"
                 sx={{
                   width: 300,
@@ -314,15 +308,15 @@ export default function Write() {
               }}
             >
 
-              {isContentOK ?
+              {isContentOK == false ?
                 <Textarea fullWidth label="fullWidth" id="fullWidth"
                   minRows={20} maxRows={20} placeholder="경기글 상세내역"
                   value={content} onChange={handleContent} />
                 :
-                <Textarea error fullWidth label="fullWidth" id="fullWidth"
-                  minRows={20} maxRows={20} placeholder="경기글 상세내역"
+                <Textarea fullWidth label="fullWidth" id="fullWidth"
+                  minRows={20} maxRows={20} placeholder="경기글 상세내역을 10글자 이상 입력해 주세요."
                   value={content} onChange={handleContent}
-                  helperText="경기글 상세내역을 10글자 이상 입력해 주세요." />
+                  color="warning" />
               }
 
             </Box>
