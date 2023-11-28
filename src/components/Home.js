@@ -18,6 +18,7 @@ import Ad from './Ad';
 import SUNNY from '../images/sunny.jpg';
 import CLOUDY from '../images/cloudy.jpg';
 import RAINY from '../images/rainy.jpg';
+import SNOW from '../images/whitesnow.png';
 import { getAccessNaverToken } from './getAccessNaverToken';
 import { getAccessKakaoToken } from './getAccessKakaoToken';
 import { useNavigate } from 'react-router-dom';
@@ -146,7 +147,7 @@ export default function Home() {
   //경기목록 component
   function PlayList({item}){
     const time = item.time ? item.time.slice(0,5) : '';
-    var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : RAINY;
+    var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : item.weather === "RAIN" ? RAINY : item.weather === "SNOW" ? SNOW : '';
     return(
       <div className="play-list" onClick={()=>handleclick(item.gameId)} style={{cursor:"pointer"}}>
         <div className="play-list_room">
