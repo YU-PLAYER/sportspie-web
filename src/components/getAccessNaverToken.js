@@ -15,7 +15,7 @@ export async function getAccessNaverToken(authCode) {
 
     const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/naver', { token: Navertoken });
 
-    localStorage.setItem('access_token', response.data['access_token']);
+    localStorage.setItem('access_token', JSON.stringify(response.data['access_token']));
   } catch (error) {
     console.error('An error occurred:', error);
   }
