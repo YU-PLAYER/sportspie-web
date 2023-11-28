@@ -19,7 +19,6 @@ const DetailPage = () => {
     const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
-        console.log(access_token);
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
           headers:  { Authorization: `Bearer ${access_token}`},
         },);
@@ -184,7 +183,7 @@ const DetailPage = () => {
             {post.content}
           </MainText>
         </ContentContainer>
-        <TeamSelectionUI>{<TeamSelectList/>}</TeamSelectionUI>
+        <TeamSelectionUI>{<TeamSelectList id={gameId}/>}</TeamSelectionUI>
         <ButtonContainer>
           {post.userId === user.id && <DeadlineButton disabled={post.currentCapacity % 2 !== 0 && post.status !== 0} onClick={handleConfirm}>인원 확정</DeadlineButton>}
           {post.userId === user.id && <ConfirmationButton disabled={(post.status !== 1 && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
@@ -286,7 +285,6 @@ const DetailPage = () => {
     height: auto;
     margin-left: 5%;
     border-radius: 10px;
-    background-color: #f5f5f5;
     margin-top: 5%;
   `;
   

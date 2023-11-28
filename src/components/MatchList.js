@@ -14,19 +14,7 @@ function MatchList() {
   const [isHover2, setIsHover2] = useState(false);
   const [isHover3, setIsHover3] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  
-  useEffect(()=>{
-    const handleScroll = ()=>{
-      const currentScrollPosition = window.pageYOffset;
-      if(currentScrollPosition >= 85 ){
-        setIsSticky(true);
-      }else setIsSticky(false);
-    }
-    window.addEventListener('scroll', handleScroll);
-    return ()=>{
-        window.removeEventListener('scroll', handleScroll);
-      };
-  }, []);
+
   const onClick = (event) => {
     setContent(event.target.name);
   };
@@ -59,10 +47,8 @@ function MatchList() {
             padding:"10px 0",
             width:"88%", 
             color:"#282828",}}>내 경기 목록</h2>
-        <section style={{boxSizing:"border-box",
-            margin:"0 15px",}}>
+        <section style={{boxSizing:"border-box", margin:"0 15px",}}>
           <div 
-          className={isSticky ? 'sticky' : ''} 
           style={{position:"relative", display:"flex", alignItems:"flex-start", width:"100%", height:"45px", 
           border:"none",borderTopStyle:"solid",borderTopWidth:"0.5px", borderTopColor:"rgba(0,0,0,0.12)", backgroundColor:"white"}}>
             <div onMouseEnter={()=>setIsHover1(true)} onMouseLeave={()=>setIsHover1(false)} style={{height:"75%"}}>
@@ -75,7 +61,6 @@ function MatchList() {
             </div>
           </div>
           {content && <div style={{marginTop:"30px"}}>{selectContent[content]}</div>}
-          
         </section>
       </Box>
       <Box sx={{ height: '20px' }} />

@@ -1,7 +1,30 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 
 function MatchList_End(){
+  const [End, SetEnd]=useState([{}]);
+  useEffect(()=>{
+    axios({
+        method: 'get',    
+        url:`http://110.165.17.35:8080/api/gameUser/after`,
+    })
+    .then((result)=>{
+        console.log('요청 성공');
+        console.log(result);
+        SetEnd(result);
+        console.log(result.title);
+        console.log(result.date);
+        console.log(result.time);
+        if(result.gameResult===null) console.log('승패 미확정');
+        console.log(result.numJoin);
+    })
+    .catch((error)=>{console.log('요청 실패')
+    console.log(error)
+  })
+  }, []);
+
  return(
     <div>
       <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 

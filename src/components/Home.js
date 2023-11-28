@@ -127,7 +127,6 @@ export default function Home() {
 
   const Navigate = useNavigate();
   const handleclick = (id)=>{
-    console.log('gameId:'+id);
     Navigate('/DetailPage', {state: {gameid: `${id}`,},});
   }
 
