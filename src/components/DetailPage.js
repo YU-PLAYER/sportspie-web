@@ -197,17 +197,37 @@ const DetailPage = () => {
     function renderWeatherIcon(weatherType) {
       switch (weatherType) {
           case 'SUNNY':
-              return <img src={SUNNY} alt="맑음" />;
+              return (
+                <>
+                  <img src={SUNNY} alt="맑음" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "20px" }}>맑음</span>
+                </>
+              );
           case 'CLOUDY':
-              return <img src={CLOUDY} alt="흐림" />;
+              return (
+                <>
+                  <img src={CLOUDY} alt="흐림" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "20px" }}>흐림</span>
+                </>
+              );
           case 'RAIN':
-              return <img src={RAINY} alt="비" />;
+              return (
+                <>
+                  <img src={RAINY} alt="비" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "20px" }}>비</span>
+                </>
+              );
           case 'SNOW':
-              return <img src={SNOW} alt="눈" />;
+              return (
+                <>
+                  <img src={SNOW} alt="눈" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "20px" }}>눈</span>
+                </>
+              );
           default:
               return null;
       }
-  }
+  }  
     
     return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
       <Container>
@@ -284,14 +304,18 @@ const DetailPage = () => {
     border-radius: 10px;
     padding-top: 1vh;
     padding-bottom: 1vh;
+    height: 5vh;
+    line-height: 5vh;
   `;
-
   
   const PlaceText = styled.div`
     background-color: white;
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 5vh;
+    line-height: 5vh;
+    font-size: 1em;
   `;
 
   const ParticipantNumberText = styled.div`
@@ -299,6 +323,9 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 5vh;
+    line-height: 5vh;
+    font-size: 1em;
   `;
 
   const DateText = styled.div`
@@ -306,6 +333,9 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 5vh;
+    line-height: 5vh;
+    font-size: 1em;
   `;
 
   const WeatherText = styled.div`
@@ -313,13 +343,16 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 5vh;
+    line-height: 5vh;
+    font-size: 1em;
   `;
 
   const MainText = styled.div`
     background-color: white;
     border-radius: 10px;
     padding: 1vh;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: 500;
     height: 40vh;
   `;
@@ -329,14 +362,12 @@ const DetailPage = () => {
     height: auto;
     margin-left: 5%;
     border-radius: 10px;
-    margin-top: 5%;
   `;
   
   const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-top: 7.5%;
-    margin-bottom: 7.5%;
+    margin-bottom: 10%;
   `;  
 
   const DeadlineButton = styled.button`
