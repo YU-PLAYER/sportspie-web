@@ -199,28 +199,28 @@ const DetailPage = () => {
           case 'SUNNY':
               return (
                 <>
-                  <img src={SUNNY} alt="맑음" style={{ width: "30px", height: "30px" }} />
+                  <img src={SUNNY} alt="맑음" style={{ width: "20px", height: "20px" }} />
                   <span style={{ marginLeft: "20px" }}>맑음</span>
                 </>
               );
           case 'CLOUDY':
               return (
                 <>
-                  <img src={CLOUDY} alt="흐림" style={{ width: "30px", height: "30px" }} />
+                  <img src={CLOUDY} alt="흐림" style={{ width: "20px", height: "20px" }} />
                   <span style={{ marginLeft: "20px" }}>흐림</span>
                 </>
               );
           case 'RAIN':
               return (
                 <>
-                  <img src={RAINY} alt="비" style={{ width: "30px", height: "30px" }} />
+                  <img src={RAINY} alt="비" style={{ width: "20px", height: "20px" }} />
                   <span style={{ marginLeft: "20px" }}>비</span>
                 </>
               );
           case 'SNOW':
               return (
                 <>
-                  <img src={SNOW} alt="눈" style={{ width: "30px", height: "30px" }} />
+                  <img src={SNOW} alt="눈" style={{ width: "20px", height: "20px" }} />
                   <span style={{ marginLeft: "20px" }}>눈</span>
                 </>
               );
@@ -240,7 +240,6 @@ const DetailPage = () => {
           <ParticipantNumberText>최대 경기 인원 : {post.maxCapacity} 명</ParticipantNumberText>
           <DateText>경기 시작 시간 : {formatDate(post.startedAt)}</DateText>
           <WeatherText>경기 당일 날씨 : {renderWeatherIcon(post.stadium?.weatherType)}</WeatherText>
-          <BlackLine/>
           <MainText>
             {post.content}
           </MainText>
@@ -291,12 +290,6 @@ const DetailPage = () => {
     padding: 1em;
   `;
 
-  const BlackLine = styled.div`
-    background-color: black;
-    height: 0.125vh;
-    margin-bottom: 1vh;
-  `;
-
   const TitleText = styled.div`
     text-align: center;
     font-size: 1.2em;
@@ -313,8 +306,8 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
-    height: 5vh;
-    line-height: 5vh;
+    height: 4vh;
+    line-height: 4vh;
     font-size: 1em;
   `;
 
@@ -323,8 +316,8 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
-    height: 5vh;
-    line-height: 5vh;
+    height: 4vh;
+    line-height: 4vh;
     font-size: 1em;
   `;
 
@@ -333,8 +326,8 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
-    height: 5vh;
-    line-height: 5vh;
+    height: 4vh;
+    line-height: 4vh;
     font-size: 1em;
   `;
 
@@ -343,8 +336,8 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
-    height: 5vh;
-    line-height: 5vh;
+    height: 4vh;
+    line-height: 4vh;
     font-size: 1em;
   `;
 
