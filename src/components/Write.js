@@ -33,22 +33,29 @@ import axios from 'axios';
 export default function Write() {
   
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try{
-        const access_token = localStorage.getItem('access_token');
-        const response = await axios.get('http://115.85.182.229:8080/api/user/me', {
-          headers: {
-            Authorization : `Bearer ${access_token}`
-          },
+  useEffect(() => { // 사용자 정보를 불러오는 useEffect
+    const fetchUser = async () => {
+      try {
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
+        console.log(access_token);
+        const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
+          headers:  { Authorization: `Bearer ${access_token}`},
+        },);
+        setUser(response.data); // 사용자 정보를 상태에 저장
+        console.log(response.data);
+      } catch (error) {
+        console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
+        Swal.fire({
+          icon: 'error',
+          title: '사용자 정보 조회 오류',
+          text: '서버에서 사용자 정보를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
         });
-        console.log(response);
-      } catch (err){
-      console.log(err); 
+        navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
-    fetchUserData();
+    fetchUser();
   }, []);
   
   var DefaultTitle = [
@@ -168,12 +175,7 @@ export default function Write() {
       alert_text = alert_text.concat('경기장을 선택해 주세요.<br>');
       setIsStadiumIdOK(false);
     } else setIsStadiumIdOK(true);
-    if(((isTitleOK || isContentOK) || (isStadiumIdOK || isMaxCapacityOK))) {
-      Swal.fire({
-        icon: 'warning',
-        html: alert_text
-      });
-    } else {
+    if(((isTitleOK && isContentOK) && (isStadiumIdOK && isMaxCapacityOK))) {
       console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
       console.log("title: " + title);
@@ -202,6 +204,11 @@ export default function Write() {
         console.log(err);
         console.log("작성 요청 실패");
       }
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        html: alert_text
+      });
     }    
   }
 
