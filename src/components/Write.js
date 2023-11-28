@@ -34,6 +34,23 @@ export default function Write() {
   
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try{
+        const access_token = localStorage.getItem('access_token');
+        const response = await axios.get('http://115.85.182.229:8080/api/user/me', {
+          headers: {
+            Authorization : `Bearer ${access_token}`
+          },
+        });
+        console.log(response);
+      } catch (err){
+      console.log(err); 
+      }
+    };
+    fetchUserData();
+  }, []);
+  
   var DefaultTitle = [
     "풋살 즐겜하실 멤버 구합니다!", 
     "가볍게 풋살하실 멤버 모집합니다~", 
