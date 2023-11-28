@@ -58,13 +58,13 @@ export default function Home() {
 
   //날짜 & 정렬 선택시 data 요청
   useEffect(()=>{
-    var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click.toString()}`;
+    var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click<10? `0${click.toString()}`:click.toString()}`;
     console.log("선택한 날짜 : " + date);
     var sort = (DESC === true)? "DESC" : "ASC" ;
     console.log("정렬 기준 : " + sort);
     axios({
         method: 'get',    
-        url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}&page=${pages-1}`,
+        url:`http://110.165.17.35:8080/api/game/${date}?sortBy=${sort}&page=${pages-1}`,
     })
     .then((result)=>{
         console.log('요청 성공');
@@ -84,13 +84,13 @@ export default function Home() {
     console.log("검색할 내용 : "+storedValue);
     console.log(typeof(storedValue));
     if(storedValue !== ''){
-      var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click.toString()}`;
+      var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click<10? `0${click.toString()}`:click.toString()}`;
       console.log("선택한 날짜 : " + date);
       var sort = (DESC === true)? "DESC" : "ASC" ;
       console.log("정렬 기준 : " + sort);
       axios({
           method: 'get',    
-          url:`http://110.165.17.35:8080/api/game/2023-11-11?sortBy=${sort}&title=${storedValue}&page=${pages-1}`,
+          url:`http://110.165.17.35:8080/api/game/${date}?sortBy=${sort}&title=${storedValue}&page=${pages-1}`,
       })      
     .then((result)=>{
         console.log('요청 성공')
@@ -148,7 +148,7 @@ export default function Home() {
     const time = item.time ? item.time.slice(0,5) : '';
     var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : RAINY;
     return(
-      <div className="play-list" onClick={()=>handleclick(item.gameId)}>
+      <div className="play-list" onClick={()=>handleclick(item.gameId)} style={{cursor:"pointer"}}>
         <div className="play-list_room">
           <div style={{width:"50px", display:'flex', flexDirection:"column", height:"100%", justifyContent:'center', alignItems:"center"}}>
             <span style={{fontSize:'13px'}}>{time}</span>
