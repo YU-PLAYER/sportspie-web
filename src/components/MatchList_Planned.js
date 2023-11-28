@@ -1,7 +1,23 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 
 function MatchList_Planned(){
+  const [Planned, SetPlanned]=useState([{}]);
+  useEffect(()=>{
+    axios({
+        method: 'get',    
+        url:`http://110.165.17.35:8080/api/gameUser/before`,
+    })
+    .then((result)=>{
+        console.log('요청 성공');
+        console.log(result);
+    })
+    .catch((error)=>{console.log('요청 실패')
+    console.log(error)
+  })
+  }, []);
  return(
     <div>
           <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
