@@ -30,7 +30,7 @@ import axios from 'axios';
 "stadiumId": 0,
 "content": "string" */
 
-export default async function Write() {
+export default function Write() {
   
   const navigate = useNavigate();
 
