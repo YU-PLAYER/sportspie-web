@@ -51,8 +51,8 @@ export default function Write() {
         console.error("로그인되어 있지 않거나 사용자를 불러오지 못하였습니다.", error);
         Swal.fire({
           icon: 'error',
-          title: '사용자 정보 조회 오류',
-          text: '서버에서 사용자 정보를 불러오는데 실패하였습니다. 다시 시도해 주십시오.'
+          title: '로그인 필요',
+          text: '로그인되어 있지 않거나 사용자를 불러오지 못하였습니다. 다시 로그인해 주세요.'
         });
         navigate('/Login'); // 오류 발생 시 홈 페이지로 이동
       }
@@ -82,8 +82,8 @@ export default function Write() {
   const [isMaxCapacityOK, setisMaxCapacityOK] = useState(false);
 
   const [startedAt,setStartedAt] = useState("");
-  var startedDate = String(dayjs().format('YYYY-MM-DD'));
-  var statedTime = String(dayjs().format('HH:mm:ss'));
+  const [startedDate, setStartedDate] = useState(String(dayjs().format('YYYY-MM-DD')));
+  const [statedTime, setStartedTime] = useState(String(dayjs().format('YYYY-MM-DD')));
 
   const handleTitle = e => {
     if (e.key == "Enter") e.preventDefault();
@@ -289,7 +289,7 @@ export default function Write() {
                 minDate={dayjs()}
                 onChange={(newValue) => {
                   console.log(dayjs(newValue).format('YYYY-MM-DD'));
-                  startedDate = (dayjs(newValue).format('YYYY-MM-DD'));
+                  setStartedDate(newValue.format('YYYY-MM-DD'));
                 }}
               />
             </DemoContainer>
@@ -298,7 +298,7 @@ export default function Write() {
               <TimePicker label="시간 선택" sx={{ bgcolor: 'white' }}
                 onChange={(newValue) => {
                   console.log(dayjs(newValue).format("HH:mm:ss"));
-                  statedTime = dayjs(newValue).format("HH:mm:ss");
+                  setStartedTime(dayjs(newValue).format("HH:mm:ss"));
                   setStartedAt(startedDate + "T" + statedTime);
                   console.log("Started Time : " + statedTime);
                   console.log(startedAt);
