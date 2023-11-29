@@ -28,7 +28,7 @@ export default function Notice() {
     const [noticeAPI, setNoticeAPI] = useState([]);
 
     useEffect(() => {
-        fetch(`http://110.165.17.35:8080/Notice`)
+        fetch(`http://110.165.17.35:8080/api/Notice`)
         .then((response) => response.json())
         .then((json) => {
             setNoticeAPI(json);
