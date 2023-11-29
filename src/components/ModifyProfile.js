@@ -248,7 +248,7 @@ const PositionCheck = (position, setPosition) => {
       <PreferBox>
         <PreferTitle>선호하는 포지션</PreferTitle>
         <PreferPositions>
-          <PositionLabel color="#FF4D4D" checked={attacker} onClick={() => PositionCheck(setAttacker, attacker)}>
+          <PositionLabel color="#FF4D4D" checked={attacker} onClick={() => PositionCheck(attacker, setAttacker)}>
             <PositionButton
               name="position"
               checked={attacker}
@@ -256,7 +256,7 @@ const PositionCheck = (position, setPosition) => {
             />
             공격수
           </PositionLabel>
-          <PositionLabel color="#0FBB8E" checked={midfielder} onClick={() => PositionCheck(setMidfielder, midfielder)}>
+          <PositionLabel color="#0FBB8E" checked={midfielder} onClick={() => PositionCheck(midfielder, setMidfielder)}>
             <PositionButton
               name="position"
               checked={midfielder}
@@ -264,7 +264,7 @@ const PositionCheck = (position, setPosition) => {
             />
             미드필더
           </PositionLabel>
-          <PositionLabel color="#0275D8" checked={defender} onClick={() => PositionCheck(setDefender, defender)}>
+          <PositionLabel color="#0275D8" checked={defender} onClick={() => PositionCheck(defender, setDefender)}>
             <PositionButton
               name="position"
               checked={defender}
@@ -272,7 +272,7 @@ const PositionCheck = (position, setPosition) => {
             />
             수비수
           </PositionLabel>
-          <PositionLabel color="#DF9A13" checked={goalkeeper} onClick={() => PositionCheck(setGoalkeeper, goalkeeper)}>
+          <PositionLabel color="#DF9A13" checked={goalkeeper} onClick={() => PositionCheck(goalkeeper, setGoalkeeper)}>
             <PositionButton
               name="position"
               checked={goalkeeper}
