@@ -32,11 +32,12 @@ import axios from 'axios';
 
 export default function Write() {
   
+  const now = dayjs();
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [authorId, setAuthorId] = useState(1);
 
-  useEffect(() => { // 사용자 정보를 불러오는 useEffect
+   useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
@@ -78,12 +79,15 @@ export default function Write() {
 
   const [isTitleOK, setIsTitleOK] = useState(true);
   const [isContentOK, setisContentOK] = useState(true);
+  const [isStartedTimeOK, setisStartedTimeOK] = useState(true);
   const [isStadiumIdOK, setIsStadiumIdOK] = useState(false);
   const [isMaxCapacityOK, setisMaxCapacityOK] = useState(false);
 
   const [startedAt,setStartedAt] = useState("");
-  const [startedDate, setStartedDate] = useState(String(dayjs().format('YYYY-MM-DD')));
-  const [statedTime, setStartedTime] = useState(String(dayjs().format('YYYY-MM-DD')));
+  const [startedDate, setStartedDate] = useState(String(now.format('YYYY-MM-DD')));
+  const [statedTime, setStartedTime] = useState(String(now.format('HH:mm:00')));
+
+  const [hourLater,setHourLate] = useState(now.add(1,"h"));
 
   const handleTitle = e => {
     if (e.key == "Enter") e.preventDefault();
@@ -114,7 +118,6 @@ export default function Write() {
     } else if (stadium == '라온풋살파크 월배점') {
       setStadiumId(10);
     } else {
-      console.log("err")
     }
   }, [stadium]);
 
@@ -159,6 +162,7 @@ export default function Write() {
     
     var alert_text="";
     setIsTitleOK(false);
+    setisStartedTimeOK(false);
     setisContentOK(false);
     setisMaxCapacityOK(false);
     setIsStadiumIdOK(false);
@@ -167,6 +171,10 @@ export default function Write() {
       alert_text = alert_text.concat('방제목을 2글자 이상 입력해 주세요.<br>');
       setIsTitleOK(false);
     } else setIsTitleOK(true);
+    if((startedDate == String(now.format('YYYY-MM-DD'))) && (statedTime == String(now.format('HH:mm:00')))){
+      alert_text = alert_text.concat('경기 시간을 입력해 주세요.<br>');
+      setisStartedTimeOK(false);
+    } else setisStartedTimeOK(true);
     if (content.length < 10) {
       alert_text = alert_text.concat('경기글 상세 내역을 10글자 이상 입력해 주세요.<br>');
       setisContentOK(false);
@@ -179,7 +187,7 @@ export default function Write() {
       alert_text = alert_text.concat('경기장을 선택해 주세요.<br>');
       setIsStadiumIdOK(false);
     } else setIsStadiumIdOK(true);
-    if(((isTitleOK && isContentOK) && (isStadiumIdOK && isMaxCapacityOK)) || alert_text=="") {
+    if(((isTitleOK && isContentOK) && (isStadiumIdOK && isMaxCapacityOK) && isStartedTimeOK) || alert_text=="") {
       console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
       console.log("title: " + title);
@@ -188,6 +196,7 @@ export default function Write() {
       console.log("stadiumId: " + stadiumId);
       console.log("content: " + content);
       console.log("-----게시글 작성 요청-----");
+      
       
       try {
         const response = axios.post('http://110.165.17.35:8080/api/game', {
@@ -214,7 +223,6 @@ export default function Write() {
         html: alert_text
       }); 
     }
-       
   }
 
   const cancel_btn = () => {

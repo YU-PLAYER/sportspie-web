@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
@@ -13,6 +14,8 @@ import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 /*
 [
@@ -71,6 +74,7 @@ const Notifications = [ // API 연습용 데이터
 ]
 
 function Notification({ notification }) {
+
   switch (notification.type) {
     case 'GAME_CONFIRMED':
       return (
@@ -134,16 +138,46 @@ const style = {
 
 export default function AlarmModal() {
 
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+
+  const handleOpen = () => {
+    const fetchUser = async () => {
+      const access_token = (localStorage.getItem('access_token'));
+      if(access_token == null){
+        Swal.fire({
+          icon: 'error',
+          title: '로그인 필요',
+          text: '로그인이 필요한 기능입니다.'
+        });
+        navigate('/Login'); // 로그인하지 않았을 시 로그인 페이지로 이동
+      } else{
+        try{
+          const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
+          headers: { Authorization: `Bearer ${access_token}` },
+        },);
+        fetch(`http://110.165.17.35:8080/api/notification/${response.data.id}`)
+          .then((response) => response.json())
+          .then((json) => {
+            console.log("json 결과");
+            console.log(json);
+          });
+          setOpen(true);  
+        } catch(err){
+          console.log(err);
+        }
+      }
+    };
+    fetchUser();
+  }
   const handleClose = () => setOpen(false);
 
   const [notification_count, setNotifiation_count] = useState(0);
 
   useEffect(() => {
-    // localstorage에 토큰이 들어왔을 때
-    //1. api/user/me를 통해 id값을 얻는다.(?)
-    //2. id값을 이용해 notifiation을 수신받는다.
+    // localstorage에 토큰이 들어왔을 때 (O)
+    //1. api/user/me를 통해 id값을 얻는다.(O)
+    //2. id값을 이용해 notifiation을 수신받는다.(△)
     //3. 수신받은 json 객체의 원소 개수를 count한다.
     //4. setNotification_count를 사용하여 notification_count 값을 변경한다.
   }, /* [localStorage.getItem('')] */)
