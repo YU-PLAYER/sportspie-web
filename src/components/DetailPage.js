@@ -47,7 +47,8 @@ const DetailPage = () => {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get(`http://110.165.17.35:8080/api/game/detail/${gameId}`, {
           headers: {
-            Authorization: `Bearer ${access_token}`},
+            Authorization: `Bearer ${access_token}`
+          }
         });
         setPost(response.data); // 게시물의 상세 정보를 상태에 저장
       } catch (error) { 
@@ -57,7 +58,7 @@ const DetailPage = () => {
             title: '통신 오류',
             text: '서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
           });
-          navigate('./Home'); // 오류 발생 시 홈 페이지로 이동
+          navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
     fetchPost();
@@ -81,10 +82,11 @@ const DetailPage = () => {
         return;
       }  
       try {
-        const response = await axios.patch('http://110.165.17.35:8080/api/game/progress', {
-          userId: user.id,
-          gameId: gameId,
-          gameTeam: "HOME"
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
+        const response = await axios.patch(`http://110.165.17.35:8080/api/game/detail/${gameId}/progress`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
         });
         Swal.fire({
           icon: 'success',
@@ -103,8 +105,10 @@ const DetailPage = () => {
 
     const handleResultConfirm = async (result) => { // 결과 확정 버튼 메소드
       try {
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.patch('http://110.165.17.35:8080/api/game/after', {
-          userId: user.id,
+          headers: {Authorization: `Bearer ${access_token}`}}, 
+          {
           gameId: gameId,
           gameResult: result
         });
@@ -167,17 +171,18 @@ const DetailPage = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const response = await axios.post('http://110.165.17.35:8080/api/game/delete', {
-                userId: user.id,
-                gameId: gameId,
-                gameTeam: "HOME"
+            const access_token = JSON.parse(localStorage.getItem('access_token'));
+            const response = await axios.post(`http://110.165.17.35:8080/api/game/delete/${gameId}`, {
+              headers: {
+                Authorization: `Bearer ${access_token}`
+              }
             });
             Swal.fire({
                 icon: 'success',
                 title: '삭제 성공',
                 text: '경기글이 성공적으로 삭제되었습니다.'
             });
-            navigate('./Home'); // 게시물 삭제 후 홈 페이지로 이동
+            navigate('/Home'); // 게시물 삭제 후 홈 페이지로 이동
           } catch (error) {
             Swal.fire({
                 icon: 'error',

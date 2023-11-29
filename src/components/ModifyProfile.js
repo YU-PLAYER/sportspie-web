@@ -76,7 +76,7 @@ const ModifyProfile = () => {
             title: '통신 오류',
             text: '서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
           });
-          navigate('./MyProfile');
+          navigate('/MyProfile');
       }
     };
     fetchUserData();
@@ -85,8 +85,8 @@ const ModifyProfile = () => {
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
       const data = {imageUrl, nickname, age, gender, region, height, weight, email,
-        introduce, attacker, midfielder, defender, goalkeeper,
-        publicProfile, publicInformation, publicIntroduce, publicRecord};
+        introduce, attacker, midfielder, defender, goalkeeper, is_public_profile: publicProfile,
+        is_public_information: publicInformation, is_public_introduce: publicIntroduce, is_public_record: publicRecord};
       const access_token = JSON.parse(localStorage.getItem('access_token'));
       const response = await axios.put('http://110.165.17.35:8080/api/user/me', data, {
         headers: { 
@@ -98,7 +98,7 @@ const ModifyProfile = () => {
         title: '저장 성공!',
         text: '프로필이 정상적으로 업데이트 되었습니다.'
       });
-      navigate("./MyProfile");
+      navigate("/MyProfile");
     } catch (error) { // 서버 통신 에러 발생시 경고창 출력
       Swal.fire({
         icon: 'error',
