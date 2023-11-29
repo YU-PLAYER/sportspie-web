@@ -27,10 +27,10 @@ function TeamSelectList({id, post}) {
                 console.log('요청 성공');
                 console.log(result.data);
                 for(let i = 0; i < result.data.length; i++){
-                    if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="HOME")) {setHome(false);}
-                    else if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="AWAY")) {setAway(false);}
                     if(result.data[i].gameTeam==="HOME") setHomelist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
                     else if(result.data[i].gameTeam==="AWAY") setAwaylist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
+                    if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="HOME")) {setHome(false);}
+                    else if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="AWAY")) {setAway(false);}
                 }
             })
             .catch((error)=>{console.log('요청 실패')
@@ -64,8 +64,9 @@ function TeamSelectList({id, post}) {
             .then((result)=>{
                 console.log('요청 성공');
                 console.log(result);
-                if(team==="HOME") setHomelist([{}]);
-                else if(team==="AWAY") setAwaylist([{}]);
+                if(url === `http://110.165.17.35:8080/api/gameUser/delete`){
+                    if(team==="HOME") setHomelist([{}]);
+                    else if(team==="AWAY") setAwaylist([{}]);}
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
