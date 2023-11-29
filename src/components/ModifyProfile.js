@@ -191,25 +191,21 @@ const MessageChange = (e) => { // 상태 메세지 변경 메소드
 const PositionCheck = (position, setPosition) => {
   setPosition(prev => {
     const newPosition = !prev;
-    switch (setPosition) {
-      case setAttacker:
-        setCurrentValues(prevState => ({...prevState, attacker: newPosition}));
-        break;
-      case setMidfielder:
-        setCurrentValues(prevState => ({...prevState, midfielder: newPosition}));
-        break;
-      case setDefender:
-        setCurrentValues(prevState => ({...prevState, defender: newPosition}));
-        break;
-      case setGoalkeeper:
-        setCurrentValues(prevState => ({...prevState, goalkeeper: newPosition}));
-        break;
-      default:
-        console.error(`Invalid setPosition: ${setPosition}`);
+    if (setPosition === setAttacker) {
+      setCurrentValues(prevState => ({...prevState, attacker: newPosition}));
+    } else if (setPosition === setMidfielder) {
+      setCurrentValues(prevState => ({...prevState, midfielder: newPosition}));
+    } else if (setPosition === setDefender) {
+      setCurrentValues(prevState => ({...prevState, defender: newPosition}));
+    } else if (setPosition === setGoalkeeper) {
+      setCurrentValues(prevState => ({...prevState, goalkeeper: newPosition}));
+    } else {
+      console.error(`Invalid setPosition: ${setPosition}`);
     }
     return newPosition;
   });
-};  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
+};
+  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
         <UserImage src={imageUrl} onClick={ProfileImageChange} />
