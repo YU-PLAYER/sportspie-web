@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import '../css/TeamSelectList.css';
 import { ClickAwayListener } from '@mui/material';
 function TeamSelectList({id, post}) {
-    console.log(id);
     console.log(post);
     const [home, setHome] = useState(true);
     const [away, setAway] = useState(true);
@@ -18,6 +17,7 @@ function TeamSelectList({id, post}) {
         axios.get('http://110.165.17.35:8080/api/user/me',
         { headers: { Authorization: `Bearer ${userid}`}, },)
         .then((response)=>{
+            console.log(response);
             if(response.data["id"]===post.userId) setIswriter(true); //작성자는 무조건 HOME팀
             axios({
                 method: 'get',
@@ -26,12 +26,15 @@ function TeamSelectList({id, post}) {
             .then((result)=>{
                 console.log('요청 성공');
                 console.log(result.data);
+                var home = 0; var away = 0;
                 for(let i = 0; i < result.data.length; i++){
-                    if(result.data[i].gameTeam==="HOME") setHomelist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
-                    else if(result.data[i].gameTeam==="AWAY") setAwaylist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
-                    if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="HOME")) {setHome(false);}
-                    else if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="AWAY")) {setAway(false);}
+                    if(result.data[i].gameTeam==="HOME") {setHomelist(home==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]); home++;}
+                    else if(result.data[i].gameTeam==="AWAY") {setAwaylist(away==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]); away++;}
+                    if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="HOME")) {setHome(false); }
+                    else if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="AWAY")) {setAway(false); }
                 }
+                if(home>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${home}명이 찼습니다.`); setHome(0);}
+                if(away>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${away}명이 찼습니다.`); setAway(0);}
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
@@ -64,9 +67,8 @@ function TeamSelectList({id, post}) {
             .then((result)=>{
                 console.log('요청 성공');
                 console.log(result);
-                if(url === `http://110.165.17.35:8080/api/gameUser/delete`){
-                    if(team==="HOME") setHomelist([{}]);
-                    else if(team==="AWAY") setAwaylist([{}]);}
+                setHomelist([{}]);
+                setAwaylist([{}]);
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
@@ -117,7 +119,7 @@ function TeamSelectList({id, post}) {
                 <Playerlist item={item} key={index} />
                 )}
             </section>
-            <button value="HOME" disabled={(iswriter===true || home===0) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
+            <button value="HOME" disabled={((iswriter===true) || (home===0)) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===0 ? `마감` : (home===true?`신청하기` : `취소하기`)}</button>
         </div>
@@ -138,7 +140,7 @@ function TeamSelectList({id, post}) {
                     <Playerlist item={item} key={index} />
                     )}
             </section>
-            <button value="AWAY" disabled={(iswriter===true || away===0) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
+            <button value="AWAY" disabled={((iswriter===true) || (away===0)) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===0 ? `마감` : (away===true?`신청하기` : `취소하기`)}</button>
         </div>
