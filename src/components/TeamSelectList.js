@@ -12,36 +12,66 @@ function TeamSelectList({id}) {
     const [homelist, setHomelist] = useState([{}]);
     const [awaylist, setAwaylist] = useState([{}]);
     useEffect(()=>{
-        axios({
-            method: 'get',
-            url:`http://110.165.17.35:8080/api/gameUser/join/${id}`,
+        const userid = JSON.parse(localStorage.getItem('access_token'));
+        axios.get('http://110.165.17.35:8080/api/user/me',
+        { headers: { Authorization: `Bearer ${userid}`}, },)
+        .then((response)=>{
+            axios({
+                method: 'get',
+                url:`http://110.165.17.35:8080/api/gameUser/join/${id}`,
+            })
+            .then((result)=>{
+                console.log('요청 성공');
+                console.log(result.data);
+                for(let i = 0; i < result.data.length; i++){
+                    if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="HOME")) {setHome(false);}
+                    else if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="AWAY")) {setAway(false);}
+                    if(result.data[i].gameTeam==="HOME") setHomelist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
+                    else if(result.data[i].gameTeam==="AWAY") setAwaylist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
+                }
+            })
+            .catch((error)=>{console.log('요청 실패')
+            console.log(error)
+            })
         })
-        .then((result)=>{
-            console.log('요청 성공');
-            console.log(result.data);
-            for(let i = 0; i < result.data.length; i++){
-                if(result.data[i].gameTeam==="HOME") setHomelist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
-                else if(result.data[i].gameTeam==="AWAY") setAwaylist(i==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]);
-            }
+        .catch((error)=>{
+            console.log(error);
         })
-        .catch((error)=>{console.log('요청 실패')
-        console.log(error)
-        })
-      }, [home, away]);
+      }, [home,away]);
 
-    function handleClick(){
-        axios({
-            method: 'get',
-            url:`http://110.165.17.35:8080/api/gameUser`,
+    const handleClick=(e)=>{
+        const userid = JSON.parse(localStorage.getItem('access_token'));
+        var team = e.target.value;
+        var url = `http://110.165.17.35:8080/api/gameUser`;
+        if((team==="HOME" && home===false)||(team==="AWAY" &&away===false)) url = `http://110.165.17.35:8080/api/gameUser/delete`
+        axios.get('http://110.165.17.35:8080/api/user/me',
+        { headers: { Authorization: `Bearer ${userid}`}, },)
+        .then((response)=>{
+            console.log(response);
+            console.log(response.data["id"]);
+            axios({
+                method: 'Post',
+                url: url,
+                data:{
+                    "userId": response.data["id"],
+                    "gameId": id,
+                    "gameTeam": team,
+                  }
+            })
+            .then((result)=>{
+                console.log('요청 성공');
+                console.log(result);
+                if(team==="HOME") setHomelist([{}]);
+                else if(team==="Away") setAwaylist([{}]);
+            })
+            .catch((error)=>{console.log('요청 실패')
+            console.log(error)
+            })
         })
-        .then((result)=>{
-            console.log('요청 성공');
-            console.log(result);
+        .catch((error)=>{
+            console.log(error);
         })
-        .catch((error)=>{console.log('요청 실패')
-        console.log(error)
-        })
-    }  
+    }; 
 
     function Playerlist({item}){
         let position = item.position === "GK" ? "골기퍼" : item.position === "DF" ? "수비수" : "공격수";
@@ -79,9 +109,9 @@ function TeamSelectList({id}) {
                 <Playerlist item={item} key={index} />
                 )}
             </section>
-            <button disabled={away==false ? true : false} onClick={()=>{setHome(!home);}} style={{
+            <button value="HOME" disabled={(away===false) ? true : false} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
-                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home==true?`신청하기` : `취소하기`}</button>
+                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===true?`신청하기` : `취소하기`}</button>
         </div>
       </Box>
       <Box sx={{ height: '20px'}}>
@@ -100,9 +130,9 @@ function TeamSelectList({id}) {
                     <Playerlist item={item} key={index} />
                     )}
             </section>
-            <button disabled={home==false ? true : false} onClick={()=>{setAway(!away);}} style={{
+            <button value="AWAY" disabled={(home===false) ? true : false} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
-                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away==true?`신청하기` : `취소하기`}</button>
+                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===true?`신청하기` : `취소하기`}</button>
         </div>
       </Box>
       <Box sx={{ height: '20px'}} />

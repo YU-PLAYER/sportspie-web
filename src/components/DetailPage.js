@@ -93,7 +93,7 @@ const DetailPage = () => {
           title: '인원 확정 성공',
           text: '인원이 성공적으로 확정되었습니다.'
         });
-        fetchPost();  // 인원 확정 후 게시물의 상세 정보 새로고침
+        //fetchPost();  // 인원 확정 후 게시물의 상세 정보 새로고침
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -117,7 +117,7 @@ const DetailPage = () => {
           title: '결과 확정 성공',
           text: '경기 결과가 성공적으로 확정되었습니다.'
         });
-        fetchPost(); // 결과 확정 후 게시물의 상세 정보 새로고침
+        //fetchPost(); // 결과 확정 후 게시물의 상세 정보 새로고침
       } catch (error) {
         Swal.fire({
           icon: 'error',
