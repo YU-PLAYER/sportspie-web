@@ -18,7 +18,7 @@ function TeamSelectList({id, post}) {
         axios.get('http://110.165.17.35:8080/api/user/me',
         { headers: { Authorization: `Bearer ${userid}`}, },)
         .then((response)=>{
-            if(response.data["id"]===post.userId) setIswriter(true);
+            if(response.data["id"]===post.userId) setIswriter(true); //작성자는 무조건 HOME팀
             axios({
                 method: 'get',
                 url:`http://110.165.17.35:8080/api/gameUser/join/${id}`,
@@ -69,6 +69,10 @@ function TeamSelectList({id, post}) {
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
+            if(error.response.data["message"]===`경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다.`){
+                if(team==="HOME") setHome(0);
+                else if(team==="AWAY") setAway(0);
+            }
             })
         })
         .catch((error)=>{
@@ -112,9 +116,9 @@ function TeamSelectList({id, post}) {
                 <Playerlist item={item} key={index} />
                 )}
             </section>
-            <button value="HOME" disabled={(iswriter===true) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
+            <button value="HOME" disabled={(iswriter===true || home===0) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
-                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===true?`신청하기` : `취소하기`}</button>
+                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===0 ? `마감` : (home===true?`신청하기` : `취소하기`)}</button>
         </div>
       </Box>
       <Box sx={{ height: '20px'}}>
@@ -133,9 +137,9 @@ function TeamSelectList({id, post}) {
                     <Playerlist item={item} key={index} />
                     )}
             </section>
-            <button value="AWAY" disabled={(iswriter===true) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
+            <button value="AWAY" disabled={(iswriter===true || away===0) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
-                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===true?`신청하기` : `취소하기`}</button>
+                borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===0 ? `마감` : (away===true?`신청하기` : `취소하기`)}</button>
         </div>
       </Box>
       <Box sx={{ height: '20px'}} />
