@@ -65,7 +65,7 @@ function TeamSelectList({id, post}) {
                 console.log('요청 성공');
                 console.log(result);
                 if(team==="HOME") setHomelist([{}]);
-                else if(team==="Away") setAwaylist([{}]);
+                else if(team==="AWAY") setAwaylist([{}]);
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
