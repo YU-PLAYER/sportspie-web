@@ -9,7 +9,7 @@ const MyProfile = () => {
 
   const [imageUrl, setImageUrl] = useState(""); // 프로필 이미지 State
 
-  const [nickName, setNickname] = useState(""); // 사용자 이름 State
+  const [nickname, setNickname] = useState(""); // 사용자 이름 State
   const [gender, setGender] = useState(""); // 사용자 성별 State
   const [age, setAge] = useState(0); // 사용자 나이 State
   const [region, setRegion] = useState(""); // 사용자 지역 State
@@ -58,6 +58,19 @@ const MyProfile = () => {
         setMidfielder(midfielder);
         setDefender(defender);
         setGoalkeeper(goalkeeper);  
+
+        const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          }
+        });
+
+        const { win, draw, lose, recent10 } = recordResponse.data;
+
+        setWin(win);
+        setDraw(draw);
+        setLose(lose);
+        setRecent10(recent10);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
@@ -78,38 +91,7 @@ const MyProfile = () => {
       }
     };
     fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    const fetchUserRecord = async () => { // 사용자 전적 정보 업데이트
-      try {
-        const access_token = JSON.parse(localStorage.getItem('access_token'));
-        const response = await axios.get('http://110.165.17.35:8080/api/gameUser/history', {
-          headers: {
-            Authorization: `Bearer ${access_token}`
-          },
-        });
-  
-        const { win, draw, lose, recent10 } = response.data;
-  
-        setWin(win);
-        setDraw(draw);
-        setLose(lose);
-        setRecent10(recent10);
-      } catch (error) {
-        console.error('An error occurred:', error);
-        Swal.fire({
-          icon: 'error',
-          title: '통신 오류',
-          text: '전적 정보를 불러오지 못했습니다. 다시 시도하여 주십시오.'
-        });
-        navigate('/Home');
-      }
-    };
-  
-    fetchUserRecord();
-  }, []);
-  
+  }, []);  
   
   const gameResultMap = { // 숫자와 결과를 매핑하는 객체
     0: "Win",
@@ -212,7 +194,7 @@ const MyProfile = () => {
           </ProfileView>
         )}
         <UserInfoBox>
-          닉네임 : {nickName} <br/>
+          닉네임 : {nickname} <br/>
           성별 : {gender} <br/>
           나이 : {age} 세<br/>
           지역 : {region} <br/>
