@@ -48,13 +48,13 @@ export default function Write() {
         setAuthorId(response.data.id);
         console.log(response.data);
       } catch (error) {
-        console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
+        console.error("로그인되어 있지 않거나 사용자를 불러오지 못하였습니다.", error);
         Swal.fire({
           icon: 'error',
           title: '사용자 정보 조회 오류',
-          text: '서버에서 사용자 정보를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
+          text: '서버에서 사용자 정보를 불러오는데 실패하였습니다. 다시 시도해 주십시오.'
         });
-        navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
+        navigate('/Login'); // 오류 발생 시 홈 페이지로 이동
       }
     };
     fetchUser();
@@ -179,7 +179,7 @@ export default function Write() {
       alert_text = alert_text.concat('경기장을 선택해 주세요.<br>');
       setIsStadiumIdOK(false);
     } else setIsStadiumIdOK(true);
-    if(((isTitleOK && isContentOK) && (isStadiumIdOK && isMaxCapacityOK))) {
+    if(((isTitleOK && isContentOK) && (isStadiumIdOK && isMaxCapacityOK)) || alert_text=="") {
       console.log("-----게시글 작성 내용-----");
       console.log("AuthorID: " + authorId);
       console.log("title: " + title);
@@ -212,8 +212,9 @@ export default function Write() {
       Swal.fire({
         icon: 'warning',
         html: alert_text
-      });
-    }    
+      }); 
+    }
+       
   }
 
   const cancel_btn = () => {
@@ -285,7 +286,6 @@ export default function Write() {
               sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <DateCalendar
                 views={['year', 'month', 'day']}
-                defaultValue={dayjs()}
                 minDate={dayjs()}
                 onChange={(newValue) => {
                   console.log(dayjs(newValue).format('YYYY-MM-DD'));
