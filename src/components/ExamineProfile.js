@@ -58,7 +58,12 @@ const ExamineProfile = () => {
 
   const fetchUserData = async () => { // 사용자 정보 조회 메소드
     try {
-      const response = await axios.get(`http://110.165.17.35:8080/api/user/${userId}`);
+      const access_token = JSON.parse(localStorage.getItem('access_token'));
+      const response = await axios.get(`http://110.165.17.35:8080/api/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      });
       const {imageUrl, nickname, age, gender, region, height, weight, email,
         introduce, attacker, midfielder, defender, goalkeeper,
         publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;
@@ -77,7 +82,11 @@ const ExamineProfile = () => {
       setDefender(defender);
       setGoalkeeper(goalkeeper);
 
-      const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history/${userId}`);
+      const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      });
       const { win, draw, lose, recent10 } = recordResponse.data;
 
       setWin(publicRecord ? win : {});

@@ -76,7 +76,7 @@ const ModifyProfile = () => {
             title: '통신 오류',
             text: '서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
           });
-          navigate('./MyProfile');
+          navigate('/MyProfile');
       }
     };
     fetchUserData();
@@ -85,8 +85,8 @@ const ModifyProfile = () => {
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
       const data = {imageUrl, nickname, age, gender, region, height, weight, email,
-        introduce, attacker, midfielder, defender, goalkeeper,
-        publicProfile, publicInformation, publicIntroduce, publicRecord};
+        introduce, attacker, midfielder, defender, goalkeeper, is_public_profile: publicProfile,
+        is_public_information: publicInformation, is_public_introduce: publicIntroduce, is_public_record: publicRecord};
       const access_token = JSON.parse(localStorage.getItem('access_token'));
       const response = await axios.put('http://110.165.17.35:8080/api/user/me', data, {
         headers: { 
@@ -98,7 +98,7 @@ const ModifyProfile = () => {
         title: '저장 성공!',
         text: '프로필이 정상적으로 업데이트 되었습니다.'
       });
-      navigate("./MyProfile");
+      navigate("/MyProfile");
     } catch (error) { // 서버 통신 에러 발생시 경고창 출력
       Swal.fire({
         icon: 'error',
@@ -191,25 +191,21 @@ const MessageChange = (e) => { // 상태 메세지 변경 메소드
 const PositionCheck = (position, setPosition) => {
   setPosition(prev => {
     const newPosition = !prev;
-    switch (setPosition) {
-      case setAttacker:
-        setCurrentValues(prevState => ({...prevState, attacker: newPosition}));
-        break;
-      case setMidfielder:
-        setCurrentValues(prevState => ({...prevState, midfielder: newPosition}));
-        break;
-      case setDefender:
-        setCurrentValues(prevState => ({...prevState, defender: newPosition}));
-        break;
-      case setGoalkeeper:
-        setCurrentValues(prevState => ({...prevState, goalkeeper: newPosition}));
-        break;
-      default:
-        console.error(`Invalid setPosition: ${setPosition}`);
+    if (setPosition === setAttacker) {
+      setCurrentValues(prevState => ({...prevState, attacker: newPosition}));
+    } else if (setPosition === setMidfielder) {
+      setCurrentValues(prevState => ({...prevState, midfielder: newPosition}));
+    } else if (setPosition === setDefender) {
+      setCurrentValues(prevState => ({...prevState, defender: newPosition}));
+    } else if (setPosition === setGoalkeeper) {
+      setCurrentValues(prevState => ({...prevState, goalkeeper: newPosition}));
+    } else {
+      console.error(`Invalid setPosition: ${setPosition}`);
     }
     return newPosition;
   });
-};  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
+};
+  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
         <UserImage src={imageUrl} onClick={ProfileImageChange} />
@@ -252,7 +248,7 @@ const PositionCheck = (position, setPosition) => {
       <PreferBox>
         <PreferTitle>선호하는 포지션</PreferTitle>
         <PreferPositions>
-          <PositionLabel color="#FF4D4D" checked={attacker} onClick={() => PositionCheck(setAttacker, attacker)}>
+          <PositionLabel color="#FF4D4D" checked={attacker} onClick={() => PositionCheck(attacker, setAttacker)}>
             <PositionButton
               name="position"
               checked={attacker}
@@ -260,7 +256,7 @@ const PositionCheck = (position, setPosition) => {
             />
             공격수
           </PositionLabel>
-          <PositionLabel color="#0FBB8E" checked={midfielder} onClick={() => PositionCheck(setMidfielder, midfielder)}>
+          <PositionLabel color="#0FBB8E" checked={midfielder} onClick={() => PositionCheck(midfielder, setMidfielder)}>
             <PositionButton
               name="position"
               checked={midfielder}
@@ -268,7 +264,7 @@ const PositionCheck = (position, setPosition) => {
             />
             미드필더
           </PositionLabel>
-          <PositionLabel color="#0275D8" checked={defender} onClick={() => PositionCheck(setDefender, defender)}>
+          <PositionLabel color="#0275D8" checked={defender} onClick={() => PositionCheck(defender, setDefender)}>
             <PositionButton
               name="position"
               checked={defender}
@@ -276,7 +272,7 @@ const PositionCheck = (position, setPosition) => {
             />
             수비수
           </PositionLabel>
-          <PositionLabel color="#DF9A13" checked={goalkeeper} onClick={() => PositionCheck(setGoalkeeper, goalkeeper)}>
+          <PositionLabel color="#DF9A13" checked={goalkeeper} onClick={() => PositionCheck(goalkeeper, setGoalkeeper)}>
             <PositionButton
               name="position"
               checked={goalkeeper}

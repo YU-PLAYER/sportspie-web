@@ -42,7 +42,7 @@ const MyProfile = () => {
           },
         });
   
-        const {id, imageUrl, nickname, age, gender, region, height, weight, email,
+        const {imageUrl, nickname, age, gender, region, height, weight, email,
           introduce, attacker, midfielder, defender, goalkeeper} = response.data;
         
         setImageUrl(imageUrl);
@@ -59,7 +59,11 @@ const MyProfile = () => {
         setDefender(defender);
         setGoalkeeper(goalkeeper);  
 
-        const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history/${id}`);
+        const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          }
+        });
 
         const { win, draw, lose, recent10 } = recordResponse.data;
 
