@@ -249,7 +249,7 @@ const DetailPage = () => {
             {post.content}
           </MainText>
         </ContentContainer>
-        <TeamSelectionUI>{<TeamSelectList id={gameId}/>}</TeamSelectionUI>
+        <TeamSelectionUI>{<TeamSelectList id={gameId} post={post}/>}</TeamSelectionUI>
         <ButtonContainer>
           {post.userId === user.id && <DeadlineButton disabled={post.currentCapacity % 2 !== 0 && post.status !== 0} onClick={handleConfirm}>인원 확정</DeadlineButton>}
           {post.userId === user.id && <ConfirmationButton disabled={(post.status !== 1 && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}

@@ -5,10 +5,12 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import '../css/TeamSelectList.css';
 import { ClickAwayListener } from '@mui/material';
-function TeamSelectList({id}) {
+function TeamSelectList({id, post}) {
     console.log(id);
+    console.log(post);
     const [home, setHome] = useState(true);
     const [away, setAway] = useState(true);
+    const [iswriter, setIswriter] = useState(false);
     const [homelist, setHomelist] = useState([{}]);
     const [awaylist, setAwaylist] = useState([{}]);
     useEffect(()=>{
@@ -16,6 +18,7 @@ function TeamSelectList({id}) {
         axios.get('http://110.165.17.35:8080/api/user/me',
         { headers: { Authorization: `Bearer ${userid}`}, },)
         .then((response)=>{
+            if(response.data["id"]===post.userId) setIswriter(true);
             axios({
                 method: 'get',
                 url:`http://110.165.17.35:8080/api/gameUser/join/${id}`,
@@ -109,7 +112,7 @@ function TeamSelectList({id}) {
                 <Playerlist item={item} key={index} />
                 )}
             </section>
-            <button value="HOME" disabled={(away===false) ? true : false} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
+            <button value="HOME" disabled={(iswriter===true) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===true?`신청하기` : `취소하기`}</button>
         </div>
@@ -130,7 +133,7 @@ function TeamSelectList({id}) {
                     <Playerlist item={item} key={index} />
                     )}
             </section>
-            <button value="AWAY" disabled={(home===false) ? true : false} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
+            <button value="AWAY" disabled={(iswriter===true) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
                 position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===true?`신청하기` : `취소하기`}</button>
         </div>
