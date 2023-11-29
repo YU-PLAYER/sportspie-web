@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const ExamineProfile = (props) => {
+const ExamineProfile = () => {
   // 비공개 기본 이미지
   const default_img = "https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp"
 
   const navigate = useNavigate(); // 페이지 이동 훅
 
-  const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
+  const location = useLocation(); // 현재 위치 정보 훅
+  const userId = location.state.userId; // userID를 가져오기
 
-  const [NickName, setNickname] = useState(""); // 사용자 이름 State
-  const [Gender, setGender] = useState(""); // 사용자 성별 State
-  const [Age, setAge] = useState(0); // 사용자 나이 State
-  const [Region, setRegion] = useState(""); // 사용자 지역 State
-  const [Height, setHeight] = useState(0); // 사용자 신장 State
-  const [Weight, setWeight] = useState(0); // 사용자 체중 State
-  const [Email, setEmail] = useState(""); // 사용자 이메일 State
+  const [imageUrl, setImageUrl] = useState(""); // 프로필 이미지 State
 
-  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
+  const [nickname, setNickname] = useState(""); // 사용자 이름 State
+  const [gender, setGender] = useState(""); // 사용자 성별 State
+  const [age, setAge] = useState(0); // 사용자 나이 State
+  const [region, setRegion] = useState(""); // 사용자 지역 State
+  const [height, setHeight] = useState(0); // 사용자 신장 State
+  const [weight, setWeight] = useState(0); // 사용자 체중 State
+  const [email, setEmail] = useState(""); // 사용자 이메일 State
 
-  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(false); // 선호션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호  포지션(미드필더) State
-  const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
+  const [introduce, setIntroduce] = useState(""); // 상태 메세지 State
 
-  const [record, setRecord] = useState({ // 전적 및 승률 State
-    win: 0,
-    draw: 0,
-    loes: 0
-  });
+  const [attacker, setAttacker] = useState(false);  // 선호 포지션(공격수) State
+  const [midfielder, setMidfielder] = useState(false); // 선호 포지션(미드필더) State
+  const [defender, setDefender] = useState(false); // 선호 포지션(수비수) State
+  const [goalkeeper, setGoalkeeper] = useState(false); // 선호 포지션(골키퍼) State
 
-  const [recent10, setRecent10] = useState([]); // 최근 경기 승패 결과 State
+  const [win, setWin] = useState(0); // 승리 State
+  const [draw, setDraw] = useState(0); // 무승부 State
+  const [lose, setLose] = useState(0); // 패배 State
+
+  const [recent10, setRecent10] = useState([]); // 최근 10경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
 
@@ -57,12 +58,12 @@ const ExamineProfile = (props) => {
 
   const fetchUserData = async () => { // 사용자 정보 조회 메소드
     try {
-      const response = await axios.get(`http://110.165.17.35:8080/api/user/me${props.userId}`);
+      const response = await axios.get(`http://110.165.17.35:8080/api/user/${userId}`);
       const {imageUrl, nickname, age, gender, region, height, weight, email,
-        introduce, attacker, midfielder, defender, goalkeeper, record, recent10,
+        introduce, attacker, midfielder, defender, goalkeeper,
         publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;
 
-      setProfileImage(publicProfile ? imageUrl : default_img);
+      setImageUrl(publicProfile ? imageUrl : default_img);
       setNickname(publicInformation ? nickname : {});
       setAge(publicInformation ? age : {});
       setGender(publicInformation ? gender : {});
@@ -70,18 +71,24 @@ const ExamineProfile = (props) => {
       setHeight(publicInformation ? height : {});
       setWeight(publicInformation ? weight : {});
       setEmail(publicInformation ? email : {});
-      setStatusMessage(publicIntroduce ? introduce : "비공개");
-      setForward(attacker);
+      setIntroduce(publicIntroduce ? introduce : "비공개");
+      setAttacker(attacker);
       setMidfielder(midfielder);
       setDefender(defender);
       setGoalkeeper(goalkeeper);
-      setRecord(publicRecord ? record : {});
-      setRecent10(recent10);
+
+      const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history/${userId}`);
+      const { win, draw, lose, recent10 } = recordResponse.data;
+
+      setWin(publicRecord ? win : {});
+      setDraw(publicRecord ? draw : {});
+      setLose(publicRecord ? lose : {});
+      setRecent10(publicRecord ? recent10 : {});
     } catch (error) { // 서버 통신 오류 발생시 경고창 출력
         Swal.fire({
           icon: 'error',
-          title: '조회 실패',
-          text: "서버와의 통신에 실패하였습니다. 다시 시도하여 주십시오"
+          title: '사용자 정보 조회 실패',
+          text: "서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도하여 주십시오"
     });
         navigate(-1);
     }
@@ -94,42 +101,42 @@ const ExamineProfile = (props) => {
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={toEnlarge} />
+        <UserImage src={imageUrl} onClick={toEnlarge} />
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={profileImage} />
+            <ImageView src={imageUrl} />
           </ProfileView>
       )}
-        {NickName ? (
+        {nickname ? (
           <UserInfoBox>
-            닉네임 : {NickName} <br/>
-            성별 : {Gender} <br/>
-            나이 : {Age} <br/>
-            지역 : {Region} <br/>
-            신장 : {Height} <br/>
-            체중 : {Weight} <br/>
-            이메일 : {Email}
+            닉네임 : {nickname} <br/>
+            성별 : {gender} <br/>
+            나이 : {age} <br/>
+            지역 : {region} <br/>
+            신장 : {height} <br/>
+            체중 : {weight} <br/>
+            이메일 : {email}
           </UserInfoBox> ) : (<PrivateUserInfoBox>비공개</PrivateUserInfoBox>)}
       </ProfileBox>
       <MessageBox>
         <TextAlign>
-          {statusMessage}
+          {introduce}
         </TextAlign>
       </MessageBox>
       <PreferBox>
         <PreferTitle>선호하는 포지션</PreferTitle>
         <PreferPositions>
-          <ForwardPosition forward={Forward}>공격수</ForwardPosition>
-          <MidfielderPosition midfielder={Midfielder}>미드필더</MidfielderPosition>
-          <DefenderPosition defender={Defender}>수비수</DefenderPosition>
-          <GoalkeeperPosition goalkeeper={Goalkeeper}>골키퍼</GoalkeeperPosition>
+          <ForwardPosition attacker={attacker}>공격수</ForwardPosition>
+          <MidfielderPosition midfielder={midfielder}>미드필더</MidfielderPosition>
+          <DefenderPosition defender={defender}>수비수</DefenderPosition>
+          <GoalkeeperPosition goalkeeper={goalkeeper}>골키퍼</GoalkeeperPosition>
         </PreferPositions>
       </PreferBox>
-      {record ? (
+      {(win || draw || lose || recent10.length > 0) ? (
         <RecordBox>
           <Record>
-            전체 전적 : {record.win + record.draw + record.lose}전 {record.win}승 {record.draw}무 {record.loes}패 /
-            승률 : {((record.win / (record.win + record.draw + record.lose)) * 100).toFixed(1)}%
+            전체 전적 : {win + draw + lose}전 {win}승 {draw}무 {lose}패 /
+            승률 : {((win / (win + draw + lose)) * 100).toFixed(1)}%
           </Record>
           <RecordBoard>
             {recent10.map((result, index) => (
@@ -239,7 +246,7 @@ const ForwardPosition = styled.div`
   line-height: 2em;
   margin-left: 5%;
   border-radius: 15px;
-  display: ${({ forward }) => (forward ? 'block' : 'none')};;
+  display: ${({ attacker }) => (attacker ? 'block' : 'none')};;
 `;
 
 const MidfielderPosition = styled.div`

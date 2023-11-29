@@ -10,40 +10,41 @@ const ModifyProfile = () => {
   const [originalValues, setOriginalValues] = useState({}); // 원래의 값을 저장할 상태
   const [currentValues, setCurrentValues] = useState({});   // 현재의 값을 저장할 상태
 
-  const [profileImage, setProfileImage] = useState(""); // 프로필 이미지 State
+  const [imageUrl, setImageUrl] = useState(""); // 프로필 이미지 State
 
-  const [NickName, setNickname] = useState(""); // 사용자 이름 State
-  const [Gender, setGender] = useState(""); // 사용자 성별 State
-  const [Age, setAge] = useState(0); // 사용자 나이 State
-  const [Region, setRegion] = useState(""); // 사용자 지역 State
-  const [Height, setHeight] = useState(0); // 사용자 신장 State
-  const [Weight, setWeight] = useState(0); // 사용자 체중 State
-  const [Email, setEmail] = useState(""); // 사용자 이메일 State
+  const [nickname, setNickname] = useState(""); // 사용자 이름 State
+  const [gender, setGender] = useState(""); // 사용자 성별 State
+  const [age, setAge] = useState(0); // 사용자 나이 State
+  const [region, setRegion] = useState(""); // 사용자 지역 State
+  const [height, setHeight] = useState(0); // 사용자 신장 State
+  const [weight, setWeight] = useState(0); // 사용자 체중 State
+  const [email, setEmail] = useState(""); // 사용자 이메일 State
 
-  const [statusMessage, setStatusMessage] = useState(""); // 상태 메세지 State
+  const [introduce, setIntroduce] = useState(""); // 상태 메세지 State
 
-  const [Forward, setForward] = useState(false);  // 선호 포지션(공격수) State
-  const [Midfielder, setMidfielder] = useState(false); // 선호션(수비수) State
-  const [Goalkeeper, setGoalkeeper] = useState(false); // 선호  포지션(미드필더) State
-  const [Defender, setDefender] = useState(false); // 선호 포지포지션(골키퍼) State
+  const [attacker, setAttacker] = useState(false);  // 선호 포지션(공격수) State
+  const [midfielder, setMidfielder] = useState(false); // 선호 포지션(미드필더) State
+  const [defender, setDefender] = useState(false); // 선호 포지션(수비수) State
+  const [goalkeeper, setGoalkeeper] = useState(false); // 선호 포지션(골키퍼) State
 
-  const [isProfileImageVisible, setIsProfileImageVisible] = useState(true); // 프로필 공개 및 비공개 State
-  const [isUserInfoVisible, setIsUserInfoVisible] = useState(true); // 사용자 정보 공개 및 비공개 State
-  const [isStatusMessageVisible, setIsStatusMessageVisible] = useState(true); // 상태메세지 공개 및 비공개 State
-  const [isRecordVisible, setIsRecordVisible] = useState(true); // 전적 공개 및 비공개 State
+  const [publicProfile, setPublicProfile] = useState(false); // 프로필 공개 및 비공개 State
+  const [publicInformation, setPublicInformation] = useState(false); // 사용자 정보 공개 및 비공개 State
+  const [publicIntroduce, setPublicIntroduce] = useState(false); // 상태메세지 공개 및 비공개 State
+  const [publicRecord, setPublicRecord] = useState(false); // 전적 공개 및 비공개 State
 
   useEffect(() => {
     const fetchUserData = async () => { // 사용자 뷰 화면 업데이트 메소드
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
-          headers: {Authorization: `Bearer ${access_token}`}
+          headers: {
+            Authorization: `Bearer ${access_token}`}
         }); 
         const {imageUrl, nickname, age, gender, region, height, weight, email,
           introduce, attacker, midfielder, defender, goalkeeper,
           publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;     
           
-          setProfileImage(imageUrl);
+          setImageUrl(imageUrl);
           setNickname(nickname);
           setAge(age);
           setGender(gender);
@@ -51,15 +52,15 @@ const ModifyProfile = () => {
           setHeight(height);
           setWeight(weight);
           setEmail(email);
-          setStatusMessage(introduce);
-          setForward(attacker);
+          setIntroduce(introduce);
+          setAttacker(attacker);
           setMidfielder(midfielder);
           setDefender(defender);
-          setGoalkeeper(goalkeeper);
-          setIsProfileImageVisible(publicProfile);
-          setIsUserInfoVisible(publicInformation);
-          setIsStatusMessageVisible(publicIntroduce);
-          setIsRecordVisible(publicRecord);
+          setGoalkeeper(goalkeeper);  
+          setPublicProfile(publicProfile);
+          setPublicInformation(publicInformation);
+          setPublicIntroduce(publicIntroduce);
+          setPublicRecord(publicRecord);
 
         const data = {imageUrl, nickname, age, gender, region, height, weight, email,
           introduce, attacker, midfielder, defender, goalkeeper,
@@ -73,7 +74,7 @@ const ModifyProfile = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            text: '서버에서 데이터를 가져오는데 실패하였습니다. 다시 시도해 주십시오'
+            text: '서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
           });
           navigate('./MyProfile');
       }
@@ -83,12 +84,13 @@ const ModifyProfile = () => {
 
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
-      const data = {profileImage, NickName, Gender, Age, Region, Height, Weight, Email,
-        statusMessage, Forward, Midfielder, Defender, Goalkeeper,
-        isProfileImageVisible, isUserInfoVisible, isStatusMessageVisible, isRecordVisible};
+      const data = {imageUrl, nickname, age, gender, region, height, weight, email,
+        introduce, attacker, midfielder, defender, goalkeeper,
+        publicProfile, publicInformation, publicIntroduce, publicRecord};
       const access_token = JSON.parse(localStorage.getItem('access_token'));
-      const response = await axios.put('http://110.165.17.35:8080/api/', data, {
-        headers: { Authorization: `Bearer ${access_token}`
+      const response = await axios.put('http://110.165.17.35:8080/api/user/me', data, {
+        headers: { 
+          Authorization: `Bearer ${access_token}`
         }});
       console.log(response.data);
       Swal.fire({
@@ -136,7 +138,7 @@ const ModifyProfile = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const newProfileImage = reader.result;
-        setProfileImage(newProfileImage);
+        setImageUrl(newProfileImage);
         setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
       };
       reader.readAsDataURL(file);
@@ -182,7 +184,7 @@ const UserInfoChange = (e) => {
 
 const MessageChange = (e) => { // 상태 메세지 변경 메소드
   const newStatusMessage = e.target.value;
-  setStatusMessage(newStatusMessage);
+  setIntroduce(newStatusMessage);
   setCurrentValues(prev => ({...prev, introduce: newStatusMessage}));
 };
 
@@ -190,7 +192,7 @@ const PositionCheck = (position, setPosition) => {
   setPosition(prev => {
     const newPosition = !prev;
     switch (setPosition) {
-      case setForward:
+      case setAttacker:
         setCurrentValues(prevState => ({...prevState, attacker: newPosition}));
         break;
       case setMidfielder:
@@ -210,74 +212,74 @@ const PositionCheck = (position, setPosition) => {
 };  return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container>
       <ProfileBox>
-        <UserImage src={profileImage} onClick={ProfileImageChange} />
+        <UserImage src={imageUrl} onClick={ProfileImageChange} />
         <UserInfoBox>
           <InputLabel>
             닉네임 : 
-            <Input type="text" name="setNickname" value={NickName} onChange={UserInfoChange} />
+            <Input type="text" name="setNickname" value={nickname} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             성별 : 
-            <Input type="text" name="setGender" value={Gender} onChange={UserInfoChange} />
+            <Input type="text" name="setGender" value={gender} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             나이 : 
-            <Input type="text" name="setAge" value={Age} onChange={UserInfoChange} />
+            <Input type="text" name="setAge" value={age} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             지역 : 
-            <Input type="text" name="setRegion" value={Region} onChange={UserInfoChange} />
+            <Input type="text" name="setRegion" value={region} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             신장 : 
-            <Input type="text" name="setHeight" value={Height} onChange={UserInfoChange} />
+            <Input type="text" name="setHeight" value={height} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             체중 : 
-            <Input type="text" name="setWeight" value={Weight} onChange={UserInfoChange} />
+            <Input type="text" name="setWeight" value={weight} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             이메일 : 
-            <Input type="text" name="setEmail" value={Email} onChange={UserInfoChange} />
+            <Input type="text" name="setEmail" value={email} onChange={UserInfoChange} />
           </InputLabel>
         </UserInfoBox>
       </ProfileBox>
       <MessageBox>
         <TextAlign>
-          <StatusMessageInput type="text" value={statusMessage} onChange={MessageChange} />
+          <StatusMessageInput type="text" value={introduce} onChange={MessageChange} />
         </TextAlign>
       </MessageBox>
       <PreferBox>
         <PreferTitle>선호하는 포지션</PreferTitle>
         <PreferPositions>
-          <PositionLabel color="#FF4D4D" checked={Forward} onClick={() => PositionCheck(setForward, Forward)}>
+          <PositionLabel color="#FF4D4D" checked={attacker} onClick={() => PositionCheck(setAttacker, attacker)}>
             <PositionButton
               name="position"
-              checked={Forward}
+              checked={attacker}
               onChange={() => { }}
             />
             공격수
           </PositionLabel>
-          <PositionLabel color="#0FBB8E" checked={Midfielder} onClick={() => PositionCheck(setMidfielder, Midfielder)}>
+          <PositionLabel color="#0FBB8E" checked={midfielder} onClick={() => PositionCheck(setMidfielder, midfielder)}>
             <PositionButton
               name="position"
-              checked={Midfielder}
+              checked={midfielder}
               onChange={() => { }}
             />
             미드필더
           </PositionLabel>
-          <PositionLabel color="#0275D8" checked={Defender} onClick={() => PositionCheck(setDefender, Defender)}>
+          <PositionLabel color="#0275D8" checked={defender} onClick={() => PositionCheck(setDefender, defender)}>
             <PositionButton
               name="position"
-              checked={Defender}
+              checked={defender}
               onChange={() => { }}
             />
             수비수
           </PositionLabel>
-          <PositionLabel color="#DF9A13" checked={Goalkeeper} onClick={() => PositionCheck(setGoalkeeper, Goalkeeper)}>
+          <PositionLabel color="#DF9A13" checked={goalkeeper} onClick={() => PositionCheck(setGoalkeeper, goalkeeper)}>
             <PositionButton
               name="position"
-              checked={Goalkeeper}
+              checked={goalkeeper}
               onChange={() => { }}
             />
             골키퍼
@@ -286,30 +288,30 @@ const PositionCheck = (position, setPosition) => {
       </PreferBox>
       <OnoffBox>
         <SwitchTitle>프로필 이미지 공개 여부</SwitchTitle>
-        <ToggleSW checked={isProfileImageVisible} onClick={() => setIsProfileImageVisible(!isProfileImageVisible)}>
-          <ToggleText>{isProfileImageVisible ? "공개　　　" : "비공개"}</ToggleText>
-          <Slider checked={isProfileImageVisible} />
+        <ToggleSW checked={publicProfile} onClick={() => setPublicProfile(!publicProfile)}>
+          <ToggleText>{publicProfile ? "공개　　　" : "비공개"}</ToggleText>
+          <Slider checked={publicProfile} />
         </ToggleSW>
       </OnoffBox>
       <OnoffBox>
         <SwitchTitle>사용자 정보 공개 여부</SwitchTitle>
-        <ToggleSW checked={isUserInfoVisible} onClick={() => setIsUserInfoVisible(!isUserInfoVisible)}>
-          <ToggleText>{isUserInfoVisible ? "공개　　　" : "비공개"}</ToggleText>
-          <Slider checked={isUserInfoVisible} />
+        <ToggleSW checked={publicInformation} onClick={() => setPublicInformation(!publicInformation)}>
+          <ToggleText>{publicInformation ? "공개　　　" : "비공개"}</ToggleText>
+          <Slider checked={publicInformation} />
         </ToggleSW>
       </OnoffBox>
       <OnoffBox>
         <SwitchTitle>상태메세지 공개 여부</SwitchTitle>
-        <ToggleSW checked={isStatusMessageVisible} onClick={() => setIsStatusMessageVisible(!isStatusMessageVisible)}>
-          <ToggleText>{isStatusMessageVisible ? "공개　　　" : "비공개"}</ToggleText>
-          <Slider checked={isStatusMessageVisible} />
+        <ToggleSW checked={publicIntroduce} onClick={() => setPublicIntroduce(!publicIntroduce)}>
+          <ToggleText>{publicIntroduce ? "공개　　　" : "비공개"}</ToggleText>
+          <Slider checked={publicIntroduce} />
         </ToggleSW>
       </OnoffBox>
       <OnoffBox>
         <SwitchTitle>전적 공개 여부</SwitchTitle>
-        <ToggleSW checked={isRecordVisible} onClick={() => setIsRecordVisible(!isRecordVisible)}>
-          <ToggleText>{isRecordVisible ? "공개　　　" : "비공개"}</ToggleText>
-          <Slider checked={isRecordVisible} />
+        <ToggleSW checked={publicRecord} onClick={() => setPublicRecord(!publicRecord)}>
+          <ToggleText>{publicRecord ? "공개　　　" : "비공개"}</ToggleText>
+          <Slider checked={publicRecord} />
         </ToggleSW>
       </OnoffBox>
       <CancelButton onClick={CancelButtonSave}>취소하기</CancelButton>

@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { differenceInHours } from "date-fns";
 import TeamSelectList from './TeamSelectList';
+import SUNNY from '../images/sunny.jpg';
+import CLOUDY from '../images/cloudy.jpg';
+import RAINY from '../images/rainy.jpg';
+import SNOW from '../images/whitesnow.png';
 
 const DetailPage = () => {  
   const navigate = useNavigate(); // 페이지 이동 훅
@@ -19,10 +23,10 @@ const DetailPage = () => {
     const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
-        console.log(access_token);
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
-          headers:  { Authorization: `Bearer ${access_token}`},
-        },);
+          headers:  { 
+            Authorization: `Bearer ${access_token}`
+          }});
         setUser(response.data); // 사용자 정보를 상태에 저장
       } catch (error) {
         console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
@@ -134,8 +138,11 @@ const DetailPage = () => {
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: `승리`,
+        confirmButtonColor: '#488BDB',
         denyButtonText: `무승부`,
+        denyButtonColor: '#0FBB8E',
         cancelButtonText: `패배`,
+        cancelButtonColor: '#EA344B'
       }).then((result) => {
         if (result.isConfirmed) {
           handleResultConfirm('WIN');
@@ -147,27 +154,81 @@ const DetailPage = () => {
       })
     };
 
-    const handleDelete = async () => { // 경기글 삭제 버튼 메소드
-      try {
-          const response = await axios.post('http://110.165.17.35:8080/api/game/delete', {
-              userId: user.id,
-              gameId: gameId,
-              gameTeam: "HOME"
-          });
-          Swal.fire({
-              icon: 'success',
-              title: '게시글 삭제 성공',
-              text: '게시글이 성공적으로 삭제되었습니다.'
-          });
-          navigate('./Home'); // 게시물 삭제 후 홈 페이지로 이동
-      } catch (error) {
-          Swal.fire({
-              icon: 'error',
-              title: '게시글 삭제 실패',
-              text: '게시글을 삭제하는 중 오류가 발생했습니다.'
-          });
+    const handleDelete = () => { // 경기글 삭제 버튼 메소드
+      Swal.fire({
+        title: '해당 경기글을 정말 삭제하시겠습니까?',
+        text: "삭제된 게시글은 다시 복구할 수 없습니다.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#488BDB',
+        cancelButtonColor: '#EA344B',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axios.post('http://110.165.17.35:8080/api/game/delete', {
+                userId: user.id,
+                gameId: gameId,
+                gameTeam: "HOME"
+            });
+            Swal.fire({
+                icon: 'success',
+                title: '삭제 성공',
+                text: '경기글이 성공적으로 삭제되었습니다.'
+            });
+            navigate('./Home'); // 게시물 삭제 후 홈 페이지로 이동
+          } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: '삭제 실패',
+                text: '경기글을 삭제하는 중 오류가 발생했습니다. 다시 시도하여 주십시오'
+            });
+          }
+        }
+      })
+    };
+
+    function formatDate(dateString) { // 경기 시작시간 형식 지정 메소드
+      const options = { month: 'long', day: 'numeric', weekday: 'long', hour: '2-digit', minute: '2-digit' };
+      return new Date(dateString).toLocaleString('ko-KR', options);
+    }
+
+    function renderWeatherIcon(weatherType) {
+      switch (weatherType) {
+          case 'SUNNY':
+              return (
+                <>
+                  <img src={SUNNY} alt="맑음" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>맑음</span>
+                </>
+              );
+          case 'CLOUDY':
+              return (
+                <>
+                  <img src={CLOUDY} alt="흐림" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>흐림</span>
+                </>
+              );
+          case 'RAIN':
+              return (
+                <>
+                  <img src={RAINY} alt="비" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>비</span>
+                </>
+              );
+          case 'SNOW':
+              return (
+                <>
+                  <img src={SNOW} alt="눈" style={{ width: "30px", height: "30px" }} />
+                  <span style={{ marginLeft: "5px" }}>눈</span>
+                </>
+              );
+          default:
+              return null;
       }
-  };
+  }  
+    
     return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
       <Container>
         <ImageContainer>       
@@ -176,20 +237,21 @@ const DetailPage = () => {
         <ContentContainer>
           <TitleText>{post.title}</TitleText><br/>
           <PlaceText>경기장 : {post.stadium?.name}</PlaceText>
-          <ParticipantNumberText>최대 경기 인원 : {post.maxCapacity}</ParticipantNumberText>
-          <DateText>경기 시작 시간 : {post.startedAt}</DateText>
-          <WeatherText>경기 당일 날씨 : {post.stadium?.weatherType}</WeatherText>
-          <BlackLine/>
+          <ParticipantNumberText>최대 경기 인원 : {post.maxCapacity} 명</ParticipantNumberText>
+          <DateText>경기 시작 시간 : {formatDate(post.startedAt)}</DateText>
+          <WeatherText>경기 당일 날씨 : {renderWeatherIcon(post.stadium?.weatherType)}</WeatherText>
           <MainText>
             {post.content}
           </MainText>
         </ContentContainer>
-        <TeamSelectionUI>{<TeamSelectList/>}</TeamSelectionUI>
+        <TeamSelectionUI>{<TeamSelectList id={gameId}/>}</TeamSelectionUI>
         <ButtonContainer>
           {post.userId === user.id && <DeadlineButton disabled={post.currentCapacity % 2 !== 0 && post.status !== 0} onClick={handleConfirm}>인원 확정</DeadlineButton>}
           {post.userId === user.id && <ConfirmationButton disabled={(post.status !== 1 && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
         </ButtonContainer>
-        {post.userId === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
+        <DeleteButtonContainer>
+          {post.userId === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
+        </DeleteButtonContainer>
       </Container>
     );
   };
@@ -228,12 +290,6 @@ const DetailPage = () => {
     padding: 1em;
   `;
 
-  const BlackLine = styled.div`
-    background-color: black;
-    height: 0.125vh;
-    margin-bottom: 1vh;
-  `;
-
   const TitleText = styled.div`
     text-align: center;
     font-size: 1.2em;
@@ -241,14 +297,18 @@ const DetailPage = () => {
     border-radius: 10px;
     padding-top: 1vh;
     padding-bottom: 1vh;
+    height: 5vh;
+    line-height: 5vh;
   `;
-
   
   const PlaceText = styled.div`
     background-color: white;
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 4vh;
+    line-height: 4vh;
+    font-size: 1em;
   `;
 
   const ParticipantNumberText = styled.div`
@@ -256,6 +316,9 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 4vh;
+    line-height: 4vh;
+    font-size: 1em;
   `;
 
   const DateText = styled.div`
@@ -263,6 +326,9 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 4vh;
+    line-height: 4vh;
+    font-size: 1em;
   `;
 
   const WeatherText = styled.div`
@@ -270,15 +336,18 @@ const DetailPage = () => {
     border-radius: 10px;
     padding: 0.5vh;
     margin-bottom: 1vh;
+    height: 6vh;
+    line-height: 4vh;
+    font-size: 1em;
   `;
 
   const MainText = styled.div`
     background-color: white;
     border-radius: 10px;
     padding: 1vh;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: 500;
-    height: auto;
+    height: 40vh;
   `;
   
   const TeamSelectionUI = styled.div`
@@ -286,15 +355,12 @@ const DetailPage = () => {
     height: auto;
     margin-left: 5%;
     border-radius: 10px;
-    background-color: #f5f5f5;
-    margin-top: 5%;
   `;
   
   const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-top: 7.5%;
-    margin-bottom: 7.5%;
+    margin-bottom: 10%;
   `;  
 
   const DeadlineButton = styled.button`
@@ -306,7 +372,8 @@ const DetailPage = () => {
     border-color: white;
     width: 30%;
     height: 6vh;
-    background-color: ${props => props.disabled ? 'gray' : 'blue'}
+    color: white;
+    background-color: ${props => props.disabled ? '#f5f5f5' : '#488BDB'}
   `; 
 
   const ConfirmationButton = styled.button`
@@ -318,8 +385,15 @@ const DetailPage = () => {
     border-color: white;
     width: 30%;
     height: 6vh;
-    background-color: ${props => props.disabled ? 'gray' : 'red'};
+    color: white;
+    background-color: ${props => props.disabled ? '#f5f5f5' : '#EA344B'};
   `;  
+
+  const DeleteButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-bottom: 7.5%;
+  `;
 
   const DeleteButton = styled.button`
     font-size: 1em;
@@ -329,7 +403,6 @@ const DetailPage = () => {
     border-color: white;
     width: 30%;
     height: 6vh;
-    margin-bottom: 7.5%;
   `;
 
 export default DetailPage;
