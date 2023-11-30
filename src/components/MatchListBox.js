@@ -8,6 +8,7 @@ function MatchListBox({item}){
     else if(item.gameStatus==='AFTER') {status='종료'; rightdown=`[${item.gameResult}]`;  
       if(item.gameResult==='WIN') color="rgba(10, 71, 255, 0.6)";
       else if(item.gameResult==='LOSE') color="rgba(255, 10, 10, 0.6)";
+      else if(item.gameResult==='DRAW') color="rgba(15, 187, 142, 0.6)";
     }
     else if(item.gameStatus==='PROGRESS') {
      let searchdate = new Date(`${item.date} ${item.time}`);
