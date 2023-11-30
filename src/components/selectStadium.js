@@ -48,6 +48,7 @@ export default function SelectStadium({ onDataChange }) {
   
 
   const handleCity = (event) => {
+    setStage(null);
     setCity(event.target.value);
     setVillages(cities.find(ctr => ctr.name === event.target.value).villages);
     console.log(cities.find(ctr => ctr.name === event.target.value).villages);

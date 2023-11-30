@@ -37,25 +37,23 @@ export default function Write() {
   const [user, setUser] = useState({});
   const [authorId, setAuthorId] = useState(1);
 
+  
    useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
-        console.log(access_token);
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
           headers:  { Authorization: `Bearer ${access_token}`},
         },);
         setUser(response.data); // 사용자 정보를 상태에 저장
         setAuthorId(response.data.id);
-        console.log(response.data);
       } catch (error) {
-        console.error("로그인되어 있지 않거나 사용자를 불러오지 못하였습니다.", error);
         Swal.fire({
           icon: 'error',
           title: '로그인 필요',
-          text: '로그인되어 있지 않거나 사용자를 불러오지 못하였습니다. 다시 로그인해 주세요.'
+          text: '로그인이 필요한 기능입니다.'
         });
-        navigate('/Login'); // 오류 발생 시 홈 페이지로 이동
+        navigate('/Login'); // 오류 발생 시 로그인 페이지로 이동
       }
     };
     fetchUser();
@@ -199,15 +197,6 @@ export default function Write() {
       
       
       try {
-        /*const response = axios.post('http://110.165.17.35:8080/api/game', {
-          authorId: authorId,
-          title: title,
-          maxCapacity: maxCapacity,
-          startedAt: startedAt,
-          stadiumId: stadiumId,
-          content: content
-        });*/
-
         const response = axios({
           url: 'http://110.165.17.35:8080/api/game',
           method:'Post',
@@ -221,15 +210,12 @@ export default function Write() {
           },
           headers:{Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}`}
         })
-
-        console.log(response);
         Swal.fire({
           icon: 'success',
           text: '경기글 작성에 성공하였습니다.'
         }).then(navigate('/Home'));
       } catch (err) {
         console.log(err);
-        console.log("작성 요청 실패");
       }
     } else {
       Swal.fire({
@@ -240,7 +226,7 @@ export default function Write() {
   }
 
   const cancel_btn = () => {
-    Swal.fire({ // 한번 더 되묻는 경고창 출력
+    Swal.fire({ // 취소 버튼 클릭 시 한번 더 되묻는 경고창 출력
       icon: 'warning',
       title: '경기글 작성을 취소하시겠습니까?',
       text: '작성한 경기 인원 모집 내용이 전부 사라집니다.',

@@ -19,9 +19,10 @@ import axios from 'axios';
 
 /*
 [
-  {
+   {
+    "id": 0,
     "content": "string",
-    "date": "2023-11-26",
+    "date": "2023-11-30",
     "time": {
       "hour": 0,
       "minute": 0,
@@ -36,6 +37,7 @@ import axios from 'axios';
 
 const Notifications = [ // API 연습용 데이터
   {
+    "id": 12,
     "content": "참여 신청하신 2023-11-30 17:00 팔공K스타디움 경기 하루 전입니다.",
     "date": "2023-11-29",
     "time": {
@@ -48,6 +50,7 @@ const Notifications = [ // API 연습용 데이터
     "type": "DATE_IMMINENT"
   },
   {
+    "id": 8,
     "content": "참여 신청하신 2023-11-30 17:00 팔공K스타디움 경기가 확정되었습니다.",
     "date": "2023-11-27",
     "time": {
@@ -60,6 +63,7 @@ const Notifications = [ // API 연습용 데이터
     "type": "GAME_CONFIRMED"
   },
   {
+    "id": 7,
     "content": "2023-11-25 17:00 첼시풋살 경기에 대한 비방 및 욕설 신고가 접수되었습니다.",
     "date": "2023-11-25",
     "time": {
@@ -123,7 +127,6 @@ function Notification({ notification }) {
   }
 }
 
-
 const style = {
   position: 'fixed',
   top: '50%',
@@ -140,6 +143,9 @@ export default function AlarmModal() {
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+
+  const [notification_count, setNotifiation_count] = useState(0);
 
   const handleOpen = () => {
     const fetchUser = async () => {
@@ -153,16 +159,11 @@ export default function AlarmModal() {
         navigate('/Login'); // 로그인하지 않았을 시 로그인 페이지로 이동
       } else{
         try{
-          const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
-          headers: { Authorization: `Bearer ${access_token}` },
+          const response = await axios.get('http://110.165.17.35:8080/api/notification', {
+          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}` },
         },);
-        fetch(`http://110.165.17.35:8080/api/notification/${response.data.id}`)
-          .then((response) => response.json())
-          .then((json) => {
-            console.log("json 결과");
-            console.log(json);
-          });
-          setOpen(true);  
+        setNotifiation_count(response.data.length)
+        setOpen(true);  
         } catch(err){
           console.log(err);
         }
@@ -170,18 +171,7 @@ export default function AlarmModal() {
     };
     fetchUser();
   }
-  const handleClose = () => setOpen(false);
-
-  const [notification_count, setNotifiation_count] = useState(0);
-
-  useEffect(() => {
-    // localstorage에 토큰이 들어왔을 때 (O)
-    //1. api/user/me를 통해 id값을 얻는다.(O)
-    //2. id값을 이용해 notifiation을 수신받는다.(△)
-    //3. 수신받은 json 객체의 원소 개수를 count한다.
-    //4. setNotification_count를 사용하여 notification_count 값을 변경한다.
-  }, /* [localStorage.getItem('')] */)
-
+  
   return (
     <div>
       <IconButton onClick={handleOpen} sx={{ color: "black" }}>
@@ -229,10 +219,7 @@ export default function AlarmModal() {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                  <Fab variant="extended" size="medium" color="white"
-                  >
-                    <ReactLoading type="spin" color="#A593E0" />
-                  </Fab>
+                  {/* <ReactLoading type="spin" color="#A593E0" /> */}
                   <Box sx={{ height: '70px' }} />
                 </Container>
               </Container>
