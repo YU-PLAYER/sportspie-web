@@ -219,7 +219,7 @@ export default function Write() {
             stadiumId: stadiumId,
             content: content
           },
-          headers:{Authorization: `Bearer ${localStorage.getItem('access_token')}`}
+          headers:{Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}`}
         })
 
         console.log(response);
