@@ -45,6 +45,25 @@ export default function Report() {
         setIndex(event.target.value);
     };
 
+    const report_btn = () =>{
+
+    }
+
+    const cancel_btn = () =>{
+        Swal.fire({ // 취소 버튼 클릭 시 한번 더 되묻는 경고창 출력
+            icon: 'warning',
+            title: '경기글 작성을 취소하시겠습니까?',
+            text: '작성한 경기 인원 모집 내용이 전부 사라집니다.',
+            showCancelButton: true,
+            confirmButtonColor: '#488BDB',
+            cancelButtonColor: '#EA344B',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+          }).then(function(result){
+            if(result.isConfirmed==true) navigate('/MyProfile');
+          })
+    }
+
     return (
         <div style={{ width: '100%', height: '100vh' }}>
             <Container maxWidth="sm">
@@ -116,10 +135,10 @@ export default function Report() {
                                 justifyContent: 'right',
                                 alignItems: 'right',
                             }}>
-                            <Button variant="contained" onClick={null} endIcon={<SendIcon />}>
+                            <Button variant="contained" onClick={report_btn} endIcon={<SendIcon />}>
                                 작성하기
                             </Button>
-                            <Button variant="outlined" startIcon={<DeleteIcon />}>
+                            <Button variant="outlined" onClick={cancel_btn}startIcon={<DeleteIcon />}>
                                 취소하기
                             </Button>
                         </Stack>
