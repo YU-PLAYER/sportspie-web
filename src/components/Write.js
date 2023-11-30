@@ -199,14 +199,28 @@ export default function Write() {
       
       
       try {
-        const response = axios.post('http://110.165.17.35:8080/api/game', {
+        /*const response = axios.post('http://110.165.17.35:8080/api/game', {
           authorId: authorId,
           title: title,
           maxCapacity: maxCapacity,
           startedAt: startedAt,
           stadiumId: stadiumId,
           content: content
-        });
+        });*/
+
+        const response = axios({
+          url: 'http://110.165.17.35:8080/api/game',
+          method:'Post',
+          data:{
+            authorId: authorId,
+            title: title,
+            maxCapacity: maxCapacity,
+            startedAt: startedAt,
+            stadiumId: stadiumId,
+            content: content
+          },
+          headers:{Authorization: `Bearer ${localStorage.getItem('access_token')}`}
+        })
 
         console.log(response);
         Swal.fire({
