@@ -6,17 +6,22 @@ import Box from '@mui/material/Box';
 function MatchList_All(){
   const [All, SetAll]=useState([{}]);
   useEffect(()=>{
-    axios({
-        method: 'get',    
-        url:`http://110.165.17.35:8080/api/gameUser/list`,
-    })
-    .then((result)=>{
-        console.log('요청 성공');
-        console.log(result);
-    })
-    .catch((error)=>{console.log('요청 실패')
-    console.log(error)
-  })
+    const userid = JSON.parse(localStorage.getItem('access_token'));
+    axios.get('http://110.165.17.35:8080/api/user/me',
+      { headers: { Authorization: `Bearer ${userid}`}, },)
+      .then((response)=>{
+          axios.get(`http://110.165.17.35:8080/api/gameUser/list?userId=${response.data["id"]}`,
+          { headers: { Authorization: `Bearer ${userid}`}, },)
+          .then((result)=>{
+              console.log('요청 성공');
+              console.log(result);
+          })
+          .catch((error)=>{console.log('요청 실패');
+          console.log(error);})
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
   }, []);
  return(
     <div>
