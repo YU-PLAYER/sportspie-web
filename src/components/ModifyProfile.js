@@ -103,7 +103,7 @@ const ModifyProfile = () => {
       Swal.fire({
         icon: 'error',
         title: '저장 실패',
-        text: "업데이트에 실패하였습니다. 다시 시도하여 주십시오"
+        html: "업데이트에 실패하였습니다. <br/> 다시 시도하여 주십시오"
       });
     }
   };

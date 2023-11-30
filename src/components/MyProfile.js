@@ -84,7 +84,7 @@ const MyProfile = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            text: '사용자 정보를 불러오지 못했습니다. 다시 시도하여 주십시오.'
+            html: '사용자 정보를 불러오지 못했습니다. <br/> 다시 시도하여 주십시오.'
           });
           navigate('/Home');
         }

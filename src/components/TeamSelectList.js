@@ -2,23 +2,24 @@ import * as React from 'react';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
+import Swal from 'sweetalert2';
 import Container from '@mui/material/Container';
 import '../css/TeamSelectList.css';
 import { ClickAwayListener } from '@mui/material';
 function TeamSelectList({id, post}) {
-    console.log(post);
     const [home, setHome] = useState(true);
     const [away, setAway] = useState(true);
-    const [iswriter, setIswriter] = useState(false);
+    const [iswriter, setIswriter] = useState(false); //작성자는 버튼 hidden
     const [homelist, setHomelist] = useState([{}]);
     const [awaylist, setAwaylist] = useState([{}]);
+    const [homeclick, setHomeclick] = useState(true); //rerendering 용도
+    const [awayclick, setAwayclick] = useState(true); //rerendering 용도
     useEffect(()=>{
         const userid = JSON.parse(localStorage.getItem('access_token'));
         axios.get('http://110.165.17.35:8080/api/user/me',
         { headers: { Authorization: `Bearer ${userid}`}, },)
         .then((response)=>{
-            console.log(response);
-            if(response.data["id"]===post.userId) setIswriter(true); //작성자는 무조건 HOME팀
+            if(post.userId === response.data.id) setIswriter(true);
             axios({
                 method: 'get',
                 url:`http://110.165.17.35:8080/api/gameUser/join/${id}`,
@@ -30,8 +31,13 @@ function TeamSelectList({id, post}) {
                 for(let i = 0; i < result.data.length; i++){
                     if(result.data[i].gameTeam==="HOME") {setHomelist(home==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]); home++;}
                     else if(result.data[i].gameTeam==="AWAY") {setAwaylist(away==0 ? [result.data[i]] : (now)=>[...now, result.data[i]]); away++;}
-                    if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="HOME")) {setHome(false); }
-                    else if((result.data[i].userId === response.data["id"]) && (result.data[i].gameTeam==="AWAY")) {setAway(false); }
+                    //사용자가 이미 신청한 이력이 있는지 확인
+                    if((result.data[i].userId === response.data.id) && (result.data[i].gameTeam==="HOME")) {
+                        setHome(false);
+                    }
+                    else if((result.data[i].userId === response.data.id) && (result.data[i].gameTeam==="AWAY")) {
+                        setAway(false);
+                    }
                 }
                 if(home>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${home}명이 찼습니다.`); setHome(0);}
                 if(away>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${away}명이 찼습니다.`); setAway(0);}
@@ -43,13 +49,13 @@ function TeamSelectList({id, post}) {
         .catch((error)=>{
             console.log(error);
         })
-      }, [home,away]);
+      }, [homeclick, awayclick]);
 
     const handleClick=(e)=>{
         const userid = JSON.parse(localStorage.getItem('access_token'));
         var team = e.target.value;
         var url = `http://110.165.17.35:8080/api/gameUser`;
-        if((team==="HOME" && home===false)||(team==="AWAY" &&away===false)) url = `http://110.165.17.35:8080/api/gameUser/delete`
+        if((team==="HOME" && home===false)||(team==="AWAY" && away===false)) url = `http://110.165.17.35:8080/api/gameUser/delete`
         axios.get('http://110.165.17.35:8080/api/user/me',
         { headers: { Authorization: `Bearer ${userid}`}, },)
         .then((response)=>{
@@ -67,14 +73,29 @@ function TeamSelectList({id, post}) {
             .then((result)=>{
                 console.log('요청 성공');
                 console.log(result);
-                setHomelist([{}]);
-                setAwaylist([{}]);
+                if(team==="HOME") {setHomelist([{}]); setHomeclick(!homeclick);}
+                else if(team==="AWAY") {setAwaylist([{}]); setAwayclick(!awayclick);}
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
             if(error.response.data["message"]===`경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다.`){
                 if(team==="HOME") setHome(0);
                 else if(team==="AWAY") setAway(0);
+                Swal.fire({
+                    icon: 'error',
+                    title: '경기 마감',
+                    html: '경기 전체 인원의 최대 인원에 도달하여 <br/> 참가할 수 없습니다.'
+                  });
+            }
+            else if (error.response.data["message"]==="해당 경기의 작성자는 참가 취소할 수 없습니다."){
+                if(team==="HOME") setHome(false);
+                else if(team==="AWAY") setAway(false);
+                setIswriter(true);
+                Swal.fire({
+                    icon: 'error',
+                    title: '작성자 취소 불가',
+                    html: '해당 경기의 작성자는 <br/> 참가 취소할 수 없습니다.'
+                  });
             }
             })
         })
@@ -103,8 +124,7 @@ function TeamSelectList({id, post}) {
     }
 
   return (
-    <React.Fragment>
-      <Container maxWidth="sm">   
+    <div> 
       <Box sx={{ height: '20px' }} />
       <Box sx={{ position:"relative", margin:'30px 0 18px 0', height: '40vh', borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.3)", overflow:"hidden"}}>
         <div style={{display:"flex", flexDirection:"column", position:"relative", width:'100%', height:'100%', fontSize:"10px", color:"#2e363e"}}>
@@ -119,8 +139,8 @@ function TeamSelectList({id, post}) {
                 <Playerlist item={item} key={index} />
                 )}
             </section>
-            <button value="HOME" disabled={((iswriter===true) || (home===0)) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
-                position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
+            <button value="HOME" disabled={((home===0)) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
+                visibility: (iswriter===true) ?  "hidden" : "visible", position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===0 ? `마감` : (home===true?`신청하기` : `취소하기`)}</button>
         </div>
       </Box>
@@ -140,14 +160,13 @@ function TeamSelectList({id, post}) {
                     <Playerlist item={item} key={index} />
                     )}
             </section>
-            <button value="AWAY" disabled={((iswriter===true) || (away===0)) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
-                position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
+            <button value="AWAY" disabled={((away===0)) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
+                visibility: (iswriter===true) ?  "hidden" : "visible", position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===0 ? `마감` : (away===true?`신청하기` : `취소하기`)}</button>
         </div>
       </Box>
       <Box sx={{ height: '20px'}} />
-      </Container>
-    </React.Fragment>
+    </div>
   );
 }
 export default TeamSelectList;

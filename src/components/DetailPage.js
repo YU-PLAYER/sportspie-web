@@ -1,14 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { differenceInHours } from "date-fns";
-import TeamSelectList from './TeamSelectList';
+//import TeamSelectList from './TeamSelectList';
 import SUNNY from '../images/sunny.jpg';
 import CLOUDY from '../images/cloudy.jpg';
 import RAINY from '../images/rainy.jpg';
 import SNOW from '../images/whitesnow.png';
+
+const TeamSelectList = lazy(() => {
+  return Promise.all([
+      import('./TeamSelectList'),
+      new Promise(resolve => setTimeout(resolve, 500))
+  ])
+  .then(([moduleExports]) => moduleExports);
+});
 
 const DetailPage = () => {  
   const navigate = useNavigate(); // 페이지 이동 훅
@@ -19,7 +29,15 @@ const DetailPage = () => {
   const location = useLocation(); // 현재 위치 정보 훅
   const gameId = location.state.gameid; // gameID를 가져오기
   
+  const [render, setRender] = useState(false);
+
+
   useEffect(() => { // 사용자 정보를 불러오는 useEffect
+    // 최초 렌더링 및 리렌더링 시에 0.5초 후에 렌더링 활성화
+    const timer = setTimeout(() => {
+      setRender(true);
+    }, 500);
+
     const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
@@ -33,12 +51,15 @@ const DetailPage = () => {
         Swal.fire({
           icon: 'error',
           title: '사용자 정보 조회 오류',
-          text: '서버에서 사용자 정보를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
+          html: '서버에서 사용자 정보를 불러오는데 실패하였습니다. <br/> 다시 시도해 주십시오.'
         });
         navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
     fetchUser();
+    
+    // cleanup 함수를 이용하여 컴포넌트가 언마운트되면 타이머를 정리
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => { // 경기글의 상세 정보를 불러오는 useEffect
@@ -56,7 +77,7 @@ const DetailPage = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            text: '서버에서 데이터를 불러오는데 실패하였습니다. 다시 시도해 주십시오'
+            html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 다시 시도해 주십시오.'
           });
           navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
@@ -187,7 +208,7 @@ const DetailPage = () => {
             Swal.fire({
                 icon: 'error',
                 title: '삭제 실패',
-                text: '경기글을 삭제하는 중 오류가 발생했습니다. 다시 시도하여 주십시오'
+                html: '경기글을 삭제하는 중 오류가 발생했습니다. <br/> 다시 시도하여 주십시오'
             });
           }
         }
@@ -235,7 +256,9 @@ const DetailPage = () => {
   }  
     
     return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
-      <Container>
+    <React.Fragment>
+      <Container maxWidth="sm">  
+      <Containers>
         <ImageContainer>       
             <FieldImage src={post.stadium?.imageUrl}/>
         </ImageContainer>
@@ -249,7 +272,11 @@ const DetailPage = () => {
             {post.content}
           </MainText>
         </ContentContainer>
-        <TeamSelectionUI>{<TeamSelectList id={gameId} post={post}/>}</TeamSelectionUI>
+        <TeamSelectionUI>
+          <Suspense fallback={<div></div>}>
+            {render && <TeamSelectList id={gameId} post={post}/>}
+          </Suspense>
+          </TeamSelectionUI>
         <ButtonContainer>
           {post.userId === user.id && <DeadlineButton disabled={post.currentCapacity % 2 !== 0 && post.status !== 0} onClick={handleConfirm}>인원 확정</DeadlineButton>}
           {post.userId === user.id && <ConfirmationButton disabled={(post.status !== 1 && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
@@ -257,35 +284,39 @@ const DetailPage = () => {
         <DeleteButtonContainer>
           {post.userId === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
         </DeleteButtonContainer>
+      </Containers>
       </Container>
+      </React.Fragment>
     );
   };
   // 여기서부터 컴포넌트 스타일 지정
   
-  const Container = styled.div`
-    width:100%;
-    height:auto;
+  const Containers = styled.div`
+    width: 100%;
+    height: auto;
     background-color: white;
+    display : flex;
+    flex-direction : column;
+    align-items: center;
   `;
   
   const ImageContainer = styled.div`
-    width:100%;
-    height:40vh;
+    width: 100%;
+    height: 40vh;
     display: flex;
     justify-content: center;
   `;
 
   const FieldImage = styled.img`
-    width:90%;
+    width: 90%;
     height:100%;
     margin-top: 5%;
     border-radius: 10px;
   `;
   
   const ContentContainer = styled.div`
-    width:82.5%;
+    width: 95%;
     height: auto;
-    margin-left: 5%;
     background-image: linear-gradient(to top left, #f5f5f5, #f5f5f5);
     border-radius: 15px;
     font-size: 1em;
@@ -293,6 +324,7 @@ const DetailPage = () => {
     margin-top: 10%;
     text-align: left;
     padding: 1em;
+    box-sizing: border-box;
   `;
 
   const TitleText = styled.div`
@@ -344,6 +376,8 @@ const DetailPage = () => {
     height: 6vh;
     line-height: 4vh;
     font-size: 1em;
+    display:flex;
+    align-Items:center;
   `;
 
   const MainText = styled.div`
@@ -358,7 +392,6 @@ const DetailPage = () => {
   const TeamSelectionUI = styled.div`
     width: 90%;
     height: auto;
-    margin-left: 5%;
     border-radius: 10px;
   `;
   
@@ -366,6 +399,7 @@ const DetailPage = () => {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10%;
+    width:95%;
   `;  
 
   const DeadlineButton = styled.button`
@@ -398,6 +432,7 @@ const DetailPage = () => {
     display: flex;
     justify-content: center;
     margin-bottom: 7.5%;
+    width:95%;
   `;
 
   const DeleteButton = styled.button`

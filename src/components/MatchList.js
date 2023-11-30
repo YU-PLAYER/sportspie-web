@@ -13,7 +13,6 @@ function MatchList() {
   const [isHover1, setIsHover1] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
   const [isHover3, setIsHover3] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
 
   const onClick = (event) => {
     setContent(event.target.name);
