@@ -15,6 +15,7 @@ import LoginContainer from './components/LoginContainer.js';
 import DetailPage from './components/DetailPage.js';
 import Notice from './components/Notice.js';
 import Report from './components/Report.js';
+import SafeInfo from './components/SafeInfo.js'; 
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/DetailPage" element={<DetailPage />} />
                 <Route path="/Notice" element={<Notice />} />
                 <Route path="/Report" element={<Report />} />
+                <Route path="/SafeInfo" element={<SafeInfo />} />
             </Routes>
         </Box>
 

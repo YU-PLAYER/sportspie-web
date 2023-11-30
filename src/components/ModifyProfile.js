@@ -84,7 +84,7 @@ const ModifyProfile = () => {
 
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
-      const data = {imageUrl, nickname, age, gender, region, height, weight, email,
+      const data = {image_url: imageUrl, nickname, age, gender, region, height, weight, email,
         introduce, attacker, midfielder, defender, goalkeeper, is_public_profile: publicProfile,
         is_public_information: publicInformation, is_public_introduce: publicIntroduce, is_public_record: publicRecord};
       const access_token = JSON.parse(localStorage.getItem('access_token'));
@@ -129,22 +129,36 @@ const ModifyProfile = () => {
     }
   };
 
-  const ProfileImageChange = () => { // 프로필 이미지 변경 메소드
+  const ProfileImageChange = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = "image/*";
-    fileInput.addEventListener("change", (e) => {
+    fileInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
       const reader = new FileReader();
-      reader.onloadend = () => {
-        const newProfileImage = reader.result;
-        setImageUrl(newProfileImage);
-        setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
-      };
       reader.readAsDataURL(file);
+      reader.onloadend = async function () {
+        const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+  
+        try {
+          const access_token = JSON.parse(localStorage.getItem('access_token'));
+          const response = await axios.post('http://110.165.17.35:8080/api/user/image', { file: base64String }, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${access_token}`
+            }
+          });
+          const newProfileImage = response.data.url;
+          setImageUrl(newProfileImage);
+          setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
+        } catch (error) {
+          console.error('Image upload failed:', error);
+        }
+      };
     });
     fileInput.click();
   };
+  
 
 const UserInfoChange = (e) => {
   const { name, value } = e.target;
