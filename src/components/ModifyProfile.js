@@ -235,7 +235,7 @@ const PositionCheck = (position, setPosition) => {
   });
 };
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
-    <Container>
+    <Container maxWidth="sm">
       <ProfileBox>
         <UserImage src={imageUrl} onClick={ProfileImageChange} />
         <UserInfoBox>

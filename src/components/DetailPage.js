@@ -192,7 +192,7 @@ const DetailPage = () => {
         if (result.isConfirmed) {
           try {
             const access_token = JSON.parse(localStorage.getItem('access_token'));
-            const response = await axios.post(`http://110.165.17.35:8080/api/game/delete/${gameId}`, {
+            const response = await axios.delete(`http://110.165.17.35:8080/api/game/delete/${gameId}`, {
               headers: {
                 Authorization: `Bearer ${access_token}`
               }

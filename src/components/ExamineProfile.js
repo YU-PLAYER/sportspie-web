@@ -117,7 +117,7 @@ const ExamineProfile = () => {
   }, []);
 
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
-    <Container>
+    <Container maxWidth="sm">
       <ProfileBox>
         <UserImage src={publicProfile ? imageUrl : default_img} onClick={toEnlarge} />
         {Enlarge && (
@@ -129,10 +129,10 @@ const ExamineProfile = () => {
           <UserInfoBox>
             닉네임 : {nickname} <br/>
             성별 : {gender} <br/>
-            나이 : {age} <br/>
+            나이 : {age} 세<br/>
             지역 : {region} <br/>
-            신장 : {height} <br/>
-            체중 : {weight} <br/>
+            신장 : {height} cm<br/>
+            체중 : {weight} kg<br/>
             이메일 : {email}
           </UserInfoBox> ) : (<PrivateUserInfoBox>비공개</PrivateUserInfoBox>)}
       </ProfileBox>
