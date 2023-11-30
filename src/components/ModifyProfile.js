@@ -86,28 +86,27 @@ const ModifyProfile = () => {
     try {
       const access_token = JSON.parse(localStorage.getItem('access_token'));
       const response = await axios.put('http://110.165.17.35:8080/api/user/me', {
+        email: email,
+        nickname: nickname,
+        gender: gender,
+        age: age,
+        region: region,
+        height: height,
+        weight: weight,
+        introduce: introduce,
+        attacker: attacker,
+        midfielder: midfielder,
+        defender: defender,
+        goalkeeper: goalkeeper,
+        is_public_profile: publicProfile,
+        is_public_information: publicInformation,
+        is_public_introduce: publicIntroduce,
+        is_public_record: publicRecord,
+        image_url: imageUrl
+      }, {
         headers: { 
           Authorization: `Bearer ${access_token}`
-        }},
-        {
-          email: email,
-          nickname: nickname,
-          gender: gender,
-          age: age,
-          region: region,
-          height: height,
-          weight: weight,
-          introduce: introduce,
-          attacker: attacker,
-          midfielder: midfielder,
-          defender: defender,
-          goalkeeper: goalkeeper,
-          is_public_profile: publicProfile,
-          is_public_information: publicInformation,
-          is_public_introduce: publicIntroduce,
-          is_public_record: publicRecord,
-          image_url: imageUrl
-        });
+        }},);
       console.log(response.data);
       Swal.fire({
         icon: 'success',
@@ -163,7 +162,7 @@ const ModifyProfile = () => {
               Authorization: `Bearer ${access_token}`
             }
           });
-          const newProfileImage = response.data;
+          const newProfileImage = response.data.url;
           setImageUrl(newProfileImage);
           setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
         } catch (error) {
