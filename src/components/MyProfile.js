@@ -37,6 +37,16 @@ const MyProfile = () => {
     const fetchUserData = async () => { // 로그인 상태 확인 후 사용자 정보 업데이트
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
+
+        if (!access_token) {
+          // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
+          Swal.fire({
+            icon: 'error',
+            title: '로그인이 필요한 기능입니다.',
+          });
+          navigate('/Login');
+        }
+
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
           headers: {
             Authorization: `Bearer ${access_token}`
@@ -73,14 +83,6 @@ const MyProfile = () => {
         setLose(lose);
         setRecent10(recent10);
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
-          Swal.fire({
-            icon: 'error',
-            title: '로그인이 필요한 기능입니다.',
-          });
-          navigate('/Login');
-        } else {
           // 서버와 통신 에러 발생시 경고 메세지 출력 후 메인페이지로 이동
           Swal.fire({
             icon: 'error',
@@ -89,7 +91,6 @@ const MyProfile = () => {
           });
           navigate('/Home');
         }
-      }
     };
     fetchUserData();
   }, []);  

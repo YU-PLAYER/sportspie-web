@@ -34,6 +34,11 @@ const ExamineProfile = () => {
   const [draw, setDraw] = useState(0); // 무승부 State
   const [lose, setLose] = useState(0); // 패배 State
 
+  const [publicProfile, setPublicProfile] = useState(true); // 사용자 프로필 공개 여부 
+  const [publicInformation, setPublicInformation] = useState(true); // 사용자 정보 공개 여부
+  const [publicIntroduce, setPublicIntroduce] = useState(true); // 사용자 상태 메세지 공개 여부
+  const [publicRecord, setPublicRecord] = useState(true); // 사용자 전적 공개 여부
+
   const [recent10, setRecent10] = useState([]); // 최근 10경기 승패 결과 State
 
   const [Enlarge, setEnlarge] = useState(false); // 프로필 이미지 확대 및 축소 State
@@ -68,19 +73,23 @@ const ExamineProfile = () => {
         introduce, attacker, midfielder, defender, goalkeeper,
         publicProfile, publicInformation, publicIntroduce, publicRecord} = response.data;
 
-      setImageUrl(publicProfile ? imageUrl : default_img);
-      setNickname(publicInformation ? nickname : {});
-      setAge(publicInformation ? age : {});
-      setGender(publicInformation ? gender : {});
-      setRegion(publicInformation ? region : {});
-      setHeight(publicInformation ? height : {});
-      setWeight(publicInformation ? weight : {});
-      setEmail(publicInformation ? email : {});
-      setIntroduce(publicIntroduce ? introduce : "비공개");
+      setImageUrl(imageUrl);
+      setNickname(nickname);
+      setAge(age);
+      setGender(gender);
+      setRegion(region);
+      setHeight(height);
+      setWeight(weight);
+      setEmail(email);
+      setIntroduce(introduce);
       setAttacker(attacker);
       setMidfielder(midfielder);
       setDefender(defender);
       setGoalkeeper(goalkeeper);
+      setPublicProfile(publicProfile);
+      setPublicInformation(publicInformation);
+      setPublicIntroduce(publicIntroduce);
+      setPublicRecord(publicRecord);
 
       const recordResponse = await axios.get(`http://110.165.17.35:8080/api/gameUser/history/${userId}`, {
         headers: {
@@ -89,10 +98,10 @@ const ExamineProfile = () => {
       });
       const { win, draw, lose, recent10 } = recordResponse.data;
 
-      setWin(publicRecord ? win : {});
-      setDraw(publicRecord ? draw : {});
-      setLose(publicRecord ? lose : {});
-      setRecent10(publicRecord ? recent10 : {});
+      setWin(win);
+      setDraw(draw);
+      setLose(lose);
+      setRecent10(recent10);
     } catch (error) { // 서버 통신 오류 발생시 경고창 출력
         Swal.fire({
           icon: 'error',
@@ -108,28 +117,28 @@ const ExamineProfile = () => {
   }, []);
 
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
-    <Container>
+    <Container maxWidth="sm">
       <ProfileBox>
-        <UserImage src={imageUrl} onClick={toEnlarge} />
+        <UserImage src={publicProfile ? imageUrl : default_img} onClick={toEnlarge} />
         {Enlarge && (
           <ProfileView onClick={toShrink}>
-            <ImageView src={imageUrl} />
+            <ImageView src={publicProfile ? imageUrl : default_img} />
           </ProfileView>
       )}
-        {nickname ? (
+        {publicInformation ? (
           <UserInfoBox>
             닉네임 : {nickname} <br/>
             성별 : {gender} <br/>
-            나이 : {age} <br/>
+            나이 : {age} 세<br/>
             지역 : {region} <br/>
-            신장 : {height} <br/>
-            체중 : {weight} <br/>
+            신장 : {height} cm<br/>
+            체중 : {weight} kg<br/>
             이메일 : {email}
           </UserInfoBox> ) : (<PrivateUserInfoBox>비공개</PrivateUserInfoBox>)}
       </ProfileBox>
       <MessageBox>
         <TextAlign>
-          {introduce}
+          {publicIntroduce ? introduce : "비공개"}
         </TextAlign>
       </MessageBox>
       <PreferBox>
@@ -141,7 +150,7 @@ const ExamineProfile = () => {
           <GoalkeeperPosition goalkeeper={goalkeeper}>골키퍼</GoalkeeperPosition>
         </PreferPositions>
       </PreferBox>
-      {(win || draw || lose || recent10.length > 0) ? (
+      {publicRecord ? (
         <RecordBox>
           <Record>
             전체 전적 : {win + draw + lose}전 {win}승 {draw}무 {lose}패 /
@@ -307,7 +316,7 @@ const RecordBox = styled.div`
 
 const PrivateRecordBox = styled.div`
   margin-top: 5%;
-  margin-left 5%;
+  margin-left: 5%;
   border-radius: 5px;
   width: 90%;
   height: 20vh;
