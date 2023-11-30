@@ -144,8 +144,8 @@ const ExamineProfile = () => {
       {(win || draw || lose || recent10.length > 0) ? (
         <RecordBox>
           <Record>
-            전체 전적 : {win + draw + lose}전 {win}승 {draw}무 {lose}패 /
-            승률 : {((win / (win + draw + lose)) * 100).toFixed(1)}%
+            전체 전적 : {(win || 0) + (draw || 0) + (lose || 0)}전 {(win || 0)}승 {(draw || 0)}무 {(lose || 0)}패 /
+            승률 : {(((win || 0) / ((win || 0) + (draw || 0) + (lose || 0))) * 100).toFixed(1) || 0}%
           </Record>
           <RecordBoard>
             {recent10.map((result, index) => (
@@ -307,7 +307,7 @@ const RecordBox = styled.div`
 
 const PrivateRecordBox = styled.div`
   margin-top: 5%;
-  margin-left 5%;
+  margin-left 10%;
   border-radius: 5px;
   width: 90%;
   height: 20vh;
