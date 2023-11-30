@@ -150,28 +150,29 @@ const ModifyProfile = () => {
     fileInput.accept = "image/*";
     fileInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = async function () {
-        const base64String = reader.result.split(",")[1];
-  
-        try {
-          const access_token = JSON.parse(localStorage.getItem('access_token'));
-          const response = await axios.post('http://110.165.17.35:8080/api/user/image', { file: base64String }, {
-            headers: {
-              Authorization: `Bearer ${access_token}`
-            }
-          });
-          const newProfileImage = response.data.url;
-          setImageUrl(newProfileImage);
-          setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
-        } catch (error) {
-          console.error('Image upload failed:', error);
-        }
-      };
+
+      try {
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await axios.post('http://110.165.17.35:8080/api/user/image', formData, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            'Content-Type': 'multipart/form-data' // 'Content-Type' 헤더를 'multipart/form-data'로 설정
+          }
+        });
+
+        const newProfileImage = response.data.url;
+        setImageUrl(newProfileImage);
+        setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
+      } catch (error) {
+        console.error('Image upload failed:', error);
+      }
     });
     fileInput.click();
   };
+
   
 
 const UserInfoChange = (e) => {
