@@ -3,7 +3,7 @@ import qs from 'qs';
 
 const REST_API_KEY = process.env.REACT_APP_CLIENT_KAKAO_ID;
 const REACT_APP_CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
-const REDIRECT_URI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI);
+const REDIRECT_URI = process.env.REACT_APP_NAVER_REDIRECT_URI;
 
 export async function getAccessKakaoToken(authCode) {
   console.log('getAccessKakaoToken called with authCode:', authCode);
