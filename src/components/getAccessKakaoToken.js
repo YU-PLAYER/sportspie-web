@@ -8,7 +8,7 @@ const REDIRECT_URI = encodeURIComponent(process.env.REACT_APP_NAVER_REDIRECT_URI
 export async function getAccessKakaoToken(authCode) {
   console.log('getAccessKakaoToken called with authCode:', authCode);
   try {
-    const token_response = await axios.get(`http://110.165.17.35:8080/api/auth/sign-in/kakao/token?code=${authCode}`);
+    const token_response = await axios.post(`http://110.165.17.35:8080/api/auth/sign-in/kakao/token?code=${authCode}`);
     console.log('Token response:', token_response);
     const KakaoToken = token_response.data['token'];
     console.log('KakaoToken:', KakaoToken);
