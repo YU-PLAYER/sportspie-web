@@ -20,10 +20,8 @@ function TeamSelectList({id, post}) {
         { headers: { Authorization: `Bearer ${userid}`}, },)
         .then((response)=>{
             if(post.userId === response.data.id) setIswriter(true);
-            axios({
-                method: 'get',
-                url:`http://110.165.17.35:8080/api/gameUser/join/${id}`,
-            })
+            axios.get(`http://110.165.17.35:8080/api/gameUser/join/${id}`,
+            { headers: { Authorization: `Bearer ${userid}`}, },)
             .then((result)=>{
                 console.log('요청 성공');
                 console.log(result.data);
@@ -68,7 +66,8 @@ function TeamSelectList({id, post}) {
                     "userId": response.data["id"],
                     "gameId": id,
                     "gameTeam": team,
-                  }
+                  },
+                headers: { Authorization: `Bearer ${userid}`},
             })
             .then((result)=>{
                 console.log('요청 성공');

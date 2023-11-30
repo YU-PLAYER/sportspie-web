@@ -10,6 +10,7 @@ function MatchList_All(){
     axios.get('http://110.165.17.35:8080/api/user/me',
       { headers: { Authorization: `Bearer ${userid}`}, },)
       .then((response)=>{
+        console.log(response.data["id"]);
           axios.get(`http://110.165.17.35:8080/api/gameUser/list?userId=${response.data["id"]}`,
           { headers: { Authorization: `Bearer ${userid}`}, },)
           .then((result)=>{
