@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -185,7 +186,8 @@ const MyProfile = () => {
   };
   
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
-    <Container>
+    <Container maxWidth="sm">
+    <Containers>
       <ProfileBox>
         <UserImage src={imageUrl} onClick={toEnlarge} />
         {Enlarge && (
@@ -194,13 +196,13 @@ const MyProfile = () => {
           </ProfileView>
         )}
         <UserInfoBox>
-          닉네임 : {nickname} <br/>
-          성별 : {gender} <br/>
-          나이 : {age} 세<br/>
-          지역 : {region} <br/>
-          신장 : {height} cm<br/>
-          체중 : {weight} kg<br/>
-          이메일 : {email} <br/>
+          <p style={{marginBottom:"4px"}}>닉네임 : {nickname} </p>
+          <p style={{marginBottom:"4px"}}>성별 : {gender} </p>
+          <p style={{marginBottom:"4px"}}>나이 : {age} 세</p>
+          <p style={{marginBottom:"4px"}}>지역 : {region} </p>
+          <p style={{marginBottom:"4px"}}>신장 : {height} cm</p>
+          <p style={{marginBottom:"4px"}}>체중 : {weight} kg</p>
+          <p>이메일 : {email} </p>
         </UserInfoBox>
       </ProfileBox>
       <MessageBox>
@@ -241,43 +243,45 @@ const MyProfile = () => {
         <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
         <WithdrawalButton onClick={handleWithdrawal}>회원탈퇴</WithdrawalButton>
       </BottomBox>
+    </Containers>
     </Container>
   );
 };
 
 // 여기서부터 컴포넌트 스타일 지정
 
-const Container = styled.div`
-  width:100%;
-  height:auto;
+const Containers = styled.div`
+  width: 100%;
+  height: auto;
   text-align: left;
 `;
 const ProfileBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  width:100%;
-  height:100%;
+  justify-content: space-evenly;
+  align-Items: center;
+  padding: 0 10px;
+  box-sizing : border-box;
+  width: 100%;
+  height: 200px;
 `;
 const UserImage = styled.img`
   cursor: pointer;
   border-radius: 50%;
-  width: 40%;
-  height: 20vh;
-  margin-top: 5%;
-  margin-left: 5%;
+  width: 160px;
+  height: 160px;
+  margin-right: 10px;
 `;
 
 const UserInfoBox = styled.div`
-  width: 40%;
+  width: 50%;
   background-color: #f5f5f5;
+  height: 110px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   border-radius: 10%;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  margin-top: 5%;
-  margin-right: 5%;
-  font-size: 0.75em;
+  padding: 20px 10px;
+  font-size: 12px;
 `;
 
 const MessageBox = styled.div`
@@ -393,7 +397,9 @@ const RecordBoard = styled.div`
 
 const Game = styled.div`
   border: 1px solid;
-  text-align: center;
+  display:flex;
+  align-Items:center;
+  justify-content:center;
   line-height: 2em;
   color: white;
   border-radius: 5px;

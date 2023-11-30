@@ -13,7 +13,6 @@ function MatchListBox({item}){
     else if(item.gameStatus==='PROGRESS') {
      let searchdate = new Date(`${item.date} ${item.time}`);
      let now = new Date();
-     console.log(searchdate);
       if((searchdate > now)) {
         status='확정'; color="rgba(0, 0, 0, 0.6)"; 
       } else {

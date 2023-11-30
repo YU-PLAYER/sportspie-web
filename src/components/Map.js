@@ -98,11 +98,11 @@ function KakaoMap() {
         return (
             <div style={{
                 borderRadius: 10, boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.3)", width: "100%", height: "70px", boxSizing: "border-box",
-                margin: "10px 0", padding: "10px 40px", fontSize: "12px",
+                margin: "10px 0", padding: "10px 28px", fontSize: "12px",
                 display: "flex", flexDirection: "column", justifyContent: "space-around"
             }}>
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <p style={{ fontSize: "15px", marginRight: "14px", color: "rgba(0,0,0,0.8)", fontWeight: "bold" }}>{item.name}</p>
+                    <p style={{ fontSize: "15px", marginRight: "12px", color: "rgba(0,0,0,0.8)", fontWeight: "bold" }}>{item.name}</p>
                     <p style={{ color: "rgba(0,0,0,0.6)" }}>{item.distance.toFixed(2)}km</p>
                 </div>
                 <div style={{ color: "rgba(0,0,0,0.8)", fontSize:"11px"}}>{item.city} {item.district} {item.village}</div>
@@ -144,6 +144,7 @@ function KakaoMap() {
                         </div>
                         <section id="maplist" style={{ width: "90%", display: "flex", flexDirection: "column" }}>
                         {searchValues.map((item, index) =><MapList item={item} key={index}/>)}
+                        <div style={{height:"80px"}}></div>
                         </section>
                     </div>
                 </Box>

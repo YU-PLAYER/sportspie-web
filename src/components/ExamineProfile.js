@@ -11,7 +11,7 @@ const ExamineProfile = () => {
   const navigate = useNavigate(); // 페이지 이동 훅
 
   const location = useLocation(); // 현재 위치 정보 훅
-  const userId = location.state.userId; // userID를 가져오기
+  let userId = location.state.userId; // userID를 가져오기
 
   const [imageUrl, setImageUrl] = useState(""); // 프로필 이미지 State
 

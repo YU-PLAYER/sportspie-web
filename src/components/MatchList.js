@@ -60,6 +60,7 @@ function MatchList() {
             </div>
           </div>
           {content && <div style={{marginTop:"30px"}}>{selectContent[content]}</div>}
+        <div style={{height:"80px"}}></div>
         </section>
       </Box>
       <Box sx={{ height: '20px' }} />
