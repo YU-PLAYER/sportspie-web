@@ -138,17 +138,16 @@ const ModifyProfile = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = async function () {
-        const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+        const base64String = reader.result.split(",")[1];
   
         try {
           const access_token = JSON.parse(localStorage.getItem('access_token'));
           const response = await axios.post('http://110.165.17.35:8080/api/user/image', { file: base64String }, {
             headers: {
-              'Content-Type': 'application/json',
               Authorization: `Bearer ${access_token}`
             }
           });
-          const newProfileImage = response.data.url;
+          const newProfileImage = response.data;
           setImageUrl(newProfileImage);
           setCurrentValues(prev => ({...prev, imageUrl: newProfileImage}));
         } catch (error) {
