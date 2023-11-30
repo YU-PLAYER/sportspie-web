@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
@@ -107,8 +108,8 @@ function TeamSelectList({id, post}) {
         let position = item.position === "GK" ? "골기퍼" : item.position === "DF" ? "수비수" : "공격수";
         if(item.userId === undefined) return;
         else return (
-                <div style={{
-                    display:"flex", justifyContent:"space-between", alignItems:"center", boxSizing:"border-box", padding:"0 30px 0 18px", 
+                <div onClick={()=>click(item.userId)} style={{
+                    cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", boxSizing:"border-box", padding:"0 30px 0 18px", 
                     width:"100%", height:"45px", borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.1)"}}>
                     <div style={{display:"flex", flexDirection:"row", alignItems:"center", height:"45px"}}>
                         <img alt="" src={item.imgUrl}
@@ -120,6 +121,11 @@ function TeamSelectList({id, post}) {
                     color: item.position==="GK" ? "rgba(138, 80, 0, 1)" : item.position === "DF" ? "rgba(0, 66, 22, 1)" : "rgba(173, 0, 17, 1)"} }><p style={{fontWeight:"bold"}}>{position}</p></div>
                 </div>
         );
+    }
+
+    const Navigate = useNavigate();
+    const click = (id)=>{
+      Navigate('/ExamineProfile', {state: {userId: `${id}`,},});
     }
 
   return (
