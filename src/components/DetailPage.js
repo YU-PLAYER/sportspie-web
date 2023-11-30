@@ -127,11 +127,9 @@ const DetailPage = () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.patch('http://110.165.17.35:8080/api/game/after', {
-          headers: {Authorization: `Bearer ${access_token}`}}, 
-          {
           gameId: gameId,
           gameResult: result
-        });
+        }, {headers: {Authorization: `Bearer ${access_token}`}});
         Swal.fire({
           icon: 'success',
           title: '결과 확정 성공',
