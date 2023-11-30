@@ -14,7 +14,7 @@ function MatchListBox({item}){
      let searchdate = new Date(`${item.date} ${item.time}`);
      let now = new Date();
      console.log(searchdate);
-      if((searchdate < now)) {
+      if((searchdate > now)) {
         status='확정'; color="rgba(0, 0, 0, 0.6)"; 
       } else {
         status='종료'; rightdown='승패 미확정'; color="rgba(245, 159, 0, 0.6)";} 
