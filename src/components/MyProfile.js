@@ -172,8 +172,8 @@ const MyProfile = () => {
     navigate('/Notice');
   };
 
-  const PageChange2 = () => { // 안전정보 페이지 이동 메소드
-    navigate('/page2');
+  const PageChange_SafeInfo = () => { // 안전정보 페이지 이동 메소드
+    navigate('/SafeInfo');
   };
 
   const PageChange_Report = () => { // 신고하기 페이지 이동 메소드
@@ -233,7 +233,7 @@ const MyProfile = () => {
       </RecordBox>
       <MenuBox>
         <MenuButton onClick={PageChange_Notice}>공지사항</MenuButton>     
-        <MenuButton onClick={PageChange2}>안전정보</MenuButton>
+        <MenuButton onClick={PageChange_SafeInfo}>안전정보</MenuButton>
         <MenuButton onClick={PageChange_Report}>신고하기</MenuButton>
         <MenuButton onClick={PageChange_ModifyProfile}>프로필 수정</MenuButton>
       </MenuBox>
