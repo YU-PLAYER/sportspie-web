@@ -84,14 +84,30 @@ const ModifyProfile = () => {
 
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
-      const data = {image_url: imageUrl, nickname, age, gender, region, height, weight, email,
-        introduce, attacker, midfielder, defender, goalkeeper, is_public_profile: publicProfile,
-        is_public_information: publicInformation, is_public_introduce: publicIntroduce, is_public_record: publicRecord};
       const access_token = JSON.parse(localStorage.getItem('access_token'));
-      const response = await axios.put('http://110.165.17.35:8080/api/user/me', data, {
+      const response = await axios.put('http://110.165.17.35:8080/api/user/me', {
         headers: { 
           Authorization: `Bearer ${access_token}`
-        }});
+        }},
+        {
+          email: email,
+          nickname: nickname,
+          gender: gender,
+          age: age,
+          region: region,
+          height: height,
+          weight: weight,
+          introduce: introduce,
+          attacker: attacker,
+          midfielder: midfielder,
+          defender: defender,
+          goalkeeper: goalkeeper,
+          is_public_profile: publicProfile,
+          is_public_information: publicInformation,
+          is_public_introduce: publicIntroduce,
+          is_public_record: publicRecord,
+          image_url: imageUrl
+        });
       console.log(response.data);
       Swal.fire({
         icon: 'success',
