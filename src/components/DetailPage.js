@@ -6,7 +6,6 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { differenceInHours } from "date-fns";
-//import TeamSelectList from './TeamSelectList';
 import SUNNY from '../images/sunny.jpg';
 import CLOUDY from '../images/cloudy.jpg';
 import RAINY from '../images/rainy.jpg';
