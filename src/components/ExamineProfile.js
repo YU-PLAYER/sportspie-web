@@ -316,7 +316,7 @@ const RecordBox = styled.div`
 
 const PrivateRecordBox = styled.div`
   margin-top: 5%;
-  margin-left 5%;
+  margin-left: 5%;
   border-radius: 5px;
   width: 90%;
   height: 20vh;
