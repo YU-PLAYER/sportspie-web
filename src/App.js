@@ -20,18 +20,6 @@ import axios from 'axios';
 
 function App() {
 
-    if(localStorage.getItem('access_token') !=null){
-        try {
-            const response = axios.get('http://110.165.17.35:8080/api/notification', {
-              headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}` },
-            },)
-            console.log(response);
-            console.log("알림 개수 : " + response.data.length);
-          } catch (err) {
-            console.log("알림 개수 호출 실패");
-          }
-    }
-
   return (
     <Router>
     <div style={{ width: '100%', height: '100vh'}}>
