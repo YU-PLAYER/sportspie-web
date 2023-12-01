@@ -374,13 +374,17 @@ const GoalkeeperPosition = styled.div`
 
 const RecordBox = styled.div`
   margin-top: 5%;
-  margin-left 5%;
+  display:flex;
+  flex-direction:column;
+  align-Items:center;
+  
 `;
 
 const Record = styled.div`
+  width:90%;
   font-size: 1em;
   font-weight: bold;
-  margin-left: 5%;
+  margin-bottom: 12px;
 `;
 
 const RecordBoard = styled.div`
@@ -388,9 +392,7 @@ const RecordBoard = styled.div`
   grid-template-row: repeat(2, 1fr);
   grid-template-columns: repeat(5, 1fr);
   width: 90%;
-  height: 10vh;
-  margin-top: 2vh;
-  margin-left: 5%;
+  height: 80px;
   border: 1px solid;
   border-color: white;
   border-radius: 5px;
@@ -398,7 +400,7 @@ const RecordBoard = styled.div`
 
 const Game = styled.div`
   border: 1px solid;
-  height: 100%;
+  height: 40px;
   display:flex;
   align-Items:center;
   justify-content:center;
