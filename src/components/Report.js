@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import { useNavigate } from 'react-router-dom';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Container from '@mui/material/Container';
@@ -14,8 +15,11 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
+import Swal from 'sweetalert2';
 
 export default function Report() {
+
+    const navigate = useNavigate();
 
     const [stadium, setStadium] = useState([ // 예제로 임시로 넣었음. 실제 DB 데이터 x
         '23-11-01 19:00 영남대학교 축구장',

@@ -37,6 +37,23 @@ export default function SelectStadium({ onDataChange }) {
             stages: ["유천풋살"]
           }
         ]
+      },
+      {
+        name : "경산시",
+        villages:[
+          {
+            name: "갑제동",
+            stages: ["영남대학교경산캠퍼스축구장(동문)"]
+          },
+          {
+            name: "계양동",
+            stages: ["영남대학교경산캠퍼스축구장(서문)"]
+          },
+          {
+            name: "대학로",
+            stages: ["영남대학교경산캠퍼스축구장(정문)"]
+          },
+        ]
       }
     ]
 
@@ -65,7 +82,7 @@ export default function SelectStadium({ onDataChange }) {
   return (
     <div>
       <Stack spacing={2}>
-        <d1>
+        <span>
           <FormControl required sx={{ m: 1, minWidth: 120, bgcolor: 'white' }}>
             <InputLabel>광역시</InputLabel>
             <Select
@@ -91,8 +108,8 @@ export default function SelectStadium({ onDataChange }) {
               ))}
             </Select>
           </FormControl>
-        </d1>
-        <d2>
+        </span>
+        <span>
           <FormControl required sx={{ m: 1, minWidth: 255, bgcolor: 'white' }}>
             <InputLabel>경기장</InputLabel>
             <Select
@@ -108,7 +125,7 @@ export default function SelectStadium({ onDataChange }) {
               ))}
             </Select>
           </FormControl>
-        </d2>
+        </span>
       </Stack>
     </div>
   );
