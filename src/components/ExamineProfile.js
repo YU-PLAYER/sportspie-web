@@ -127,13 +127,13 @@ const ExamineProfile = () => {
       )}
         {publicInformation ? (
           <UserInfoBox>
-            닉네임 : {nickname} <br/>
-            성별 : {gender} <br/>
-            나이 : {age} 세<br/>
-            지역 : {region} <br/>
-            신장 : {height} cm<br/>
-            체중 : {weight} kg<br/>
-            이메일 : {email}
+            <span style={{marginBottom:"6px"}}>닉네임 : {nickname} </span>
+            <span style={{marginBottom:"6px"}}>성별 : {gender} </span>
+            <span style={{marginBottom:"6px"}}>나이 : {age} 세</span>
+            <span style={{marginBottom:"6px"}}>지역 : {region} </span>
+            <span style={{marginBottom:"6px"}}>신장 : {height} cm</span>
+            <span style={{marginBottom:"6px"}}>체중 : {weight} kg</span>
+            <span>이메일 : {email} </span>
           </UserInfoBox> ) : (<PrivateUserInfoBox>비공개</PrivateUserInfoBox>)}
       </ProfileBox>
       <MessageBox>
@@ -179,9 +179,12 @@ const Container = styled.div`
 `;
 const ProfileBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  width:100%;
-  height:100%;
+  justify-content: space-evenly;
+  align-Items: center;
+  padding: 0 10px;
+  box-sizing : border-box;
+  width: 100%;
+  height: 200px;
 `;
 const UserImage = styled.img`
   cursor: pointer;
