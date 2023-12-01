@@ -98,6 +98,13 @@
     border-bottom-width: 1px;
     border-bottom-color: rgba(0,0,0,0.08);
   }
+
+  .play-list_room-hover{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    color: rgba(0, 0, 0, 0.5);
+    border-bottom-color: rgba(0,0,0,0.15);
+  }
   
   .play-list-room_title{
     display:flex;
