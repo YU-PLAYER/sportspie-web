@@ -15,81 +15,10 @@ import Stack from '@mui/material/Stack';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-/*
-[
-   {
-    "id": 0,
-    "content": "string",
-    "date": "2023-11-30",
-    "time": {
-      "hour": 0,
-      "minute": 0,
-      "second": 0,
-      "nano": 0
-    },
-    "stadiumName": "string",
-    "type": "GAME_CONFIRMED"
-  }
-]
-*/
-
-/* const Notifications = [ // API 연습용 데이터
-  {
-    "id": 12,
-    "content": "참여 신청하신 2023-11-30 17:00 팔공K스타디움 경기 하루 전입니다.",
-    "date": "2023-11-29",
-    "time": {
-      "hour": 17,
-      "minute": 0,
-      "second": 0,
-      "nano": 0
-    },
-    "stadiumName": "팔공K스타디움",
-    "type": "DATE_IMMINENT"
-  },
-  {
-    "id": 8,
-    "content": "참여 신청하신 2023-11-30 17:00 팔공K스타디움 경기가 확정되었습니다.",
-    "date": "2023-11-27",
-    "time": {
-      "hour": 19,
-      "minute": 30,
-      "second": 0,
-      "nano": 0
-    },
-    "stadiumName": "팔공K스타디움",
-    "type": "GAME_CONFIRMED"
-  },
-  {
-    "id": 7,
-    "content": "2023-11-25 17:00 첼시풋살 경기에 대한 비방 및 욕설 신고가 접수되었습니다.",
-    "date": "2023-11-25",
-    "time": {
-      "hour": 17,
-      "minute": 1,
-      "second": 0,
-      "nano": 0
-    },
-    "stadiumName": "첼시풋살",
-    "type": "REPORTED"
-  }
-]
- */
 
 const handleDelete = (e) => {
   console.log("알림 삭제");
-  console.log(e);
-  console.log(e.target.value);
-  try {
-    const access_token = JSON.parse(localStorage.getItem('access_token'));
-    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${e.target.id}`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    });
-  } catch (err) {
 
-  }
 };
 
 function Notification({ notification }) {
@@ -98,9 +27,19 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="success" value={notification.id} onClose={(e) => handleDelete(e)}>
+            <Alert severity="success" value={notification.id} onClose={(value) => {
+              try {
+                console.log(notification.id);
+                const access_token = JSON.parse(localStorage.getItem('access_token'));
+                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                  headers: {
+                    Authorization: `Bearer ${access_token}`
+                  }
+                });
+              } catch (err) {
+              }
+            }}>
               <AlertTitle>경기 확정</AlertTitle>
-              {notification.id} //
               {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -110,9 +49,20 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="info" value={notification.id} onClose={(e) => handleDelete(e)}>
+            <Alert severity="info" value={notification.id} onClose={(value) => {
+              try {
+                console.log(notification.id);
+                const access_token = JSON.parse(localStorage.getItem('access_token'));
+                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                  headers: {
+                    Authorization: `Bearer ${access_token}`
+                  }
+                });
+                this.handleClose();
+              } catch (err) {
+              }
+            }}>
               <AlertTitle>경기 결과 확정</AlertTitle>
-              {notification.id} //
               {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -122,9 +72,19 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="info" value={notification.id} onClose={(e) => handleDelete(e)}>
+            <Alert severity="info" value={notification.id} onClose={(value) => {
+              try {
+                console.log(notification.id);
+                const access_token = JSON.parse(localStorage.getItem('access_token'));
+                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                  headers: {
+                    Authorization: `Bearer ${access_token}`
+                  }
+                });
+              } catch (err) {
+              }
+            }}>
               <AlertTitle>경기 하루 전 알림</AlertTitle>
-              {notification.id} //
               {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -134,9 +94,21 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="warning" value={notification.id} onClose={(e) => handleDelete(e)}>
+            <Alert severity="warning" value={notification.id} onClose={(e) => {
+              try {
+                console.log(notification.id);
+                const access_token = JSON.parse(localStorage.getItem('access_token'));
+                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                  headers: {
+                    Authorization: `Bearer ${access_token}`
+                  }
+                });
+              } catch (err) {
+              }
+              handleDelete(e);
+            }
+            }>
               <AlertTitle>신고 접수 완료</AlertTitle>
-              {notification.id}
               {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -237,10 +209,10 @@ export default function AlarmModal() {
                 <Box sx={{ height: '10px' }} />
                 <Stack sx={{ width: '100%' }} spacing={2}>
                   {notificationAPI.map(notification => <Notification notification={notification} id={notification.id} />)}
+                  <Alert onClose={false}>알림삭제 테스트</Alert>
                 </Stack>
-
+                
                 <Box sx={{ height: '20px' }} />
-
                 <Container sx={{
                   display: 'flex',
                   justifyContent: 'center',
