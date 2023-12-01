@@ -113,7 +113,7 @@ const DetailPage = () => {
       }  
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
-        const response = await axios.patch(`http://110.165.17.35:8080/api/game/detail/${gameId}/progress`, {
+        const response = await axios.patch(`http://110.165.17.35:8080/api/game/detail/${gameId}/progress`, {}, {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
