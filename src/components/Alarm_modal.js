@@ -114,7 +114,8 @@ export default function AlarmModal() {
 
   useEffect(() => {
     fetchNotifications();
-  }, [notificationAPI]);
+  }, []);
+
 
   const handleOpen = () => {
     const access_token = localStorage.getItem('access_token');
