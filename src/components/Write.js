@@ -40,7 +40,7 @@ export default function Write() {
    
   
    useEffect(() => { // 사용자 정보를 불러오는 useEffect
-     /*const fetchUser = async () => {
+     const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
@@ -57,7 +57,7 @@ export default function Write() {
         navigate('/Login'); // 오류 발생 시 로그인 페이지로 이동
       }
     };
-    fetchUser();*/
+    fetchUser();
     const fetchStadium = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
