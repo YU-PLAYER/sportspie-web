@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -10,6 +12,22 @@ import img3 from '../images/Ad3.png';
 import img4 from '../images/Ad4.png';
 import img5 from '../images/Ad5.png';
 function Ad(){
+    const [img, setImg] = useState([{}]);
+    useEffect(()=>{
+        axios({
+            method: 'get',    
+            url:`http://110.165.17.35:8080/api/banner`,
+        })
+        .then((result)=>{
+            console.log('요청 성공');
+            console.log(result);
+            setImg(result.data);
+        })
+        .catch((error)=>{console.log('요청 실패')
+        console.log(error)
+        })
+      }, []);
+
     return(
         <Box sx={{display:"flex", justifyContent:"center", marginTop:"20px", height:"40vh"
            }}>
@@ -37,10 +55,8 @@ function Ad(){
                 modules={[Autoplay, Pagination]}
                 className="mySwiper"
             >
-                <SwiperSlide><img src={img2} alt='ad2'/></SwiperSlide>
-                <SwiperSlide><img src={img3} alt='ad3'/></SwiperSlide>
-                <SwiperSlide><img src={img4} alt='ad4'/></SwiperSlide>
-                <SwiperSlide><img src={img5} alt='ad5'/></SwiperSlide>
+                {img.map((item, index)=>
+                <SwiperSlide><img src={item.imageUrl} key={index}/></SwiperSlide>)}
             </Swiper>
         </Box>
     );
