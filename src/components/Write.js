@@ -125,35 +125,6 @@ export default function Write() {
         }
       } 
     }
-    /*
-    if (stadium == '비산실내풋살파크') {
-      setStadiumId(1);
-    } else if (stadium == '대구풋살') {
-      setStadiumId(2);
-    } else if (stadium == '상인풋살장') {
-      setStadiumId(3);
-    } else if (stadium == '월배S풋살파크') {
-      setStadiumId(4);
-    } else if (stadium == 'LFC 엘에프씨 풋살파크 두류점') {
-      setStadiumId(5);
-    } else if (stadium == '팔공K스타디움') {
-      setStadiumId(6);
-    } else if (stadium == '유천풋살') {
-      setStadiumId(7);
-    } else if (stadium == 'DS풋볼아카데미 실내풋살장') {
-      setStadiumId(8);
-    } else if (stadium == '첼시풋살') {
-      setStadiumId(9);
-    } else if (stadium == '라온풋살파크 월배점') {
-      setStadiumId(10);
-    } else if (stadium == '영남대학교경산캠퍼스축구장(정문)') {
-      setStadiumId(11);
-    } else if (stadium == '영남대학교경산캠퍼스축구장(서문)') {
-      setStadiumId(12);
-    } else if (stadium == '영남대학교경산캠퍼스축구장(동문)') {
-      setStadiumId(13);
-    } else {
-    }*/
   }, [stadium]);
 
   const handleDataChange = (newData) => {
