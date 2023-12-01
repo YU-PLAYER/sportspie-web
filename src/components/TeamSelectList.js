@@ -38,8 +38,8 @@ function TeamSelectList({id, post}) {
                         setAway(false);
                     }
                 }
-                if(home>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${home}명이 찼습니다.`); setHome(0);}
-                if(away>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${away}명이 찼습니다.`); setAway(0);}
+                //if(home>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${home}명이 찼습니다.`); setHome(0);}
+                //if(away>=post.maxCapacity/2) {console.log(`${post.maxCapacity/2} 중 ${away}명이 찼습니다.`); setAway(0);}
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
@@ -105,7 +105,6 @@ function TeamSelectList({id, post}) {
     }; 
 
     function Playerlist({item}){
-        let position = item.position === "GK" ? "골기퍼" : item.position === "DF" ? "수비수" : "공격수";
         if(item.userId === undefined) return;
         else return (
                 <div onClick={()=>click(item.userId)} style={{
@@ -116,9 +115,24 @@ function TeamSelectList({id, post}) {
                         style={{width:"28px", height:"28px",borderRadius:"30%" , marginRight:"12px"}}/>
                         <p style={{fontSize:'11px'}}>{item.name}</p>
                     </div>
-                    <div style={{display:"flex",justifyContent:"center", alignItems:"center", width:"40px", height:"18px", 
-                    borderRadius:8, backgroundColor: item.position==="GK" ? "rgba(255, 232, 158, 0.5)" : item.position === "DF" ? "rgba(138, 255, 177, 0.4)" : "rgba(255, 163, 188, 0.4)", 
-                    color: item.position==="GK" ? "rgba(138, 80, 0, 1)" : item.position === "DF" ? "rgba(0, 66, 22, 1)" : "rgba(173, 0, 17, 1)"} }><p style={{fontWeight:"bold"}}>{position}</p></div>
+                    <div style={{display:"flex", flexDirection:"row"}}>
+                    <div style={{display: item.goalkeeper===true?"flex":"none",justifyContent:"center", alignItems:"center", width:"40px", height:"18px", 
+                    borderRadius:8, backgroundColor: "rgba(255, 232, 158, 0.5)", 
+                    color: "rgba(138, 80, 0, 1)"} }><p style={{fontWeight:"bold"}}>골기퍼</p></div>
+                    <div style={{display:item.defender===true?"flex":"none",justifyContent:"center", alignItems:"center", width:"40px", height:"18px", 
+                    borderRadius:8, backgroundColor: "rgba(138, 255, 177, 0.4)", marginLeft:"2px",
+                    color: "rgba(0, 66, 22, 1)"} }><p style={{fontWeight:"bold"}}>수비수</p></div>
+                    <div style={{display:item.attacker===true?"flex":"none",justifyContent:"center", alignItems:"center", width:"40px", height:"18px", 
+                    borderRadius:8, backgroundColor: "rgba(255, 163, 188, 0.4)", marginLeft:"2px",
+                    color: "rgba(173, 0, 17, 1)"} }><p style={{fontWeight:"bold"}}>공격수</p></div>
+                    <div style={{display:item.midfielder===true?"flex":"none",justifyContent:"center", alignItems:"center", width:"50px", height:"18px", 
+                    borderRadius:8, backgroundColor: "rgba(153, 192, 255, 0.5)", marginLeft:"2px",
+                    color: "rgba(44, 54, 71, 1)"} }><p style={{fontWeight:"bold"}}>미드필더</p></div>
+                    <div style={{display: (item.defender===false)&&(item.attacker===false)&&(item.midfielder===false)&&(item.goalkeeper===false)?"flex":"none",
+                    justifyContent:"center", alignItems:"center", width:"40px", height:"18px", 
+                    borderRadius:8, backgroundColor: "rgba(0,0,0,0.1)", marginLeft:"2px",
+                    color: "rgba(0,0,0,0.8)"} }><p style={{fontWeight:"bold"}}>미설정</p></div>
+                    </div>
                 </div>
         );
     }
@@ -137,7 +151,7 @@ function TeamSelectList({id, post}) {
                 display:"flex", justifyContent:"space-between", alignItems:"center",  color: "rgba(0, 0, 0, 0.5)", boxSizing:"border-box",
                padding:"0 40px 0 18px", position:"absolute", top:"0px", width:'100%', height:"30px", backgroundColor:"rgba(0, 0, 0, 0.02)", borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)"}}>
                 <p>NAME</p>
-                <p>POSITION</p>
+                <p>PREFERRED POSITION</p>
             </div>
             <section style={{display:"flex", flexDirection:"column", alignItems:"center", width:"100%", height:"40vh", overflowY:"auto", margin:"30px 0 40px 0"}}>
                 {homelist.map((item, index)=>
@@ -158,7 +172,7 @@ function TeamSelectList({id, post}) {
                 display:"flex", justifyContent:"space-between", alignItems:"center",  color: "rgba(0, 0, 0, 0.5)", boxSizing:"border-box",
                padding:"0 40px 0 18px", position:"absolute", top:"0px", width:'100%', height:"30px", backgroundColor:"rgba(0, 0, 0, 0.02)", borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)"}}>
                 <p>NAME</p>
-                <p>POSITION</p>
+                <p>PREFERRED POSITION</p>
             </div>
             <section style={{display:"flex", flexDirection:"column", alignItems:"center", width:"100%", height:"40vh", overflowY:"auto", margin:"30px 0 40px 0"}}>
                 {awaylist.map((item, index)=>

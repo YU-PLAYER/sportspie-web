@@ -10,7 +10,9 @@ import Textarea from '@mui/joy/Textarea';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
@@ -18,9 +20,7 @@ import Stack from '@mui/material/Stack';
 import Swal from 'sweetalert2';
 
 export default function Report() {
-
     const navigate = useNavigate();
-
     const [stadium, setStadium] = useState([ // 예제로 임시로 넣었음. 실제 DB 데이터 x
         '23-11-01 19:00 영남대학교 축구장',
         '23-11-02 18:00 두류 풋살장',
