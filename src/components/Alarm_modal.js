@@ -100,6 +100,9 @@ function Notification({ notification }) {
           {
             <Alert severity="success" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
+              {notification.time.hour}:
+              {notification.time.minute}
+              {notification.stadiumName} 의
               {notification.content}
             </Alert>
           }
@@ -111,6 +114,9 @@ function Notification({ notification }) {
           {
             <Alert severity="success" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
+              {notification.time.hour}:
+              {notification.time.minute}
+              {notification.stadiumName} 의
               {notification.content}
             </Alert>
           }

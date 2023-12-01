@@ -40,7 +40,7 @@ export default function Write() {
    
   
    useEffect(() => { // 사용자 정보를 불러오는 useEffect
-    const fetchUser = async () => {
+     /*const fetchUser = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
         const response = await axios.get('http://110.165.17.35:8080/api/user/me', {
@@ -57,7 +57,7 @@ export default function Write() {
         navigate('/Login'); // 오류 발생 시 로그인 페이지로 이동
       }
     };
-    fetchUser();
+    fetchUser();*/
     const fetchStadium = async () => {
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
@@ -115,20 +115,17 @@ export default function Write() {
   useEffect(() => {
     setStadium(stadium);
     
-    /* console.log(stadiumlist.data);
-    console.log(Object.keys(stadiumlist).length);
-    console.log("경기장 번호 찾기...");
-    for(let i=0; i<stadiumlist.length; i++){
-      console.log(i);
-      console.log(stadiumlist.data.name);
-      console.log(stadiumlist.data.id);
-      if(stadiumlist.data.name == stadium){
-        setStadiumId(stadiumlist.data.id);
-        console.log(stadium+'의 경기장 번호는 '+ stadiumlist.data.id + "입니다.");
-        break;
-      }
-    } */
-    
+    if(stadiumlist.data != null){
+      console.log("경기장 번호 찾기...");
+      for(let i=0; i<Object.keys(stadiumlist.data).length; i++){
+        if(stadiumlist.data[i].name == stadium){
+          console.log(stadium+'의 경기장 번호는 '+ (stadiumlist.data[i].id) + "입니다.");
+          setStadiumId(stadiumlist.data[i].id);
+          break;
+        }
+      } 
+    }
+    /*
     if (stadium == '비산실내풋살파크') {
       setStadiumId(1);
     } else if (stadium == '대구풋살') {
@@ -156,7 +153,7 @@ export default function Write() {
     } else if (stadium == '영남대학교경산캠퍼스축구장(동문)') {
       setStadiumId(13);
     } else {
-    }
+    }*/
   }, [stadium]);
 
   const handleDataChange = (newData) => {
