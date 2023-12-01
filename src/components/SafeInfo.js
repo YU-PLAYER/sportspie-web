@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Container from '@mui/material/Container';
 import safeRule from '../images/safeRule.png';
 import safeRule2 from '../images/safeRule2.png';
@@ -11,6 +13,9 @@ export default function SafeInfo() {
         <div>
             <Container maxWidth="sm">
                 <Box sx={{ height: '20px' }} />
+                <IconButton onClick={handleClose}>
+                    <ArrowBackIcon />
+                </IconButton>
                 <Box sx={{
                     height: '650px', borderRadius: 5, boxShadow: 3
                 }}>

@@ -36,8 +36,8 @@ export default function Write() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [authorId, setAuthorId] = useState(1);
-
-  
+  const [stadiumlist, setStadiumlist] = useState([]);
+   
    useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
       try {
@@ -57,6 +57,23 @@ export default function Write() {
       }
     };
     fetchUser();
+    const fetchStadium = async () => {
+      try {
+        const access_token = JSON.parse(localStorage.getItem('access_token'));
+        const response = await axios.get('http://110.165.17.35:8080/api/stadium', {
+          headers:  { Authorization: `Bearer ${access_token}`},
+        },);
+        setStadiumlist(response); // 경기장 정보를 상태에 저장
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '로그인 필요',
+          text: '로그인이 필요한 기능입니다.'
+        });
+        navigate('/Login'); // 오류 발생 시 로그인 페이지로 이동
+      }
+    };
+    fetchStadium();
   }, []);
   
   var DefaultTitle = [
@@ -83,7 +100,7 @@ export default function Write() {
 
   const [startedAt,setStartedAt] = useState("");
   const [startedDate, setStartedDate] = useState(String(now.format('YYYY-MM-DD')));
-  const [statedTime, setStartedTime] = useState(String(now.format('HH:mm:00')));
+  const [startedTime, setStartedTime] = useState(String(now.format('HH:mm:00')));
 
   const [hourLater,setHourLate] = useState(now.add(1,"h"));
 
@@ -92,6 +109,8 @@ export default function Write() {
     if (e.target.value.length > 20) alert("방제목은 20글자까지만 가능합니다.");
     else setTitle(e.target.value);
   };
+
+
 
   useEffect(() => {
     setStadium(stadium);
@@ -115,6 +134,12 @@ export default function Write() {
       setStadiumId(9);
     } else if (stadium == '라온풋살파크 월배점') {
       setStadiumId(10);
+    } else if (stadium == '영남대학교경산캠퍼스축구장(정문)') {
+      setStadiumId(11);
+    } else if (stadium == '영남대학교경산캠퍼스축구장(서문)') {
+      setStadiumId(12);
+    } else if (stadium == '영남대학교경산캠퍼스축구장(동문)') {
+      setStadiumId(13);
     } else {
     }
   }, [stadium]);
@@ -126,6 +151,19 @@ export default function Write() {
   const handleContent = e => {
     setContent(e.target.value);
   };
+
+  const handleTime = (newValue) => {
+    console.log(dayjs(newValue).format("HH:mm:ss"));
+    setStartedTime(dayjs(newValue).format("HH:mm:ss"));
+    console.log("Started Time : " + startedTime);
+  }
+
+  useEffect(() => { 
+    console.log("useEffect를 사용한 시작시간 : " + startedTime);
+    setStartedTime(startedTime);
+    setStartedAt(startedDate + "T" + startedTime);
+    console.log(startedAt);
+  }, [startedTime]);
 
   const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
 
@@ -169,7 +207,7 @@ export default function Write() {
       alert_text = alert_text.concat('방제목을 2글자 이상 입력해 주세요.<br>');
       setIsTitleOK(false);
     } else setIsTitleOK(true);
-    if((startedDate == String(now.format('YYYY-MM-DD'))) && (statedTime == String(now.format('HH:mm:00')))){
+    if((startedDate == String(now.format('YYYY-MM-DD'))) && (startedTime == String(now.format('HH:mm:00')))){
       alert_text = alert_text.concat('경기 시간을 입력해 주세요.<br>');
       setisStartedTimeOK(false);
     } else setisStartedTimeOK(true);
@@ -210,10 +248,17 @@ export default function Write() {
           },
           headers:{Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}`}
         })
-        Swal.fire({
-          icon: 'success',
-          text: '경기글 작성에 성공하였습니다.'
-        }).then(navigate('/Home'));
+        if(response.status==200){
+          Swal.fire({
+            icon: 'success',
+            text: '경기글 작성에 성공하였습니다.'
+          }).then(navigate('/Home'));
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            text: '오류가 발생하였습니다.'
+          }).then(navigate('/Home'));
+        } 
       } catch (err) {
         console.log(err);
       }
@@ -304,13 +349,7 @@ export default function Write() {
             <DemoContainer components={['TimePicker']}
               sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
               <TimePicker label="시간 선택" sx={{ bgcolor: 'white' }}
-                onChange={(newValue) => {
-                  console.log(dayjs(newValue).format("HH:mm:ss"));
-                  setStartedTime(dayjs(newValue).format("HH:mm:ss"));
-                  setStartedAt(startedDate + "T" + statedTime);
-                  console.log("Started Time : " + statedTime);
-                  console.log(startedAt);
-                }} />
+                onChange={handleTime} />
             </DemoContainer>
           </LocalizationProvider>
           <Box sx={{ height: '20px' }} />

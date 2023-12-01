@@ -4,8 +4,10 @@ import Container from '@mui/material/Container';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import ReactLoading from "react-loading";
@@ -145,7 +147,9 @@ export default function Notice() {
         <div style={{ width: '100%', height: '100vh' }}>
             <Box>
                 <Box sx={{ height: '20px' }} />
-
+                    <IconButton onClick={handleClose}>
+                    <ArrowBackIcon />
+                    </IconButton>
                 <Box sx={{ height: '20px' }} />
                 <Container maxWidth="sm">
                     <Box sx={{textAlign : 'center'}}>공 지 사 항</Box>

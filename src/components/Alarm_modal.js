@@ -145,6 +145,7 @@ export default function AlarmModal() {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
+  const [notifications, setNotifications] = useState([]);
   const [notification_count, setNotifiation_count] = useState(0);
 
   const handleOpen = () => {
@@ -162,8 +163,12 @@ export default function AlarmModal() {
           const response = await axios.get('http://110.165.17.35:8080/api/notification', {
           headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}` },
         },);
-        setNotifiation_count(response.data.length)
-        setOpen(true);  
+        console.log(response);
+        setNotifications(response);
+        setNotifiation_count(response.data.length);
+        console.log("알림 개수 : "+response.data.length);
+        console.log("알림 목록 : "+notifications);
+        setOpen(true);
         } catch(err){
           console.log(err);
         }
