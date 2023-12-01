@@ -126,6 +126,7 @@ const DetailPage = () => {
         });
         fetchPost();  // 인원 확정 후 게시물의 상세 정보 새로고침
       } catch (error) {
+        console.log(error);
         Swal.fire({
           icon: 'error',
           title: '인원 확정 실패',
@@ -149,6 +150,7 @@ const DetailPage = () => {
         });
         fetchPost(); // 결과 확정 후 게시물의 상세 정보 새로고침
       } catch (error) {
+        console.log(error);
         Swal.fire({
           icon: 'error',
           title: '결과 확정 실패',
