@@ -9,7 +9,7 @@ function TopBar(){
             <div className="status-bar__column">
                 <NavLink to={"./Home"}>
                 <img src={LogoImg}
-                    style={{ width: "70px", height: "30px" }}/>
+                    style={{ width: "72px", height: "32px" }}/>
                 </NavLink>
             </div>
             <div className="status-bar__column"></div>
