@@ -76,12 +76,13 @@ import axios from 'axios';
 ]
  */
 
-const handleDelete = (value) => {
+const handleDelete = (e) => {
   console.log("알림 삭제");
-  console.log(value);
+  console.log(e);
+  console.log(e.target.value);
   try {
     const access_token = JSON.parse(localStorage.getItem('access_token'));
-    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${value}`, {
+    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${e.target.id}`, {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
@@ -97,8 +98,9 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="success" value={notification.id} onClose={handleDelete}>
+            <Alert severity="success" value={notification.id} onClose={(e) => handleDelete(e)}>
               <AlertTitle>경기 확정</AlertTitle>
+              {notification.id} //
               {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -108,8 +110,9 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="info" value={notification.id} onClose={handleDelete}>
+            <Alert severity="info" value={notification.id} onClose={(e) => handleDelete(e)}>
               <AlertTitle>경기 결과 확정</AlertTitle>
+              {notification.id} //
               {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -119,8 +122,9 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="info" onClose={handleDelete}>
+            <Alert severity="info" value={notification.id} onClose={(e) => handleDelete(e)}>
               <AlertTitle>경기 하루 전 알림</AlertTitle>
+              {notification.id} //
               {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -130,8 +134,9 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="warning" onClose={handleDelete}>
+            <Alert severity="warning" value={notification.id} onClose={(e) => handleDelete(e)}>
               <AlertTitle>신고 접수 완료</AlertTitle>
+              {notification.id}
               {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
@@ -184,7 +189,7 @@ export default function AlarmModal() {
           setNotificationAPI(response.data);
           setNotifiation_count(response.data.length);
           console.log("알림 개수 : " + response.data.length);
-          console.log("알림 목록 : " + response);
+          console.log("알림 목록 : " + response.data);
           setOpen(true);
         } catch (err) {
           console.log(err);
@@ -231,7 +236,6 @@ export default function AlarmModal() {
               <Container maxWidth="sm">
                 <Box sx={{ height: '10px' }} />
                 <Stack sx={{ width: '100%' }} spacing={2}>
-                  {/* {Notifications.map(notification => <Notification notification={notification} />)} */}
                   {notificationAPI.map(notification => <Notification notification={notification} id={notification.id} />)}
                 </Stack>
 
@@ -242,7 +246,6 @@ export default function AlarmModal() {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                  {/* <ReactLoading type="spin" color="#A593E0" /> */}
                   <Box sx={{ height: '70px' }} />
                 </Container>
               </Container>
