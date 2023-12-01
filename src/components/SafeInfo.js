@@ -7,13 +7,20 @@ import safeRule from '../images/safeRule.png';
 import safeRule2 from '../images/safeRule2.png';
 import safeRule3 from '../images/safeRule3.png';
 import safeRule4 from '../images/safeRule4.png';
+import { useNavigate } from 'react-router-dom';
 
 export default function SafeInfo() {
+
+    const navigate = useNavigate();
+    const handleBack = () => {
+        navigate('/MyProfile');
+    }
+
     return (
         <div>
             <Container maxWidth="sm">
                 <Box sx={{ height: '20px' }} />
-                <IconButton onClick={handleClose}>
+                <IconButton onClick={handleBack}>
                     <ArrowBackIcon />
                 </IconButton>
                 <Box sx={{
