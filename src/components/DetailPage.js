@@ -118,6 +118,7 @@ const DetailPage = () => {
             Authorization: `Bearer ${access_token}`
           }
         });
+        console.log(response);
         Swal.fire({
           icon: 'success',
           title: '인원 확정 성공',
@@ -140,6 +141,7 @@ const DetailPage = () => {
           gameId: gameId,
           gameResult: result
         }, {headers: {Authorization: `Bearer ${access_token}`}});
+        console.log(response);
         Swal.fire({
           icon: 'success',
           title: '결과 확정 성공',
