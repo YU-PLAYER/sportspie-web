@@ -76,12 +76,12 @@ import axios from 'axios';
 ]
  */
 
-const handleDelete = (event) => {
+const handleDelete = (value) => {
   console.log("알림 삭제");
-  console.log(event.target.id);
+  console.log(value);
   try {
     const access_token = JSON.parse(localStorage.getItem('access_token'));
-    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${event.target.id}`, {
+    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${value}`, {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
@@ -97,9 +97,9 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="success" onClose={handleDelete}>
-              <AlertTitle>{notification.date}</AlertTitle>
-              {notification.time} {notification.stadiumName}의 {notification.content}
+            <Alert severity="success" value={notification.id} onClose={handleDelete}>
+              <AlertTitle>경기 확정</AlertTitle>
+              {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -108,9 +108,9 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="success" onClose={handleDelete}>
-              <AlertTitle>{notification.date}</AlertTitle>
-              {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+            <Alert severity="info" value={notification.id} onClose={handleDelete}>
+              <AlertTitle>경기 결과 확정</AlertTitle>
+              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -120,8 +120,8 @@ function Notification({ notification }) {
         <div>
           {
             <Alert severity="info" onClose={handleDelete}>
-              <AlertTitle>{notification.date}</AlertTitle>
-              {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              <AlertTitle>경기 하루 전 알림</AlertTitle>
+              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -131,8 +131,8 @@ function Notification({ notification }) {
         <div>
           {
             <Alert severity="warning" onClose={handleDelete}>
-              <AlertTitle>{notification.date}</AlertTitle>
-              {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              <AlertTitle>신고 접수 완료</AlertTitle>
+              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -184,7 +184,7 @@ export default function AlarmModal() {
           setNotificationAPI(response.data);
           setNotifiation_count(response.data.length);
           console.log("알림 개수 : " + response.data.length);
-          console.log("알림 목록 : " + notificationAPI);
+          console.log("알림 목록 : " + response);
           setOpen(true);
         } catch (err) {
           console.log(err);
