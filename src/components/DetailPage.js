@@ -49,9 +49,9 @@ const DetailPage = () => {
         Swal.fire({
           icon: 'error',
           title: '사용자 정보 조회 오류',
-          html: '서버에서 사용자 정보를 불러오는데 실패하였습니다. <br/> 다시 시도해 주십시오.'
+          html: '서버에서 사용자 정보를 불러오는데 실패하였습니다. <br/> 로그인 후 다시 시도해 주십시오.'
         });
-        navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
+        navigate('/Login'); // 오류 발생 시 로그인 페이지로 이동
       }
     };
     fetchUser();
