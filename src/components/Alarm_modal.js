@@ -16,107 +16,6 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 
-const handleDelete = (e) => {
-  console.log("알림 삭제");
-
-};
-
-function Notification({ notification }) {
-  switch (notification.type) {
-    case 'GAME_CONFIRMED':
-      return (
-        <div>
-          {
-            <Alert severity="success" value={notification.id} onClose={(value) => {
-              try {
-                console.log(notification.id);
-                const access_token = JSON.parse(localStorage.getItem('access_token'));
-                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
-                  headers: {
-                    Authorization: `Bearer ${access_token}`
-                  }
-                });
-              } catch (err) {
-              }
-            }}>
-              <AlertTitle>경기 확정</AlertTitle>
-              {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
-            </Alert>
-          }
-        </div>
-      )
-    case 'RESULTS_CONFIRMED':
-      return (
-        <div>
-          {
-            <Alert severity="info" value={notification.id} onClose={(value) => {
-              try {
-                console.log(notification.id);
-                const access_token = JSON.parse(localStorage.getItem('access_token'));
-                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
-                  headers: {
-                    Authorization: `Bearer ${access_token}`
-                  }
-                });
-                this.handleClose();
-              } catch (err) {
-              }
-            }}>
-              <AlertTitle>경기 결과 확정</AlertTitle>
-              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
-            </Alert>
-          }
-        </div>
-      )
-    case 'DATE_IMMINENT':
-      return (
-        <div>
-          {
-            <Alert severity="info" value={notification.id} onClose={(value) => {
-              try {
-                console.log(notification.id);
-                const access_token = JSON.parse(localStorage.getItem('access_token'));
-                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
-                  headers: {
-                    Authorization: `Bearer ${access_token}`
-                  }
-                });
-              } catch (err) {
-              }
-            }}>
-              <AlertTitle>경기 하루 전 알림</AlertTitle>
-              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
-            </Alert>
-          }
-        </div>
-      )
-    case 'REPORTED':
-      return (
-        <div>
-          {
-            <Alert severity="warning" value={notification.id} onClose={(e) => {
-              try {
-                console.log(notification.id);
-                const access_token = JSON.parse(localStorage.getItem('access_token'));
-                const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
-                  headers: {
-                    Authorization: `Bearer ${access_token}`
-                  }
-                });
-              } catch (err) {
-              }
-              handleDelete(e);
-            }
-            }>
-              <AlertTitle>신고 접수 완료</AlertTitle>
-              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
-            </Alert>
-          }
-        </div>
-      )
-  }
-}
-
 const style = {
   position: 'fixed',
   top: '50%',
@@ -131,15 +30,17 @@ const style = {
 
 export default function AlarmModal() {
 
+  useState();
+
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
   const [notificationAPI, setNotificationAPI] = useState([]);
   const [notification_count, setNotifiation_count] = useState(0);
-  
-  useEffect(() => { 
-    
+
+  useEffect((e) => {
+
   }, [notificationAPI]);
 
   const handleOpen = () => {
@@ -169,6 +70,121 @@ export default function AlarmModal() {
       }
     };
     fetchUser();
+  }
+
+
+  function Notification({ notification }) {
+
+    useEffect((e) => {
+      const UpdateNotification = async () => {
+        try {
+          const response = await axios.get('http://110.165.17.35:8080/api/notification', {
+            headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}` },
+          },)
+          console.log(response);
+          setNotificationAPI(response.data);
+          setNotifiation_count(response.data.length);
+          console.log("알림 개수 : " + response.data.length);
+          console.log("알림 목록 : " + response.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    });
+
+    switch (notification.type) {
+      case 'GAME_CONFIRMED':
+        return (
+          <div>
+            {
+              <Alert severity="success" value={notification.id} onClose={(value) => {
+                try {
+                  console.log(notification.id);
+                  const access_token = JSON.parse(localStorage.getItem('access_token'));
+                  const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                    headers: {
+                      Authorization: `Bearer ${access_token}`
+                    }
+                  });
+                } catch (err) {
+                }
+              }}>
+                <AlertTitle>경기 확정</AlertTitle>
+                {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
+              </Alert>
+            }
+          </div>
+        )
+      case 'RESULTS_CONFIRMED':
+        return (
+          <div>
+            {
+              <Alert severity="info" value={notification.id} onClose={(value) => {
+                try {
+                  console.log(notification.id);
+                  const access_token = JSON.parse(localStorage.getItem('access_token'));
+                  const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                    headers: {
+                      Authorization: `Bearer ${access_token}`
+                    }
+                  });
+                  this.handleClose();
+                } catch (err) {
+                }
+              }}>
+                <AlertTitle>경기 결과 확정</AlertTitle>
+                {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              </Alert>
+            }
+          </div>
+        )
+      case 'DATE_IMMINENT':
+        return (
+          <div>
+            {
+              <Alert
+                severity="info" value={notification.id} onClose={(value) => {
+                  try {
+                    console.log(notification.id);
+                    const access_token = JSON.parse(localStorage.getItem('access_token'));
+                    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                      headers: {
+                        Authorization: `Bearer ${access_token}`
+                      }
+                    });
+                  } catch (err) {
+                  }
+                }}>
+                <AlertTitle>경기 하루 전 알림</AlertTitle>
+                {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              </Alert>
+            }
+          </div>
+        )
+      case 'REPORTED':
+        return (
+          <div>
+            {
+              <Alert severity="warning" value={notification.id} onClose={(e) => {
+                try {
+                  console.log(notification.id);
+                  const access_token = JSON.parse(localStorage.getItem('access_token'));
+                  const response = axios.delete(`http://110.165.17.35:8080/api/notification/${notification.id}`, {
+                    headers: {
+                      Authorization: `Bearer ${access_token}`
+                    }
+                  });
+                } catch (err) {
+                }
+              }
+              }>
+                <AlertTitle>신고 접수 완료</AlertTitle>
+                {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              </Alert>
+            }
+          </div>
+        )
+    }
   }
 
   return (
@@ -211,7 +227,7 @@ export default function AlarmModal() {
                   {notificationAPI.map(notification => <Notification notification={notification} id={notification.id} />)}
                   <Alert onClose={false}>알림삭제 테스트</Alert>
                 </Stack>
-                
+
                 <Box sx={{ height: '20px' }} />
                 <Container sx={{
                   display: 'flex',
