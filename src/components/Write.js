@@ -63,6 +63,7 @@ export default function Write() {
         const response = await axios.get('http://110.165.17.35:8080/api/stadium', {
           headers:  { Authorization: `Bearer ${access_token}`},
         },);
+        console.log(response);
         setStadiumlist(response); // 경기장 정보를 상태에 저장
       } catch (error) {
         Swal.fire({
@@ -78,7 +79,7 @@ export default function Write() {
   
   var DefaultTitle = [
     "풋살 즐겜하실 멤버 구합니다!", 
-    "가볍게 풋살하실 멤버 모집합니다~", 
+    "가볍게 풋살 할 멤버 모집해요~", 
     "심심한데 축구 한 판 어때요?",
     "다치지 않게 경기해요",
     "같이 공 찰 분 모집합니다."
@@ -109,8 +110,6 @@ export default function Write() {
     if (e.target.value.length > 20) alert("방제목은 20글자까지만 가능합니다.");
     else setTitle(e.target.value);
   };
-
-
 
   useEffect(() => {
     setStadium(stadium);
@@ -149,7 +148,8 @@ export default function Write() {
   };
 
   const handleContent = e => {
-    setContent(e.target.value);
+    if (e.target.value.length > 200) alert("경기글 상세 내역은 200글자까지만 가능합니다.");
+    else setContent(e.target.value);
   };
 
   const handleTime = (newValue) => {
@@ -248,17 +248,11 @@ export default function Write() {
           },
           headers:{Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}`}
         })
-        if(response.status==200){
-          Swal.fire({
-            icon: 'success',
-            text: '경기글 작성에 성공하였습니다.'
-          }).then(navigate('/Home'));
-        } else {
-          Swal.fire({
-            icon: 'warning',
-            text: '오류가 발생하였습니다.'
-          }).then(navigate('/Home'));
-        } 
+        Swal.fire({
+          icon: 'success',
+          text: '경기글 작성에 성공하였습니다.'
+        }).then(navigate('/Home'));
+  
       } catch (err) {
         console.log(err);
       }
