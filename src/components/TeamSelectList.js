@@ -76,7 +76,7 @@ function TeamSelectList({id, post}) {
             })
             .catch((error)=>{console.log('요청 실패')
             console.log(error)
-            if(error.response.data["message"]===`경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다.`){
+            if(error.response.data["message"]===`경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다.` || error.response.data["message"]==="경기 시작시간이 지났거나, 경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다."){
                 if(team==="HOME") setHome(0);
                 else if(team==="AWAY") setAway(0);
                 Swal.fire({

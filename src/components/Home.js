@@ -22,8 +22,6 @@ import SNOW from '../images/whitesnow.png';
 import { getAccessNaverToken } from './getAccessNaverToken';
 import { getAccessKakaoToken } from './getAccessKakaoToken';
 import { useNavigate } from 'react-router-dom';
-//import { ListItemSecondaryAction } from '@mui/material';
-//import { ConsoleWriter } from 'istanbul-lib-report';
 
 export default function Home() {
   const now = dayjs();
@@ -36,6 +34,8 @@ export default function Home() {
   const [games, setGames] = useState([{}]);
   const [totalpage, settotalpage] = useState(1);
   const [pages, setPages] = useState(1);
+  const [isHoverdate, setIsHoverdate] = useState(0);
+  const [isHover, setIsHover] = useState("");
   //소셜로그인
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -133,29 +133,30 @@ export default function Home() {
   //날짜 list component
   function DayList({date, day}){
     return (
-    <div onClick={()=>{SetClick(date);}} style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-                width:"40px", height:"40px", borderRadius:"10px", margin:"2px 0", cursor:"pointer",
-                boxShadow : (click===date) ? "0px 0px 5px 0px rgba(0, 0, 0, 0.15)" : "0px 0px 5px 0px rgba(0, 0, 0, 0)", 
-                color : (day==='일')? "rgb(255, 69, 69)" : ((day==='토') ? "rgb(69, 75, 255)" : "black")
+    <div onClick={()=>{SetClick(date); setPages(1);}} onMouseEnter={()=>setIsHoverdate(date)} onMouseLeave={()=>setIsHoverdate(0)} style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+                width:"40px", height:"40px", borderRadius:"10px", margin:"2px 0", cursor:"pointer", fontWeight: (click===date) ? "bold":"normal", 
+                boxShadow : (click===date) ? "0px 0px 5px 0px rgba(0, 0, 0, 0.15)" : (isHoverdate===date)?"0px 0px 5px 0px rgba(0, 0, 0, 0.09)":"0px 0px 5px 0px rgba(0, 0, 0, 0)", 
+                color : (day==='일')? "rgb(255, 69, 69)" : ((day==='토') ? "rgb(69, 75, 255)" : "black"),
                 }}>
-                    <span style={{fontSize:"13px", paddingBottom:"2px"}}>{date}</span>
-                    <span style={{fontSize:"10px"}}>{day}</span>
+                    <span style={{fontSize:(click===date) ? "14px": "13px", paddingBottom:"2px"}}>{date}</span>
+                    <span style={{fontSize:(click===date) ? "11px": "10px"}}>{day}</span>
                 </div>
     );}
     
   //경기목록 component
   function PlayList({item}){
     const time = item.time ? item.time.slice(0,5) : '';
+    var length = item.title ? item.title.length : 0;
     var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : item.weather === "RAIN" ? RAINY : item.weather === "SNOW" ? SNOW : '';
     return(
-      <div className="play-list" onClick={()=>handleclick(item.gameId)} style={{cursor:"pointer"}}>
-        <div className="play-list_room">
+      <div className= "play-list" onClick={()=>{handleclick(item.gameId);}} onMouseEnter={()=>setIsHover(item.gameId)} onMouseLeave={()=>setIsHover("")} style={{cursor:"pointer"}}>
+        <div className={isHover===item.gameId ? "play-list_room play-list_room-hover" : "play-list_room"} >
           <div style={{width:"50px", display:'flex', flexDirection:"column", height:"100%", justifyContent:'center', alignItems:"center"}}>
             <span style={{fontSize:'13px'}}>{time}</span>
           </div>
           <div style={{display:"flex"}}>
-          <div className="play-list-room_title">
-            <span style={{fontWeight:'bold', marginTop:'3px'}}>{item.title}</span>
+          <div className="play-list-room_title" style={{marginRight:"2px"}}>
+            <span style={{fontWeight:'bold', marginTop:'3px'}}>{length>16 ? `${item.title.slice(0,14)}...` : `${item.title}`}</span>
             <span style={{fontSize:'11px', marginTop:'5px',}}>{item.stadiumName}</span>
           </div>
           <span><img src={weather} alt='weather' style={{width:'35px', height:'35px'}}/></span>
@@ -208,13 +209,15 @@ export default function Home() {
 
         <div className="play-search">
                 <div className="play-search_new">
-                    <button onClick={()=>{setASC(true); setDESC(false);}} style={{cursor:"pointer", color:'black'}}>
+                    <button onClick={()=>{setASC(true); setDESC(false);}} onMouseEnter={()=>setIsHover("ASC")} onMouseLeave={()=>setIsHover("")} 
+                    style={{cursor:"pointer", color: isHover==="ASC"&&ASC===false?'rgba(0,0,0,0.6)' : 'black', fontWeight:ASC===true?"bold":"normal", fontSize:ASC===true?"11.5px":"11px"}}>
                         <div className="play-search_dot"></div>
                         <span>최신순</span>
                     </button>
                 </div>
                 <div className="play-search_distance">
-                    <button onClick={()=>{setASC(false); setDESC(true);}} style={{cursor:"pointer", color:'black'}}>
+                    <button onClick={()=>{setASC(false); setDESC(true);}} onMouseEnter={()=>setIsHover("DESC")} onMouseLeave={()=>setIsHover("")} 
+                    style={{cursor:"pointer", color:isHover==="DESC"&&DESC===false?'rgba(0,0,0,0.6)' :'black', fontWeight:DESC===true?"bold":"normal",fontSize:DESC===true?"11.5px":"11px" }}>
                         <div className="play-search_dot"></div>
                         <span>과거순</span>
                     </button>
@@ -227,7 +230,7 @@ export default function Home() {
                 </div>
           </div>
             {games.map((item, index)=>
-              <PlayList item={item} key={index}/>
+              <PlayList item={item} key={index} />
             )}
         </Box>
         <StyledEngineProvider injectFirst>

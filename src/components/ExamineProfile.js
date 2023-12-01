@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container } from '@mui/system';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -118,6 +119,7 @@ const ExamineProfile = () => {
 
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
     <Container maxWidth="sm">
+      <Containers>
       <ProfileBox>
         <UserImage src={publicProfile ? imageUrl : default_img} onClick={toEnlarge} />
         {Enlarge && (
@@ -166,13 +168,14 @@ const ExamineProfile = () => {
           </RecordBoard>
         </RecordBox>) : (<PrivateRecordBox>전적 비공개</PrivateRecordBox>)}
       <BackToPageButton onClick={backToPage}>돌아가기</BackToPageButton>
+      </Containers>
     </Container>
   );
 };
 
 // 여기서부터 컴포넌트 스타일 지정
 
-const Container = styled.div`
+const Containers = styled.div`
   width:100%;
   height:auto;
   text-align: left;
@@ -189,23 +192,20 @@ const ProfileBox = styled.div`
 const UserImage = styled.img`
   cursor: pointer;
   border-radius: 50%;
-  width: 40%;
-  height: 20vh;
-  margin-top: 5%;
-  margin-left: 5%;
+  width: 150px;
+  height: 150px;
+  margin-right: 10px;
 `;
 
 const UserInfoBox = styled.div`
-  width: 40%;
+  width: 50%;
   background-color: #f5f5f5;
+  display:flex;
+  flex-direction:column;
   border-radius: 10%;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  margin-top: 5%;
-  margin-right: 5%;
-  font-size: 0.75em;
+  border-radius: 10%;
+  padding: 20px 10px;
+  font-size: 12px;
 `;
 
 const PrivateUserInfoBox = styled.div`
@@ -313,8 +313,10 @@ const GoalkeeperPosition = styled.div`
 `;
 
 const RecordBox = styled.div`
-  margin-top: 5%;
-  margin-left 5%;
+margin-top: 5%;
+display:flex;
+flex-direction:column;
+align-Items:center;
 `;
 
 const PrivateRecordBox = styled.div`
@@ -331,9 +333,10 @@ const PrivateRecordBox = styled.div`
 `;
 
 const Record = styled.div`
+  width:90%;
   font-size: 1em;
   font-weight: bold;
-  margin-left: 5%;
+  margin-bottom: 12px;
 `;
 
 const RecordBoard = styled.div`
@@ -341,9 +344,7 @@ const RecordBoard = styled.div`
   grid-template-row: repeat(2, 1fr);
   grid-template-columns: repeat(5, 1fr);
   width: 90%;
-  height: 10vh;
-  margin-top: 2vh;
-  margin-left: 5%;
+  height: 80px;
   border: 1px solid;
   border-color: white;
   border-radius: 5px;
@@ -351,7 +352,10 @@ const RecordBoard = styled.div`
 
 const Game = styled.div`
   border: 1px solid;
-  text-align: center;
+  height: 40px;
+  display:flex;
+  align-Items:center;
+  justify-content:center;
   line-height: 2em;
   color: white;
   border-radius: 5px;
