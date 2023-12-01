@@ -77,7 +77,7 @@ const MyProfile = () => {
           // 서버와 통신 에러 발생시 경고 메세지 출력 후 메인페이지로 이동
           Swal.fire({
             icon: 'error',
-            title: '통신 오류',
+            title: '로그인 필요',
             html: '로그인이 필요한 기능입니다.'
           });
           navigate('/Login');

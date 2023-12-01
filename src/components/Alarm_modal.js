@@ -47,7 +47,7 @@ function Notification({ notification, refreshNotifications }) {
           {
             <Alert severity="info" value={notification.id} onClose={deleteNotification}>
               <AlertTitle>경기 결과 확정</AlertTitle>
-              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -58,7 +58,7 @@ function Notification({ notification, refreshNotifications }) {
           {
             <Alert severity="info" value={notification.id} onClose={deleteNotification}>
               <AlertTitle>경기 하루 전 알림</AlertTitle>
-              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -69,7 +69,7 @@ function Notification({ notification, refreshNotifications }) {
           {
             <Alert severity="warning" value={notification.id} onClose={deleteNotification}>
               <AlertTitle>신고 접수 완료</AlertTitle>
-              {notification.date} {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
+              {notification.date} {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
