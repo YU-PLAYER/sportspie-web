@@ -23,14 +23,14 @@ function MatchListBox({item}){
         <Box sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
           marginTop:"10px", color:"#282828",  fontSize:"12px", overflow:"hidden"}}>
             <div style={{width:"15%",display:"flex", alignItems:"flex-start", height:"100%", 
-            boxSizing:"border-box", padding:"10px 3px 10px 10px", backgroundColor:`${color}`}}>
+            boxSizing:"border-box", padding:"10px 3px 10px 12px", backgroundColor:`${color}`}}>
               <p style={{color:"white"}}>{status}</p>
             </div>
             <div style={{width:"60%", margin:"0 10px"}}>
-              <p style={{marginBottom:"10px", fontSize:"14px",}}>{item.title}</p>
+              <p style={{marginBottom:"10px", fontSize:"13.5px", fontWeight:"600"}}>{item.title}</p>
               <p>{`${item.date.slice(5,7)}/${item.date.slice(8,)} ${item.time.slice(3,)}`}</p>
             </div>
-            <div style={{width:"30%", display:"flex", flexDirection:"column", alignItems:"flex-end", marginRight:"10px"}}>
+            <div style={{width:"30%", display:"flex", flexDirection:"column", alignItems:"flex-end", marginRight:"15px"}}>
               <p style={{marginBottom:"18px"}}>{rightup}</p>
               <p>{rightdown}</p>
             </div>

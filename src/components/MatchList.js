@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { useState , useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import All from './MatchList_All';
 import Planned from './MatchList_Planned';
 import End from './MatchList_End';
+import Swal from 'sweetalert2';
 import '../css/MatchListBtn.css';
 
 function MatchList() {
@@ -13,6 +16,23 @@ function MatchList() {
   const [isHover1, setIsHover1] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
   const [isHover3, setIsHover3] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => { //로그인 유무 확인
+      const access_token = JSON.parse(localStorage.getItem('access_token'));
+      axios.get('http://110.165.17.35:8080/api/user/me', {
+          headers:  { 
+            Authorization: `Bearer ${access_token}`
+          }}).catch((error)=>{
+        console.error("서버에서 사용자 정보를 불러오지 못했습니다.", error);
+        Swal.fire({
+          icon: 'error',
+          title: '로그인 필요',
+          html: '로그인이 필요한 기능입니다.'
+        });
+        navigate('/Login'); // 오류 발생 시 홈 페이지로 이동
+      })
+  }, []);
 
   const onClick = (event) => {
     setContent(event.target.name);

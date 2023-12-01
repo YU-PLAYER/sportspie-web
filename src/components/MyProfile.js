@@ -197,13 +197,13 @@ const MyProfile = () => {
           </ProfileView>
         )}
         <UserInfoBox>
-          <p style={{marginBottom:"4px"}}>닉네임 : {nickname} </p>
-          <p style={{marginBottom:"4px"}}>성별 : {gender} </p>
-          <p style={{marginBottom:"4px"}}>나이 : {age} 세</p>
-          <p style={{marginBottom:"4px"}}>지역 : {region} </p>
-          <p style={{marginBottom:"4px"}}>신장 : {height} cm</p>
-          <p style={{marginBottom:"4px"}}>체중 : {weight} kg</p>
-          <p>이메일 : {email} </p>
+          <span style={{marginBottom:"6px"}}>닉네임 : {nickname} </span>
+          <span style={{marginBottom:"6px"}}>성별 : {gender} </span>
+          <span style={{marginBottom:"6px"}}>나이 : {age} 세</span>
+          <span style={{marginBottom:"6px"}}>지역 : {region} </span>
+          <span style={{marginBottom:"6px"}}>신장 : {height} cm</span>
+          <span style={{marginBottom:"6px"}}>체중 : {weight} kg</span>
+          <span>이메일 : {email} </span>
         </UserInfoBox>
       </ProfileBox>
       <MessageBox>
@@ -268,15 +268,15 @@ const ProfileBox = styled.div`
 const UserImage = styled.img`
   cursor: pointer;
   border-radius: 50%;
-  width: 160px;
-  height: 160px;
+  width: 150px;
+  height: 150px;
   margin-right: 10px;
 `;
 
 const UserInfoBox = styled.div`
   width: 50%;
   background-color: #f5f5f5;
-  height: 110px;
+  height: 120px;
   display:flex;
   flex-direction:column;
   justify-content:center;
