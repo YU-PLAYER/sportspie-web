@@ -9,8 +9,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Badge from '@mui/material/Badge';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import ReactLoading from "react-loading";
-import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
@@ -35,7 +33,7 @@ import axios from 'axios';
 ]
 */
 
-const Notifications = [ // API 연습용 데이터
+/* const Notifications = [ // API 연습용 데이터
   {
     "id": 12,
     "content": "참여 신청하신 2023-11-30 17:00 팔공K스타디움 경기 하루 전입니다.",
@@ -76,7 +74,7 @@ const Notifications = [ // API 연습용 데이터
     "type": "REPORTED"
   }
 ]
-
+ */
 
 const handleDelete = (event) => {
   console.log("알림 삭제");
@@ -234,7 +232,7 @@ export default function AlarmModal() {
               <Container maxWidth="sm">
                 <Box sx={{ height: '10px' }} />
                 <Stack sx={{ width: '100%' }} spacing={2}>
-                  {Notifications.map(notification => <Notification notification={notification} />)}
+                  {/* {Notifications.map(notification => <Notification notification={notification} />)} */}
                   {notificationAPI.map(notification => <Notification notification={notification} />)}
                 </Stack>
 
