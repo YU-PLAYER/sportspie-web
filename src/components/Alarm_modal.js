@@ -239,7 +239,7 @@ export default function AlarmModal() {
                 <Box sx={{ height: '10px' }} />
                 <Stack sx={{ width: '100%' }} spacing={2}>
                   {/* {Notifications.map(notification => <Notification notification={notification} />)} */}
-                  {notificationAPI.map(notification => <Notification notification={notification} />)}
+                  {notificationAPI.map(notification => <Notification notification={notification} id={notification.id} />)}
                 </Stack>
 
                 <Box sx={{ height: '20px' }} />
