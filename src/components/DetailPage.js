@@ -281,7 +281,7 @@ const DetailPage = () => {
           </TeamSelectionUI>
         <ButtonContainer>
           {post.userId === user.id && <DeadlineButton disabled={!(post.status === 'BEFORE' && post.currentCapacity % 2 === 0)} onClick={handleConfirm}>인원 확정</DeadlineButton>}
-          {post.userId === user.id && <ConfirmationButton disabled={!(post.status === 'PROGRESS' && differenceInSeconds(new Date(post.startedAt), new Date()) >= 10)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
+          {post.userId === user.id && <ConfirmationButton disabled={!(post.status === 'PROGRESS' && differenceInSeconds(new Date(), new Date(post.startedAt)) >= 10)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
         </ButtonContainer>
         <DeleteButtonContainer>
           {post.userId === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
