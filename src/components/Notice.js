@@ -11,6 +11,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import ReactLoading from "react-loading";
+import { useNavigate } from 'react-router-dom';
 
 /* 
     [
@@ -26,6 +27,7 @@ import ReactLoading from "react-loading";
 
 export default function Notice() {
 
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [noticeAPI, setNoticeAPI] = useState([]);
 
@@ -141,13 +143,16 @@ export default function Notice() {
         setPage(p);
     }
 
+    const handleBack = () => {
+        navigate('/MyProfile');
+    }
 
     return (
 
         <div style={{ width: '100%', height: '100vh' }}>
             <Box>
                 <Box sx={{ height: '20px' }} />
-                    <IconButton onClick={handleClose}>
+                    <IconButton onClick={handleBack}>
                     <ArrowBackIcon />
                     </IconButton>
                 <Box sx={{ height: '20px' }} />
@@ -163,10 +168,10 @@ export default function Notice() {
                             <ReactLoading type="spin" color="#A593E0" />
                         </Container>
                         : <div>
-                            {page == 1 ? Notices.map(notice => (<Notice notice={notice} />)) 
+                            {page == 1 ? Notices.map(notice => (<Notice notice={notice} key={notice.id}/>)) 
                             : 
                             noticeAPI.map((noticeAPI) => (
-                                <Notice notice={noticeAPI}/>
+                                <Notice notice={noticeAPI} key={noticeAPI.id}/>
                             ))}
                         </div>
                     }

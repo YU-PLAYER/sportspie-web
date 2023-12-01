@@ -16,9 +16,9 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import Swal from 'sweetalert2';
 
 export default function Report() {
+    
     const navigate = useNavigate();
     const [stadium, setStadium] = useState([ // 예제로 임시로 넣었음. 실제 DB 데이터 x
         '23-11-01 19:00 영남대학교 축구장',

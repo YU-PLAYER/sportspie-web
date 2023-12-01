@@ -9,8 +9,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Badge from '@mui/material/Badge';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import ReactLoading from "react-loading";
-import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
@@ -35,7 +33,7 @@ import axios from 'axios';
 ]
 */
 
-const Notifications = [ // API 연습용 데이터
+/* const Notifications = [ // API 연습용 데이터
   {
     "id": 12,
     "content": "참여 신청하신 2023-11-30 17:00 팔공K스타디움 경기 하루 전입니다.",
@@ -76,6 +74,22 @@ const Notifications = [ // API 연습용 데이터
     "type": "REPORTED"
   }
 ]
+ */
+
+const handleDelete = (event) => {
+  console.log("알림 삭제");
+  console.log(event.target.id);
+  try {
+    const access_token = JSON.parse(localStorage.getItem('access_token'));
+    const response = axios.delete(`http://110.165.17.35:8080/api/notification/${event.target.id}`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    });
+  } catch (err) {
+
+  }
+};
 
 function Notification({ notification }) {
 
@@ -84,8 +98,11 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="success" onClose={() => { }}>
+            <Alert severity="success" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
+              {notification.time.hour}:
+              {notification.time.minute}
+              {notification.stadiumName} 의
               {notification.content}
             </Alert>
           }
@@ -95,8 +112,11 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="success" onClose={() => { }}>
+            <Alert severity="success" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
+              {notification.time.hour}:
+              {notification.time.minute}
+              {notification.stadiumName} 의
               {notification.content}
             </Alert>
           }
@@ -106,7 +126,7 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="info" onClose={() => { }}>
+            <Alert severity="info" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
               {notification.content}
             </Alert>
@@ -117,7 +137,7 @@ function Notification({ notification }) {
       return (
         <div>
           {
-            <Alert severity="warning" onClose={() => { }}>
+            <Alert severity="warning" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
               {notification.content}
             </Alert>
@@ -145,38 +165,42 @@ export default function AlarmModal() {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
-  const [notifications, setNotifications] = useState([]);
+  const [notificationAPI, setNotificationAPI] = useState([]);
   const [notification_count, setNotifiation_count] = useState(0);
+  
+  useEffect(() => { 
+    
+  }, [notificationAPI]);
 
   const handleOpen = () => {
     const fetchUser = async () => {
       const access_token = (localStorage.getItem('access_token'));
-      if(access_token == null){
+      if (access_token == null) {
         Swal.fire({
           icon: 'error',
           title: '로그인 필요',
           text: '로그인이 필요한 기능입니다.'
         });
         navigate('/Login'); // 로그인하지 않았을 시 로그인 페이지로 이동
-      } else{
-        try{
+      } else {
+        try {
           const response = await axios.get('http://110.165.17.35:8080/api/notification', {
-          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}` },
-        },);
-        console.log(response);
-        setNotifications(response);
-        setNotifiation_count(response.data.length);
-        console.log("알림 개수 : "+response.data.length);
-        console.log("알림 목록 : "+notifications);
-        setOpen(true);
-        } catch(err){
+            headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('access_token'))}` },
+          },)
+          console.log(response);
+          setNotificationAPI(response.data);
+          setNotifiation_count(response.data.length);
+          console.log("알림 개수 : " + response.data.length);
+          console.log("알림 목록 : " + notificationAPI);
+          setOpen(true);
+        } catch (err) {
           console.log(err);
         }
       }
     };
     fetchUser();
   }
-  
+
   return (
     <div>
       <IconButton onClick={handleOpen} sx={{ color: "black" }}>
@@ -214,7 +238,8 @@ export default function AlarmModal() {
               <Container maxWidth="sm">
                 <Box sx={{ height: '10px' }} />
                 <Stack sx={{ width: '100%' }} spacing={2}>
-                  {Notifications.map(notification => <Notification notification={notification} />)}
+                  {/* {Notifications.map(notification => <Notification notification={notification} />)} */}
+                  {notificationAPI.map(notification => <Notification notification={notification} />)}
                 </Stack>
 
                 <Box sx={{ height: '20px' }} />
