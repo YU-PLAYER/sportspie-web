@@ -150,7 +150,7 @@ export default function Home() {
     var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : item.weather === "RAIN" ? RAINY : item.weather === "SNOW" ? SNOW : '';
     return(
       <div className= "play-list" onClick={()=>{handleclick(item.gameId);}} onMouseEnter={()=>setIsHover(item.gameId)} onMouseLeave={()=>setIsHover("")} style={{cursor:"pointer"}}>
-        <div className={isHover===item.gameId ? "play-list_room play-list_room-hover" : "play-list_room"} >
+        <div className={isHover===item.gameId ? "play-list_room play-list_room-hover" :  "play-list_room"} >
           <div style={{width:"50px", display:'flex', flexDirection:"column", height:"100%", justifyContent:'center', alignItems:"center"}}>
             <span style={{fontSize:'13px'}}>{time}</span>
           </div>

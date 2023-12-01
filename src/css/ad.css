@@ -24,6 +24,7 @@
   border-radius: 15px;
   object-fit: cover;
 }
+
 .swiper-button-prev,
 .swiper-button-next {
   height:40px;
@@ -32,11 +33,19 @@
   border-radius: 20px;
   color: black !important;
 }
+
+.swiper-button-prev:hover{
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.swiper-button-next:hover{
+  background-color: rgba(0, 0, 0, 0.08);
+}
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-size: 1.1rem !important;
   font-weight: 600 !important;
 }
+
 .swiper-button-prev:after{
   right: -20px;
 }
@@ -80,6 +89,10 @@
     background-color:rgba(60, 60, 60, 0.05);
   }
 
+  #play-search-form input:focus::placeholder{
+    color: transparent;
+  }
+
   .play-list{
     width:98%;
     margin-top: 12px;
@@ -102,8 +115,8 @@
   .play-list_room-hover{
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    color: rgba(0, 0, 0, 0.5);
-    border-bottom-color: rgba(0,0,0,0.15);
+    color: rgba(0, 0, 0, 0.4);
+    border-bottom-color: rgba(0,0,0,0.16);
   }
   
   .play-list-room_title{
@@ -115,3 +128,4 @@
   .css-wjh20t-MuiPagination-ul{
     justify-content: center;
   }
+

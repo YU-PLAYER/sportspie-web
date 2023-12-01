@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
-import Container from '@mui/material/Container';
-import '../css/TeamSelectList.css';
-import { ClickAwayListener } from '@mui/material';
 function TeamSelectList({id, post}) {
     const [home, setHome] = useState(true);
     const [away, setAway] = useState(true);
@@ -15,6 +12,7 @@ function TeamSelectList({id, post}) {
     const [awaylist, setAwaylist] = useState([{}]);
     const [homeclick, setHomeclick] = useState(true); //rerendering 용도
     const [awayclick, setAwayclick] = useState(true); //rerendering 용도
+    const [isHover, setIsHover] = useState(false);
     useEffect(()=>{
         const userid = JSON.parse(localStorage.getItem('access_token'));
         axios.get('http://110.165.17.35:8080/api/user/me',
@@ -156,8 +154,8 @@ function TeamSelectList({id, post}) {
                 <Playerlist item={item} key={index} />
                 )}
             </section>
-            <button value="HOME" disabled={((home===0)) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
-                visibility: (iswriter===true) ?  "hidden" : "visible", position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
+            <button onMouseEnter={()=>setIsHover(0)} onMouseLeave={()=>setIsHover(false)} value="HOME" disabled={((home===0)) ? true : ((away===false) ? true : false)} onClick={(e)=>{setHome(!home); handleClick(e);}} style={{
+                visibility: (iswriter===true) ?  "hidden" : "visible", position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:isHover===0 ? "rgba(0, 0, 0, 0.06)" : "rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{home===0 ? `마감` : (home===true?`신청하기` : `취소하기`)}</button>
         </div>
       </Box>
@@ -177,8 +175,8 @@ function TeamSelectList({id, post}) {
                     <Playerlist item={item} key={index} />
                     )}
             </section>
-            <button value="AWAY" disabled={((away===0)) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
-                visibility: (iswriter===true) ?  "hidden" : "visible", position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor:"rgba(0, 0, 0, 0.08)", 
+            <button onMouseEnter={()=>setIsHover(1)} onMouseLeave={()=>setIsHover(false)} value="AWAY" disabled={((away===0)) ? true : ((home===false) ? true : false)} onClick={(e)=>{setAway(!away); handleClick(e);}} style={{
+                visibility: (iswriter===true) ?  "hidden" : "visible", position:"absolute", bottom:"0px", width:'100%', height:'40px',backgroundColor : isHover===1 ? "rgba(0, 0, 0, 0.06)" : "rgba(0, 0, 0, 0.08)", 
                 borderBottom:'1px solid', borderColor:"rgba(0, 0, 0, 0.05)", fontSize:"15px", fontWeight:"bold", cursor:"pointer"}}>{away===0 ? `마감` : (away===true?`신청하기` : `취소하기`)}</button>
         </div>
       </Box>
