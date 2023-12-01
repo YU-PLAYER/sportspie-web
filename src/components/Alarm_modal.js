@@ -92,7 +92,6 @@ const handleDelete = (event) => {
 };
 
 function Notification({ notification }) {
-
   switch (notification.type) {
     case 'GAME_CONFIRMED':
       return (
@@ -100,10 +99,7 @@ function Notification({ notification }) {
           {
             <Alert severity="success" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
-              {notification.time.hour}
-              {notification.time.minute}
-              {notification.stadiumName}의 
-              {notification.content}
+              {notification.time} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -114,10 +110,7 @@ function Notification({ notification }) {
           {
             <Alert severity="success" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
-              {notification.time.hour}
-              {notification.time.minute}
-              {notification.stadiumName}의 
-              {notification.content}
+              {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -128,7 +121,7 @@ function Notification({ notification }) {
           {
             <Alert severity="info" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
-              {notification.content}
+              {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>
@@ -139,7 +132,7 @@ function Notification({ notification }) {
           {
             <Alert severity="warning" onClose={handleDelete}>
               <AlertTitle>{notification.date}</AlertTitle>
-              {notification.content}
+              {notification.time.hour} {notification.time.minute} {notification.stadiumName}의 {notification.content}
             </Alert>
           }
         </div>

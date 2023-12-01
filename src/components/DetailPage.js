@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
-import { differenceInHours } from "date-fns";
+import { differenceInSeconds } from "date-fns";
 import SUNNY from '../images/sunny.jpg';
 import CLOUDY from '../images/cloudy.jpg';
 import RAINY from '../images/rainy.jpg';
@@ -88,9 +88,8 @@ const DetailPage = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 다시 시도해 주십시오.'
+            html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 로그인을 한 뒤 다시 시도해 주십시오.'
           });
-          navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
 
@@ -290,7 +289,7 @@ const DetailPage = () => {
           </TeamSelectionUI>
         <ButtonContainer>
           {post.userId === user.id && <DeadlineButton disabled={!(post.status === 'BEFORE' && post.currentCapacity % 2 === 0)} onClick={handleConfirm}>인원 확정</DeadlineButton>}
-          {post.userId === user.id && <ConfirmationButton disabled={!(post.status === 'PROGRESS' && differenceInHours(new Date(post.startedAt), new Date()) >= 2)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
+          {post.userId === user.id && <ConfirmationButton disabled={!(post.status === 'PROGRESS' && differenceInSeconds(new Date(post.startedAt), new Date()) >= 10)} onClick={handleResultButtonClick}>결과 확정</ConfirmationButton>}
         </ButtonContainer>
         <DeleteButtonContainer>
           {post.userId === user.id && <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>}
