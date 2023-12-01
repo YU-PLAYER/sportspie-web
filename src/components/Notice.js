@@ -168,10 +168,10 @@ export default function Notice() {
                             <ReactLoading type="spin" color="#A593E0" />
                         </Container>
                         : <div>
-                            {page == 1 ? Notices.map(notice => (<Notice notice={notice} />)) 
+                            {page == 1 ? Notices.map(notice => (<Notice notice={notice} key={notice.id}/>)) 
                             : 
                             noticeAPI.map((noticeAPI) => (
-                                <Notice notice={noticeAPI}/>
+                                <Notice notice={noticeAPI} key={noticeAPI.id}/>
                             ))}
                         </div>
                     }
