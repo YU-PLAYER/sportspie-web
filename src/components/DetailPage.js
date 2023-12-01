@@ -90,6 +90,7 @@ const DetailPage = () => {
             title: '통신 오류',
             html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 로그인을 한 뒤 다시 시도해 주십시오.'
           });
+          navigate('/Login');
       }
     };
 
