@@ -398,6 +398,7 @@ const RecordBoard = styled.div`
 
 const Game = styled.div`
   border: 1px solid;
+  height: 100%;
   display:flex;
   align-Items:center;
   justify-content:center;
