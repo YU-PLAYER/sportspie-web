@@ -16,3 +16,4 @@ npm install date-fns <br>
 
 <페이지별 기능 설명>
 
+![Alt text](image.png)
