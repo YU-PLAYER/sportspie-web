@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
-import { differenceInHours } from "date-fns";
+import { differenceInSeconds } from "date-fns";
 import SUNNY from '../images/sunny.jpg';
 import CLOUDY from '../images/cloudy.jpg';
 import RAINY from '../images/rainy.jpg';
@@ -88,9 +88,8 @@ const DetailPage = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 다시 시도해 주십시오.'
+            html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 로그인을 한 뒤 다시 시도해 주십시오.'
           });
-          navigate('/Home'); // 오류 발생 시 홈 페이지로 이동
       }
     };
 
