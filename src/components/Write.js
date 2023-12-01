@@ -38,6 +38,7 @@ export default function Write() {
   const [authorId, setAuthorId] = useState(1);
   const [stadiumlist, setStadiumlist] = useState([]);
    
+  
    useEffect(() => { // 사용자 정보를 불러오는 useEffect
     const fetchUser = async () => {
       try {
@@ -113,6 +114,21 @@ export default function Write() {
 
   useEffect(() => {
     setStadium(stadium);
+    
+    /* console.log(stadiumlist.data);
+    console.log(Object.keys(stadiumlist).length);
+    console.log("경기장 번호 찾기...");
+    for(let i=0; i<stadiumlist.length; i++){
+      console.log(i);
+      console.log(stadiumlist.data.name);
+      console.log(stadiumlist.data.id);
+      if(stadiumlist.data.name == stadium){
+        setStadiumId(stadiumlist.data.id);
+        console.log(stadium+'의 경기장 번호는 '+ stadiumlist.data.id + "입니다.");
+        break;
+      }
+    } */
+    
     if (stadium == '비산실내풋살파크') {
       setStadiumId(1);
     } else if (stadium == '대구풋살') {
