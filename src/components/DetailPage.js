@@ -67,15 +67,6 @@ const DetailPage = () => {
     const fetchPost = async () => { // 경기글의 상세 정보를 불러오기
       try {
         const access_token = JSON.parse(localStorage.getItem('access_token'));
-
-        if (!access_token) {
-          // 로그인이 되어 있지 않은 경우 경고창 출력 후 로그인 페이지로 이동
-          Swal.fire({
-            icon: 'error',
-            title: '로그인이 필요한 기능입니다.',
-          });
-          navigate('/Login');
-        }
         
         const response = await axios.get(`http://110.165.17.35:8080/api/game/detail/${gameId}`, {
           headers: {
@@ -88,8 +79,9 @@ const DetailPage = () => {
           Swal.fire({
             icon: 'error',
             title: '통신 오류',
-            html: '서버에서 데이터를 불러오는데 실패하였습니다. <br/> 로그인을 한 뒤 다시 시도해 주십시오.'
+            html: '로그인이 필요한 기능입니다.'
           });
+          navigate('/Login');
       }
     };
 
