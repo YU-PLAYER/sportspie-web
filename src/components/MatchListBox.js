@@ -26,7 +26,7 @@ function MatchListBox({item}){
 
     if(item.date !== undefined){
     return(
-        <Box onClick={()=>console.log(item)} sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
+        <Box onClick={()=>handleclick(item.gameId)} sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
           marginTop:"10px", color:"#282828",  fontSize:"12px", overflow:"hidden", cursor:"pointer"}}>
             <div style={{width:"15%",display:"flex", alignItems:"flex-start", height:"100%", 
             boxSizing:"border-box", padding:"10px 3px 10px 12px", backgroundColor:`${color}`}}>
