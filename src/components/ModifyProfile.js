@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Container from '@mui/material/Container';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
@@ -235,33 +236,34 @@ const PositionCheck = (position, setPosition) => {
   });
 };
   return ( // 뷰를 구성하는 컴포넌트 레이아웃 부분
-    <Container maxWidth="sm">
+  <Container maxWidth="sm">
+    <Containers>
       <ProfileBox>
         <UserImage src={imageUrl} onClick={ProfileImageChange} />
         <UserInfoBox>
           <InputLabel>
             닉네임 : 
-            <Input type="text" name="setNickname" value={nickname} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}}type="text" name="setNickname" value={nickname} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             성별 : 
-            <Input type="text" name="setGender" value={gender} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="text" name="setGender" value={gender} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             나이 : 
-            <Input type="text" name="setAge" value={age} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="text" name="setAge" value={age} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             지역 : 
-            <Input type="text" name="setRegion" value={region} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="text" name="setRegion" value={region} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             신장 : 
-            <Input type="text" name="setHeight" value={height} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="text" name="setHeight" value={height} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             체중 : 
-            <Input type="text" name="setWeight" value={weight} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="text" name="setWeight" value={weight} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             이메일 : 
@@ -339,53 +341,58 @@ const PositionCheck = (position, setPosition) => {
           <Slider checked={publicRecord} />
         </ToggleSW>
       </OnoffBox>
+      <div style={{width:"100%"}}>
       <CancelButton onClick={CancelButtonSave}>취소하기</CancelButton>
       <SaveButton onClick={ProfileUpdate}>저장하기</SaveButton>
+      </div>
+    </Containers>
     </Container>
   );
 };
 
 // 여기서부터 컴포넌트 스타일 지정
 
-const Container = styled.div`
+const Containers = styled.div`
   width:100%;
   height:auto;
   text-align: left;
+  display:flex;
+  flex-direction : column;
+  align-Items:center;
 `;
 const ProfileBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  width:100%;
-  height:100%;
+  justify-content: space-evenly;
+  align-Items: center;
+  padding: 0 10px;
+  box-sizing : border-box;
+  width: 100%;
+  height: 220px;
 `;
 const UserImage = styled.img`
   cursor: pointer;
   border-radius: 50%;
-  width: 40%;
-  height: 20vh;
-  margin-top: 5%;
-  margin-left: 5%;
+  width: 150px;
+  height: 150px;
+  margin-right: 10px;
 `;
 
 const UserInfoBox = styled.div`
+  height: 150px;
+  width: 50%;
   background-color: #f5f5f5;
   border-radius: 10%;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  width: 40%;
-  margin-top: 5%;
-  margin-right: 5%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 10px;
 `;
 
 const MessageBox = styled.div`
   width: 90%;
-  margin-left: 5%;
   font-size: 0.8em;
   font-weight: 500;
   text-align: center;
-  margin-top: 5%;
   border-radius: 5px;
 `;
 
@@ -401,6 +408,7 @@ const PreferTitle = styled.div`
 
 const PreferBox = styled.div`
   margin-top: 5%;
+  width: 100%;
 `;
 
 const PreferPositions = styled.div`
@@ -436,7 +444,7 @@ const PositionLabel = styled.label`
 const InputLabel = styled.label`
   display: flex;
   align-items: center;
-  font-size: 0.75em;
+  font-size: 10px;
   font-weight:bold;
 `;
 
@@ -445,7 +453,7 @@ const Input = styled.input`
   width: 0%;
   height: 1vh;
   padding: 1em;
-  font-size: 0.75em;
+  font-size: 10px;
   font-weight:bold;
   border: 1px solid #ccc;
   border-radius: 5px;
