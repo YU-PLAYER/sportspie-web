@@ -22,6 +22,7 @@ export function Login_google() {
         { headers: { Authorization: `Bearer ${googletoken.data['access_token']}` } },
       );
       console.log(userInfoDB);
+      window.location.reload();
       navigate('/Home');
     },
     onError: errorResponse => console.log(errorResponse),

@@ -24,6 +24,7 @@ import { getAccessKakaoToken } from './getAccessKakaoToken';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+
   const now = dayjs();
   const day = {0 : '일', 1:'월', 2:"화", 3:"수", 4:"목", 5:"금", 6:"토"};
   const [click, SetClick]=useState(now.get("D"));
@@ -48,9 +49,11 @@ export default function Home() {
     switch (State) {
       case 'NAVER':
         getAccessNaverToken(authCode);
+        window.location.reload();
         break;
       case 'KAKAO' :
         getAccessKakaoToken(authCode);
+        window.location.reload();
         break;
       default:
         console.error('Unknown State :', State);

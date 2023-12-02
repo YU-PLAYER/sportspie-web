@@ -115,8 +115,10 @@ const MyProfile = () => {
         Swal.fire({
           icon: 'success',
           title: '로그아웃 되었습니다!',
-        });
-        navigate('/Login'); // 로그인 페이지로 이동
+        }).then((result)=>{
+          navigate('/Home'); // 로그인 페이지로 이동
+          window.location.reload();
+        })     
       }
     });
   };
