@@ -49,11 +49,9 @@ export default function Home() {
     switch (State) {
       case 'NAVER':
         getAccessNaverToken(authCode);
-        window.location.reload();
         break;
       case 'KAKAO' :
         getAccessKakaoToken(authCode);
-        window.location.reload();
         break;
       default:
         console.error('Unknown State :', State);
