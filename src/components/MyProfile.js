@@ -216,7 +216,7 @@ const MyProfile = () => {
       <RecordBox>
         <Record>
           전체 전적 : {win + draw + lose}전 {win}승 {draw}무 {lose}패 /
-          승률 : {((win / (win + draw + lose)) * 100).toFixed(1)}%
+          승률 : {(win + draw + lose) === 0 ? 0 : ((win / (win + draw + lose)) * 100).toFixed(1)}%
         </Record>
         <RecordBoard>
           {recent10.map((result, index) => (

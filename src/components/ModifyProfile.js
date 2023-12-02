@@ -83,6 +83,22 @@ const ModifyProfile = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    const checkChangesBeforeLeaving = (event) => {
+      if (JSON.stringify(originalValues) !== JSON.stringify(currentValues)) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+  
+    window.addEventListener('beforeunload', checkChangesBeforeLeaving);
+  
+    return () => {
+      window.removeEventListener('beforeunload', checkChangesBeforeLeaving);
+    };
+  }, [originalValues, currentValues]);
+  
+
   const ProfileUpdate = async () => { // 저장버튼 메소드
     try {
       const access_token = JSON.parse(localStorage.getItem('access_token'));
@@ -251,7 +267,7 @@ const PositionCheck = (position, setPosition) => {
           </InputLabel>
           <InputLabel>
             나이 : 
-            <Input style={{marginBottom:"2px"}} type="text" name="setAge" value={age} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="number" name="setAge" value={age} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             지역 : 
@@ -259,11 +275,11 @@ const PositionCheck = (position, setPosition) => {
           </InputLabel>
           <InputLabel>
             신장 : 
-            <Input style={{marginBottom:"2px"}} type="text" name="setHeight" value={height} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="number" name="setHeight" value={height} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             체중 : 
-            <Input style={{marginBottom:"2px"}} type="text" name="setWeight" value={weight} onChange={UserInfoChange} />
+            <Input style={{marginBottom:"2px"}} type="number" name="setWeight" value={weight} onChange={UserInfoChange} />
           </InputLabel>
           <InputLabel>
             이메일 : 
@@ -315,28 +331,36 @@ const PositionCheck = (position, setPosition) => {
       </PreferBox>
       <OnoffBox>
         <SwitchTitle>프로필 이미지 공개 여부</SwitchTitle>
-        <ToggleSW checked={publicProfile} onClick={() => setPublicProfile(!publicProfile)}>
+        <ToggleSW checked={publicProfile} onClick={() => {
+          setPublicProfile(!publicProfile); 
+          setCurrentValues(prev => ({...prev, publicProfile: !publicProfile}));}}>
           <ToggleText>{publicProfile ? "공개　　　" : "비공개"}</ToggleText>
           <Slider checked={publicProfile} />
         </ToggleSW>
       </OnoffBox>
       <OnoffBox>
         <SwitchTitle>사용자 정보 공개 여부</SwitchTitle>
-        <ToggleSW checked={publicInformation} onClick={() => setPublicInformation(!publicInformation)}>
+        <ToggleSW checked={publicInformation} onClick={() => {
+          setPublicInformation(!publicInformation);
+          setCurrentValues(prev => ({...prev, publicInformation: !publicInformation}));}}>
           <ToggleText>{publicInformation ? "공개　　　" : "비공개"}</ToggleText>
           <Slider checked={publicInformation} />
         </ToggleSW>
       </OnoffBox>
       <OnoffBox>
         <SwitchTitle>상태메세지 공개 여부</SwitchTitle>
-        <ToggleSW checked={publicIntroduce} onClick={() => setPublicIntroduce(!publicIntroduce)}>
+        <ToggleSW checked={publicIntroduce} onClick={() => {
+          setPublicIntroduce(!publicIntroduce);
+          setCurrentValues(prev => ({...prev, publicIntroduce: !publicIntroduce}));}}>
           <ToggleText>{publicIntroduce ? "공개　　　" : "비공개"}</ToggleText>
           <Slider checked={publicIntroduce} />
         </ToggleSW>
       </OnoffBox>
       <OnoffBox>
         <SwitchTitle>전적 공개 여부</SwitchTitle>
-        <ToggleSW checked={publicRecord} onClick={() => setPublicRecord(!publicRecord)}>
+        <ToggleSW checked={publicRecord} onClick={() => {
+          setPublicRecord(!publicRecord);
+          setCurrentValues(prev => ({...prev, publicRecord: !publicRecord}));}}>
           <ToggleText>{publicRecord ? "공개　　　" : "비공개"}</ToggleText>
           <Slider checked={publicRecord} />
         </ToggleSW>
