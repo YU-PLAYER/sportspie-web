@@ -150,6 +150,9 @@ export default function Write() {
 
   useEffect(()=>{
     setStartedDate(startedDate);
+    setStartedAt(startedDate + "T" + startedTime);
+    console.log("StartedDate : "+startedDate);
+    console.log("StartedTime : "+startedTime);
   },[startedDate]);
 
   useEffect(() => { 

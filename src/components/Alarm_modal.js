@@ -114,7 +114,7 @@ export default function AlarmModal() {
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [notificationAPI]);
 
 
   const handleOpen = () => {

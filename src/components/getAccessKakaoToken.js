@@ -29,8 +29,9 @@ export async function getAccessKakaoToken(authCode) {
 
     console.log(response);
     if (response.status != 200) { }
-    else { // test
+    else {
       localStorage.setItem('access_token', JSON.stringify(response.data['access_token']));
+      window.location.reload(); // 로그인 시 알림 표시 테스트
     }
 
   } catch (error) {
