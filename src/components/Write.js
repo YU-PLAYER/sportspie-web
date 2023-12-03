@@ -37,8 +37,7 @@ export default function Write() {
   const [user, setUser] = useState({});
   const [authorId, setAuthorId] = useState(1);
   const [stadiumlist, setStadiumlist] = useState([]);
-   
-  
+
    useEffect(() => { // 사용자 정보를 불러오는 useEffect
      const fetchUser = async () => {
       try {
@@ -104,7 +103,8 @@ export default function Write() {
   const [startedDate, setStartedDate] = useState(String(now.format('YYYY-MM-DD')));
   const [startedTime, setStartedTime] = useState(String(now.format('HH:mm:00')));
 
-  const [hourLater,setHourLate] = useState(now.add(1,"h"));
+  const [minuteLater,setMinuteLater] = useState(now.add(1,"m"));
+  const [timeCheck, setTimeCheck] = useState(now);
 
   const handleTitle = e => {
     if (e.key == "Enter") e.preventDefault();
@@ -136,18 +136,33 @@ export default function Write() {
     else setContent(e.target.value);
   };
 
+  const handleDate = (newValue) => {
+    console.log(dayjs(newValue).format('YYYY-MM-DD'));
+    setStartedDate(newValue.format('YYYY-MM-DD'));
+  }
+
   const handleTime = (newValue) => {
     console.log(dayjs(newValue).format("HH:mm:ss"));
     setStartedTime(dayjs(newValue).format("HH:mm:ss"));
+    setTimeCheck(dayjs(newValue));
     console.log("Started Time : " + startedTime);
   }
+
+  useEffect(()=>{
+    setStartedDate(startedDate);
+  },[startedDate]);
 
   useEffect(() => { 
     console.log("useEffect를 사용한 시작시간 : " + startedTime);
     setStartedTime(startedTime);
     setStartedAt(startedDate + "T" + startedTime);
-    console.log(startedAt);
+    console.log("StartedDate : "+startedDate);
+    console.log("StartedTime : "+startedTime);
   }, [startedTime]);
+
+  useEffect(() => {
+    setTimeCheck(timeCheck);
+  },[timeCheck]);
 
   const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
 
@@ -191,8 +206,11 @@ export default function Write() {
       alert_text = alert_text.concat('방제목을 2글자 이상 입력해 주세요.<br>');
       setIsTitleOK(false);
     } else setIsTitleOK(true);
-    if((startedDate == String(now.format('YYYY-MM-DD'))) && (startedTime == String(now.format('HH:mm:00')))){
+    if((startedTime == String(now.format('HH:mm:00')))){
       alert_text = alert_text.concat('경기 시간을 입력해 주세요.<br>');
+      setisStartedTimeOK(false);
+    } else if((startedDate == String(now.format('YYYY-MM-DD'))) && (timeCheck <= minuteLater)){
+      alert_text = alert_text.concat('경기 시작 시간을 현재 시간 이후로 입력해 주세요.<br>');
       setisStartedTimeOK(false);
     } else setisStartedTimeOK(true);
     if (content.length < 10) {
@@ -318,11 +336,7 @@ export default function Write() {
               <DateCalendar
                 views={['year', 'month', 'day']}
                 minDate={dayjs()}
-                onChange={(newValue) => {
-                  console.log(dayjs(newValue).format('YYYY-MM-DD'));
-                  setStartedDate(newValue.format('YYYY-MM-DD'));
-                }}
-              />
+                onChange={handleDate}/>
             </DemoContainer>
             <DemoContainer components={['TimePicker']}
               sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
