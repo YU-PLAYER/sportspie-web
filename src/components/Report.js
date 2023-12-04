@@ -31,7 +31,8 @@ export default function Report() {
         '23-11-07 20:00 시민운동장 다목적 유소년 축구장',
         '23-11-07 22:00 성남종합운동장 보조경기장 인조잔디구장'
     ]);
-
+    const [reportContent,setReportContent] = useState("");
+ 
     function repeatStadium(stadium) {
         let arr = [];
         for (let i = 0; i < stadium.length; i++) {
@@ -47,6 +48,11 @@ export default function Report() {
     const handleChange = (event) => {
         setIndex(event.target.value);
     };
+
+    const handleReport = e => {
+        if (e.target.value.length > 500) alert("신고글 상세 내역은 500글자까지만 가능합니다.");
+        else setReportContent(e.target.value);
+    }
 
     const report_btn = () =>{
 
@@ -75,7 +81,7 @@ export default function Report() {
                     height: '900px', borderRadius: 5, boxShadow: 3
                 }}>
                     <Box sx={{ height: '20px' }} />
-                    <Box sx={{textAlign : 'center'}}>신고하기</Box>
+                    <Box sx={{textAlign : 'center'}}>신고글 작성</Box>
                     <Box sx={{ height: '20px' }} />
                     <Container maxWidth="sm">
                         <FormControl>
@@ -86,6 +92,7 @@ export default function Report() {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}
+                                defaultValue="abuse"
                             >
                                 <FormControlLabel value="noshow" control={<Radio />} label="경기 미참여" />
                                 <FormControlLabel value="badword" control={<Radio />} label="비방 및 욕설" />
@@ -130,7 +137,9 @@ export default function Report() {
                     <Box sx={{ height: '20px' }} />
                     <Container maxWidth="la">
                         <Textarea fullWidth label="fullWidth" id="fullWidth"
-                            minRows={20} maxRows={20} placeholder="경기글 상세내역" />
+                            minRows={20} maxRows={20} placeholder="신고글 상세내역"
+                            value={reportContent} 
+                            onChange={handleReport}/>
                         <Box sx={{ height: '20px' }} />
                         <Stack direction="row" spacing={2}
                             sx={{
