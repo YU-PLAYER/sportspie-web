@@ -23,6 +23,7 @@ export function Login_google() {
       );
       console.log(userInfoDB);
       navigate('/Home');
+      window.location.reload(); // 로그인 시 알림 표시
     },
     onError: errorResponse => console.log(errorResponse),
   });

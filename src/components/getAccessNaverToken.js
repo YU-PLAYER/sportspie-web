@@ -14,8 +14,8 @@ export async function getAccessNaverToken(authCode) {
     console.log('Navertoken:', Navertoken);
 
     const response = await axios.post('http://110.165.17.35:8080/api/auth/sign-in/naver', { token: Navertoken });
-
     localStorage.setItem('access_token', JSON.stringify(response.data['access_token']));
+    window.location.reload(); // 로그인 시 알림 표시
   } catch (error) {
     console.error('An error occurred:', error);
   }
