@@ -293,7 +293,7 @@ export default function Write() {
         <Box sx={{ height: '20px' }} />
         <Box sx={{ height: '250px', borderRadius: 5, boxShadow: 3, textAlign: "center" }}>
           <Box sx={{ height: '20px' }} />
-          경기글 작성
+          경기 인원 모집글 작성
           <Box sx={{ height: '20px' }} />
           <Container maxWidth="sm">
 
