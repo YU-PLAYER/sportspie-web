@@ -225,7 +225,7 @@ export default function Home() {
                 </div>
                 <div className="play-search_search">
                 <form method="get" id="play-search-form">
-                    <input value={inputValue} onChange={handleInputChange} name="username" type="text" placeholder="검색" />
+                    <input value={inputValue} onChange={handleInputChange} name="username" type="text" placeholder="검색" maxLength="20" />
                     <button onClick={handleButtonClick} style={{cursor:"pointer"}}><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
                 </form>
                 </div>

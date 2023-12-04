@@ -16,7 +16,6 @@ import DetailPage from './components/DetailPage.js';
 import Notice from './components/Notice.js';
 import Report from './components/Report.js';
 import SafeInfo from './components/SafeInfo.js'; 
-import axios from 'axios';
 
 function App() {
 
@@ -30,7 +29,7 @@ function App() {
         }}
     >
         <Box sx={{ height: '50px', zIndex: 3,  position: 'fixed', width:"100%", top:"0",
-        '@media all and (min-width:910px)':{width:"60%"}}}>
+        '@media all and (min-width:600px)':{width:"600px"}}}>
             <TopBar />
         </Box>
 
@@ -58,7 +57,7 @@ function App() {
         <Box sx={{ height: '50px' }}></Box>  
 
         <Box sx={{ height: '50px', position: 'fixed', width:"100%", bottom:"0",
-        '@media all and (min-width:910px)':{width:"60%"}}}><NavBar />
+        '@media all and (min-width:600px)':{width:"600px"}}}><NavBar />
         </Box>
     </Box>
     </div>
