@@ -19,7 +19,7 @@ function KakaoMap() {
                 };
             var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-            /*// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+            // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
             if (navigator.geolocation) {
 
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -33,17 +33,23 @@ function KakaoMap() {
 
                     // 마커를 표시합니다
                     displayMarker(locPosition);
-                });
+                }, function(error){
+                    var lat = 35.83192037867368, // 위도
+                    lon = 128.7585384530709; // 경도
+                    console.log("현재 위치는 : " + lat + ", " + lon);
+                    var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                    displayMarker(locPosition);
+                }
+                );
 
             } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-                var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+                var lat = 35.83192037867368, // 위도
+                    lon = 128.7585384530709; // 경도
+                console.log("현재 위치는 : " + lat + ", " + lon);
+                var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 displayMarker(locPosition);
-            }*/
-            var lat = 35.83192037867368, // 위도
-                lon = 128.7585384530709; // 경도
-            console.log("현재 위치는 : " + lat + ", " + lon);
-            var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-            displayMarker(locPosition);
+            }
+            
             
             // 지도에 마커를 표시하는 함수입니다
             function displayMarker(locPosition) {
