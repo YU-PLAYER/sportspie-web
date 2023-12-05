@@ -8,7 +8,7 @@ function TopBar(){
         <div className="status-bar">
             <div className="status-bar__column">
                 <NavLink to={"./Home"}>
-                <img src={LogoImg}
+                <img src={LogoImg} alt='logo'
                     style={{ width: "72px", height: "32px" }}/>
                 </NavLink>
             </div>
