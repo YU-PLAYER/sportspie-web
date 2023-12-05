@@ -56,7 +56,7 @@ function Ad(){
                 className="mySwiper"
             >
                 {img.map((item, index)=>
-                <SwiperSlide><a href={item.link}><img src={item.imageUrl} key={index}/></a></SwiperSlide>)}
+                <SwiperSlide key={index}><a href={item.link}><img src={item.imageUrl}/></a></SwiperSlide>)}
             </Swiper>
         </Box>
     );

@@ -90,8 +90,8 @@ export default function SelectStadium({ onDataChange }) {
               label="광역시 *"
               onChange={handleCity}
             >
-              {cities.map(ctr => (
-                <MenuItem value={ctr.name}>{ctr.name}</MenuItem>
+              {cities.map((ctr, index) => (
+                <MenuItem value={ctr.name} key={index}>{ctr.name}</MenuItem>
               ))}
             </Select>
           </FormControl>

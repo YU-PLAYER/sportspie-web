@@ -70,8 +70,6 @@ export default function Home() {
     })
     .then((result)=>{
         console.log('요청 성공');
-        console.log(result);
-        console.log(result.data.totalPages);
         settotalpage(result.data.totalPages);
         console.log(result.data.content);
         setGames(result.data.content);
@@ -84,7 +82,6 @@ export default function Home() {
   //제목 검색하면 data 요청
   useEffect(()=>{
     console.log("검색할 내용 : "+storedValue);
-    console.log(typeof(storedValue));
     if(storedValue !== ''){
       var date = `${now.get("y")}-${now.get("D")>click ? now.get("M")+2 : now.get("M")+1}-${click<10? `0${click.toString()}`:click.toString()}`;
       console.log("선택한 날짜 : " + date);
@@ -95,9 +92,7 @@ export default function Home() {
           url:`http://110.165.17.35:8080/api/game/${date}?sortBy=${sort}&title=${storedValue}&page=${pages-1}`,
       })      
     .then((result)=>{
-        console.log('요청 성공')
-        console.log(result);
-        console.log(result.data.totalPages);
+        console.log('요청 성공');
         settotalpage(result.data.totalPages);
         console.log(result.data.content);
         setGames(result.data.content);

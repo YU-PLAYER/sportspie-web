@@ -169,8 +169,8 @@ export default function AlarmModal() {
               <Container maxWidth="sm">
                 <Box sx={{ height: '10px' }} />
                 <Stack sx={{ width: '100%' }} spacing={2}>
-                  {notificationAPI.map(notification =>
-                    <Notification notification={notification} id={notification.id} refreshNotifications={fetchNotifications} />)}
+                  {notificationAPI.map((notification, index) =>
+                    <Notification notification={notification} id={notification.id} key={index} refreshNotifications={fetchNotifications} />)}
                 </Stack>
 
                 <Box sx={{ height: '20px' }} />
