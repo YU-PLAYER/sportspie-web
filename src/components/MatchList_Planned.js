@@ -16,7 +16,7 @@ function MatchList_Planned(){
           .then((result)=>{
             console.log('요청 성공');
             console.log(result);
-            setPlanned(result.data);
+            result.data.length===0 ? setPlanned([-1]): setPlanned(result.data);
           })
           .catch((error)=>{console.log('요청 실패');
           console.log(error);})

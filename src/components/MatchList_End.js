@@ -16,7 +16,7 @@ function MatchList_End(){
           .then((result)=>{
             console.log('요청 성공');
             console.log(result);
-            setEnd(result.data);
+            result.data.length===0 ? setEnd([-1]): setEnd(result.data);
           })
           .catch((error)=>{console.log('요청 실패');
           console.log(error);})

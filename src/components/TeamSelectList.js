@@ -56,44 +56,82 @@ function TeamSelectList({id, post}) {
         .then((response)=>{
             console.log(response);
             console.log(response.data["id"]);
-            axios({
-                method: 'Post',
-                url: url,
-                data:{
-                    "userId": response.data["id"],
-                    "gameId": id,
-                    "gameTeam": team,
-                  },
-                headers: { Authorization: `Bearer ${userid}`},
-            })
-            .then((result)=>{
-                console.log('요청 성공');
-                console.log(result);
-                if(team==="HOME") {setHomelist([{}]); setHomeclick(!homeclick);}
-                else if(team==="AWAY") {setAwaylist([{}]); setAwayclick(!awayclick);}
-            })
-            .catch((error)=>{console.log('요청 실패')
-            console.log(error)
-            if(error.response.data["message"]===`경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다.` || error.response.data["message"]==="경기 시작시간이 지났거나, 경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다."){
-                if(team==="HOME") setHome(0);
-                else if(team==="AWAY") setAway(0);
-                Swal.fire({
-                    icon: 'error',
-                    title: '경기 마감',
-                    html: '경기 전체 인원의 최대 인원에 도달하여 <br/> 참가할 수 없습니다.'
-                  });
+            if(url===`http://110.165.17.35:8080/api/gameUser/delete`){
+                Swal.fire({ //취소 재확인
+                    icon: 'warning',
+                    title: '참여 취소',
+                    text: '경기 참여를 취소하시겠습니까?',
+                    showDenyButton: true,
+                    confirmButtonText: '예',
+                    denyButtonText: '아니오',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios({
+                            method: 'Post',
+                            url: url,
+                            data:{
+                                "userId": response.data["id"],
+                                "gameId": id,
+                                "gameTeam": team,
+                              },
+                            headers: { Authorization: `Bearer ${userid}`},
+                        })
+                        .then((result)=>{
+                            console.log('요청 성공');
+                            console.log(result);
+                            if(team==="HOME") {setHomelist([{}]); setHomeclick(!homeclick);}
+                            else if(team==="AWAY") {setAwaylist([{}]); setAwayclick(!awayclick);}
+                        })
+                        .catch((error)=>{
+                            console.log('요청 실패');
+                            console.log(error);
+                            if (error.response.data["message"]==="해당 경기의 작성자는 참가 취소할 수 없습니다."){
+                                if(team==="HOME") setHome(false);
+                                else if(team==="AWAY") setAway(false);
+                                setIswriter(true);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '작성자 취소 불가',
+                                    html: '해당 경기의 작성자는 <br/> 참가 취소할 수 없습니다.'
+                                });
+                            };
+                        })
+                    } else if (result.isDenied){
+                        if(team==="HOME") setHome(false);
+                        else if(team==="AWAY") setAway(false);
+                    }
+                  })
+            } else {
+                axios({
+                    method: 'Post',
+                    url: url,
+                    data:{
+                        "userId": response.data["id"],
+                        "gameId": id,
+                        "gameTeam": team,
+                      },
+                    headers: { Authorization: `Bearer ${userid}`},
+                })
+                .then((result)=>{
+                    console.log('요청 성공');
+                    console.log(result);
+                    if(team==="HOME") {setHomelist([{}]); setHomeclick(!homeclick);}
+                    else if(team==="AWAY") {setAwaylist([{}]); setAwayclick(!awayclick);}
+                })
+                .catch((error)=>{
+                    console.log('요청 실패');
+                    console.log(error);
+                    if(error.response.data["message"]===`경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다.` || error.response.data["message"]==="경기 시작시간이 지났거나, 경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다."){
+                        if(team==="HOME") setHome(0);
+                        else if(team==="AWAY") setAway(0);
+                        Swal.fire({
+                            icon: 'error',
+                            title: '경기 마감',
+                            html: '경기 전체 인원의 최대 인원에 도달하여 <br/> 참가할 수 없습니다.'
+                        });
+                    };
+                })
             }
-            else if (error.response.data["message"]==="해당 경기의 작성자는 참가 취소할 수 없습니다."){
-                if(team==="HOME") setHome(false);
-                else if(team==="AWAY") setAway(false);
-                setIswriter(true);
-                Swal.fire({
-                    icon: 'error',
-                    title: '작성자 취소 불가',
-                    html: '해당 경기의 작성자는 <br/> 참가 취소할 수 없습니다.'
-                  });
-            }
-            })
         })
         .catch((error)=>{
             console.log(error);

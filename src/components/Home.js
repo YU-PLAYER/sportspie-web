@@ -72,7 +72,7 @@ export default function Home() {
         console.log('요청 성공');
         settotalpage(result.data.totalPages);
         console.log(result.data.content);
-        setGames(result.data.content);
+        result.data.content.length === 0 ? setGames([-1]) : setGames(result.data.content);
     })
     .catch((error)=>{console.log('요청 실패')
     console.log(error)
@@ -95,7 +95,7 @@ export default function Home() {
         console.log('요청 성공');
         settotalpage(result.data.totalPages);
         console.log(result.data.content);
-        setGames(result.data.content);
+        result.data.content.length === 0 ? setGames([-1]) : setGames(result.data.content);
         setStoredValue('');
     })
     .catch((error)=>{console.log('요청 실패')
@@ -144,7 +144,10 @@ export default function Home() {
     const time = item.time ? item.time.slice(0,5) : '';
     var length = item.title ? item.title.length : 0;
     var weather = item.weather === "SUNNY" ? SUNNY : item.weather === "CLOUDY" ? CLOUDY : item.weather === "RAIN" ? RAINY : item.weather === "SNOW" ? SNOW : '';
-    return(
+    if(item === -1 ) return <div 
+    style={{marginTop:"30px", height:"40px", width:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"13px", color:"rgba(0,0,0,0.4)"}}>
+      모집글이 존재하지 않습니다.</div>
+    else return(
       <div className= "play-list" onClick={()=>{handleclick(item.gameId);}} onMouseEnter={()=>setIsHover(item.gameId)} onMouseLeave={()=>setIsHover("")} style={{cursor:"pointer"}}>
         <div className={isHover===item.gameId ? "play-list_room play-list_room-hover" :  "play-list_room"} >
           <div style={{width:"50px", display:'flex', flexDirection:"column", height:"100%", justifyContent:'center', alignItems:"center"}}>
@@ -225,8 +228,7 @@ export default function Home() {
                 </form>
                 </div>
           </div>
-            {games.map((item, index)=>
-              <PlayList item={item} key={index} />
+            {games.map((item, index)=><PlayList item={item} key={index} />
             )}
         </Box>
         <StyledEngineProvider injectFirst>

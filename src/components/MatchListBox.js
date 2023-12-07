@@ -25,7 +25,10 @@ function MatchListBox({item}){
         status='종료'; rightdown='승패 미확정'; color="rgba(245, 159, 0, 0.6)";} 
     }
 
-    if(item.date !== undefined){
+    if(item === -1) return <div 
+    style={{marginTop:"30px", height:"40px", width:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"13px", color:"rgba(0,0,0,0.4)"}}>
+      경기 참여 내역이 존재하지 않습니다.</div>
+    else if(item.date !== undefined){
     return(
         <Box onClick={()=>handleclick(item.gameId)} onMouseEnter={()=>setIsHover(true)} onMouseLeave={()=>setIsHover(false)} 
         sx={{ display:"flex", alignItems:"center", height: '60px', width:"100%", borderRadius: 2, boxShadow: isHover===true? "0px 0px 5px 0px rgba(0, 0, 0, 0.3)" : "0px 0px 5px 0px rgba(0, 0, 0, 0.2)", 
